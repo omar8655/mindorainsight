@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 36" role="img" aria-label="NHS">
+  <!-- Compact NHS wordmark (referral / healthcare cue). Colour: NHS Blue #005EB8 -->
+  <rect width="90" height="36" rx="4" fill="#005EB8"/>
+  <text
+    x="45"
+    y="25"
+    text-anchor="middle"
+    font-family="Arial, Helvetica, Frutiger, 'Frutiger Linotype', sans-serif"
+    font-size="22"
+    font-weight="700"
+    fill="#FFFFFF"
+    letter-spacing="1.5"
+  >NHS</text>
+</svg>

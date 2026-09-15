@@ -1,0 +1,36 @@
+# MindoraInsight — https://www.mindorainsight.com
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /checkout
+Disallow: /portal
+Disallow: /login
+Disallow: /report/
+
+# AI / research crawlers — welcome public educational pages
+User-agent: GPTBot
+Allow: /
+Disallow: /admin
+Disallow: /checkout
+Disallow: /portal
+Disallow: /login
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+Sitemap: https://www.mindorainsight.com/sitemap.xml

@@ -1,0 +1,31 @@
+---
+description: Barkley 4th ed is the sole reference for Adult ADHD Pattern Screen
+globs: app/src/data/adhd*.ts,app/src/features/assessments/Adhd*.tsx,docs/ADHD*.md
+alwaysApply: false
+---
+
+# Adult ADHD screen — Barkley-only reference
+
+Route: `/test/adhd-adult-screening`  
+Policy: `docs/ADHD_SCREENING_REFERENCE.md`
+
+## Sole source
+
+When writing or answering questions, scoring meaning, domain tips, or individual report copy for this screen, use **only**:
+
+> Barkley, R. A. (Ed.). *Attention-Deficit Hyperactivity Disorder: A Handbook for Diagnosis and Treatment* (4th ed.). Guilford Press.
+
+Local PDF (never commit): Desktop file named `ADHD, Fourth Edition A Handbook for Diagnosis and Treatment (Russell A. Barkley)...pdf`
+
+## Do
+
+- Ground domains in Barkley themes: inattention, hyperactivity, impulsivity, executive self-regulation, emotional dysregulation, time/motivation & follow-through
+- Prefer adult / EF / emotion / assessment chapters (esp. 2, 3, 10, 12, 13, 16, 19)
+- Keep items and reports **original educational wording**
+
+## Do not
+
+- Cite or import content from other ADHD books, blogs, or competing models for this screen
+- Copy BAARS-IV, BDEFS, or any copyrighted scale item text into code or UI
+- Paste handbook chapters into customer-facing reports
+- Claim diagnosis or replace licensed clinical assessment

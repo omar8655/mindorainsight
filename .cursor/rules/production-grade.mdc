@@ -1,0 +1,61 @@
+---
+description: Production-grade architecture standards for MindoraInsight (Clerk, Supabase, CRM, website)
+alwaysApply: true
+---
+
+# MindoraInsight — Production-Grade Rules
+
+Full constitution: `docs/PRODUCTION_REQUIREMENTS.md`. Brand: `BRAND.md`. Entry: `AGENTS.md`.
+
+## Absolute standards
+
+- Build a **commercial production system**, not demos/prototypes/basic screens.
+- Every feature includes: validation, authz, loading/empty/success/error states, confirmations for destructive actions, logging, and edge-case handling.
+- Do **not** claim CRM/admin/portal “done” without persistence, permissions, and real workflows.
+
+## Architecture (mandatory)
+
+```
+UI → Application services → Domain → Ports → Adapters (Clerk/Supabase/Payments/Email/Storage)
+```
+
+- No large business logic in UI components.
+- No scattered Supabase queries inside random React leaves.
+- No duplicated auth logic across features.
+- Keep provider SDKs inside `adapters/*` only.
+
+## Auth — Clerk
+
+- Use Clerk for signup/signin/signout, sessions, recovery, verification, orgs/roles as needed.
+- Abstract via `AuthPort` / `AppUser` so Clerk can be replaced later.
+- **Never** use the deprecated Clerk Supabase JWT template.
+- Use **native Clerk ↔ Supabase third-party auth**; pass Clerk session token via Supabase `accessToken`.
+- Sync users with verified Clerk webhooks → `profiles` (auth alone does not create CRM rows).
+- Prefer `app_metadata` for authz-related claims; never trust user-editable metadata for permissions.
+
+## Data — Supabase (replaceable)
+
+- Supabase is the **current** Postgres/storage platform, not a permanent coupling.
+- All data access through repository ports; Supabase adapter is swappable for self-hosted Postgres / custom API.
+- Professional schema: PKs, FKs, indexes, timestamps, soft deletes where needed, RLS on exposed tables.
+- Migrations in versioned SQL; document schema in `docs/DATA_MODEL.md`.
+
+## Research before backend work
+
+- Read current official Clerk + Supabase docs before implementing integrations.
+- Cover RLS, webhooks, storage policies, service-role usage (server only), jobs, logging, portability.
+
+## CRM & website completeness
+
+- CRM must match a professional CRM (contacts, companies, leads, pipeline/deals, activities, comms, tags, custom fields, views, assignment, roles, attachments, import/export, duplicates/merge, audit, reports, forecasts, bulk actions, responsive UI).
+- Website must be production-grade (responsive, SEO, forms, a11y, errors/404, portal, security, performance).
+
+## Definition of Done
+
+A change is incomplete without: happy path, validation, server-side authz, UX states, mobile check, safe errors, types/schemas, migrations/docs if schema changed, and a critical-path test where applicable.
+
+## Organisation
+
+- Prefer the folder model in `docs/PRODUCTION_REQUIREMENTS.md` (§1).
+- Group by feature; keep CRM under a clear `features/crm` (or `apps/admin`) home.
+- Consistent naming; no giant catch-all files; no duplicate utilities.
