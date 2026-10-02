@@ -118,7 +118,7 @@ export function BasicResultView({
             </p>
           ) : null}
           <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-mi-green-soft px-3 py-1.5 text-sm font-bold text-mi-forest">
-            Lead · {lead?.name || doc.primary.name} · {leadScore}/100
+            Lead trait · {lead?.name || doc.primary.name} · {leadScore}/100
           </p>
           <p className="mx-auto mt-4 max-w-[44ch] text-[15px] font-medium leading-7 text-mi-forest">
             {displayBlurb}
@@ -129,7 +129,7 @@ export function BasicResultView({
             </p>
           ) : null}
           <p className="mt-4 text-sm font-semibold text-mi-forest">
-            Overall {doc.overall}% · completed{' '}
+            Composite overall {doc.overall}/100 · completed{' '}
             {new Date(doc.completedAt).toLocaleDateString(undefined, {
               year: 'numeric',
               month: 'short',

@@ -182,19 +182,6 @@ export function ReportPage() {
               onOpenExtendedPdf={nmBrief ? () => openExtendedDossier(nmBrief, displayName) : undefined}
             />
           )}
-          {wantFull && nmBrief && (
-            <p className="mx-auto mt-2 max-w-xl px-1 text-center text-sm text-mi-muted">
-              Your full report is the unique{' '}
-              <button
-                type="button"
-                className="font-semibold text-mi-green underline"
-                onClick={() => void openExtendedDossier(nmBrief, displayName)}
-              >
-                extended 1000+ word Mindora PDF download
-              </button>
-              .
-            </p>
-          )}
           {wantFull && !unlocked && !isNm && (
             <p className="mx-auto mt-4 max-w-xl px-1 text-center text-sm text-mi-muted">
               Full report is locked.{' '}

@@ -159,10 +159,10 @@ export function HeroSlideshow() {
               {t.hero.ctaPrimary}
             </SaleCtaLink>
             <Link
-              to="/library"
+              to="/test/adhd"
               className="hero-cta inline-flex w-full items-center justify-center rounded-lg border border-white/30 px-5 py-3.5 text-[15px] font-bold text-white transition hover:bg-white/10 sm:w-auto"
             >
-              {t.hero.ctaSecondary}
+              Start Adult ADHD →
             </Link>
           </div>
         </div>

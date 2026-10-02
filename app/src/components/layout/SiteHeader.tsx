@@ -1,4 +1,4 @@
-import { useEffect, useId, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { BrandLogo } from '@/components/brand/BrandLogo'
@@ -12,6 +12,8 @@ export function SiteHeader() {
   const { pathname } = useLocation()
   const [open, setOpen] = useState(false)
   const navId = useId()
+  const menuRef = useRef<HTMLDivElement>(null)
+  const closeBtnRef = useRef<HTMLButtonElement>(null)
 
   const navLinks = [
     { to: '/', label: t.nav.home, end: true },
@@ -27,13 +29,34 @@ export function SiteHeader() {
     if (!open) return
     const prev = document.body.style.overflow
     document.body.style.overflow = 'hidden'
+    const previouslyFocused = document.activeElement as HTMLElement | null
+    window.requestAnimationFrame(() => closeBtnRef.current?.focus())
+
     function onKey(e: KeyboardEvent) {
-      if (e.key === 'Escape') setOpen(false)
+      if (e.key === 'Escape') {
+        setOpen(false)
+        return
+      }
+      if (e.key !== 'Tab' || !menuRef.current) return
+      const focusables = menuRef.current.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      )
+      if (focusables.length === 0) return
+      const first = focusables[0]
+      const last = focusables[focusables.length - 1]
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault()
+        last.focus()
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault()
+        first.focus()
+      }
     }
     document.addEventListener('keydown', onKey)
     return () => {
       document.body.style.overflow = prev
       document.removeEventListener('keydown', onKey)
+      previouslyFocused?.focus?.()
     }
   }, [open])
 
@@ -41,6 +64,7 @@ export function SiteHeader() {
     open &&
     createPortal(
       <div
+        ref={menuRef}
         id={navId}
         className="fixed inset-0 z-[100] flex min-h-[100dvh] max-h-[100dvh] flex-col overscroll-contain bg-white pt-[env(safe-area-inset-top,0px)] pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)] lg:hidden"
         role="dialog"
@@ -50,6 +74,7 @@ export function SiteHeader() {
         <div className="flex h-14 shrink-0 items-center justify-between gap-2 border-b border-mi-border px-4 sm:h-16 sm:px-5">
           <BrandLogo size={32} onClick={() => setOpen(false)} />
           <button
+            ref={closeBtnRef}
             type="button"
             aria-label="Close menu"
             className="relative z-[101] flex h-11 w-11 items-center justify-center rounded-xl border border-mi-border bg-white"

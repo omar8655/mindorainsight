@@ -1,9 +1,14 @@
 import type { ReportDocument, SharePayload } from '@/domain/reports/types'
 
 export function buildSharePayload(doc: ReportDocument, url: string): SharePayload {
+  const lead = doc.traits?.length
+    ? [...doc.traits].sort((a, b) => b.score - a.score)[0]
+    : doc.primary
+  const leadName = lead?.name || doc.primary.name
+  const leadScore = lead?.score ?? doc.primary.score
   const text = [
-    `I just finished the MindoraInsight ${doc.assessmentTitle} — my primary pattern is ${doc.primary.name} (${doc.primary.score}%).`,
-    `Clear scores, a real report, and something I can actually use.`,
+    `I just finished the MindoraInsight ${doc.assessmentTitle} — my lead pattern is ${leadName} (${leadScore}/100).`,
+    `Clear scores and a Mindora Dossier PDF I can actually use.`,
   ].join(' ')
 
   return {

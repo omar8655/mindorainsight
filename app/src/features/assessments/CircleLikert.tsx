@@ -1,3 +1,5 @@
+import { useRef, type KeyboardEvent } from 'react'
+
 type CircleLikertProps = {
   value: number | undefined
   onChange: (value: number) => void
@@ -27,6 +29,37 @@ const SIZE_CLASS = {
  */
 export function CircleLikert({ value, onChange, name, groupLabel, labelledBy }: CircleLikertProps) {
   const a11yLabel = groupLabel || name
+  const buttonRefs = useRef<(HTMLButtonElement | null)[]>([])
+  const focusIndex = typeof value === 'number' ? value - 1 : 0
+
+  function move(delta: number) {
+    const current = typeof value === 'number' ? value - 1 : focusIndex
+    const next = Math.min(OPTIONS.length - 1, Math.max(0, current + delta))
+    onChange(OPTIONS[next].value)
+    window.requestAnimationFrame(() => buttonRefs.current[next]?.focus())
+  }
+
+  function onKeyDown(e: KeyboardEvent<HTMLButtonElement>, index: number) {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault()
+      move(1)
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault()
+      move(-1)
+    } else if (e.key === 'Home') {
+      e.preventDefault()
+      onChange(1)
+      window.requestAnimationFrame(() => buttonRefs.current[0]?.focus())
+    } else if (e.key === 'End') {
+      e.preventDefault()
+      onChange(5)
+      window.requestAnimationFrame(() => buttonRefs.current[4]?.focus())
+    } else if (e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault()
+      onChange(OPTIONS[index].value)
+    }
+  }
+
   return (
     <fieldset className="relative mt-4 w-full min-w-0 border-0 p-0 sm:mt-6">
       <legend className="sr-only">{a11yLabel}</legend>
@@ -42,16 +75,22 @@ export function CircleLikert({ value, onChange, name, groupLabel, labelledBy }: 
         aria-label={labelledBy ? undefined : a11yLabel}
         aria-labelledby={labelledBy}
       >
-        {OPTIONS.map((opt) => {
+        {OPTIONS.map((opt, index) => {
           const selected = value === opt.value
+          const tabStop = selected || (value == null && index === 0)
           return (
             <button
               key={opt.value}
+              ref={(el) => {
+                buttonRefs.current[index] = el
+              }}
               type="button"
               role="radio"
               aria-checked={selected}
               aria-label={opt.label}
+              tabIndex={tabStop ? 0 : -1}
               onClick={() => onChange(opt.value)}
+              onKeyDown={(e) => onKeyDown(e, index)}
               className={[
                 'flex w-full min-w-0 flex-col items-center justify-center gap-1.5 rounded-2xl px-0.5 py-3 transition sm:gap-2 sm:px-1 sm:py-5 md:py-6',
                 'min-h-[5.5rem] min-w-[44px] touch-manipulation select-none sm:min-h-[6.5rem] md:min-h-[7.25rem]',

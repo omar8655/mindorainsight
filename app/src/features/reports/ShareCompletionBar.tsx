@@ -54,9 +54,11 @@ export function ShareCompletionBar({ doc, sharePath }: ShareCompletionBarProps) 
 
   return (
     <div className="report-no-print rounded-2xl border border-mi-border bg-white p-4 shadow-sm sm:p-5">
-      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-mi-green">Share your completion</p>
+      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-mi-green">
+        Optional — share your completion
+      </p>
       <p className="mt-1 text-sm leading-6 text-mi-muted">
-        You finished a real assessment. Send a short message that names your result.
+        Send a short message that names your result. Report links only reopen on this browser/device.
       </p>
       <p className="mt-3 rounded-xl bg-mi-green-soft/50 px-3 py-2.5 text-sm leading-6 text-mi-forest">
         {payload.text}
@@ -65,23 +67,28 @@ export function ShareCompletionBar({ doc, sharePath }: ShareCompletionBarProps) 
         <button
           type="button"
           onClick={() => void nativeShare()}
-          className="btn-primary w-full justify-center !px-4 !py-3 !text-sm sm:w-auto"
+          className="btn-outline w-full justify-center !px-4 !py-3 !text-sm sm:w-auto"
         >
           Share
         </button>
         <button
           type="button"
-          onClick={() => void copyText(`${payload.text}\n${payload.url}`, 'Copied — share it with someone.')}
+          onClick={() => void copyText(payload.text, 'Message copied — paste it anywhere.')}
           className="btn-outline w-full justify-center !px-4 !py-3 !text-sm sm:w-auto"
         >
           Copy message
         </button>
         <button
           type="button"
-          onClick={() => void copyText(payload.url, 'Link copied.')}
-          className="btn-outline w-full justify-center !px-4 !py-3 !text-sm sm:w-auto"
+          onClick={() =>
+            void copyText(
+              payload.url,
+              'Link copied — it only works on this device.',
+            )
+          }
+          className="hidden sm:inline-flex btn-outline w-full justify-center !px-4 !py-3 !text-sm sm:w-auto"
         >
-          Copy link
+          Copy link (this device)
         </button>
         <div className="grid grid-cols-3 gap-2 sm:contents">
           <a
