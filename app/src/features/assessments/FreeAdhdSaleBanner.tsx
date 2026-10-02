@@ -26,14 +26,14 @@ export function FreeAdhdSaleBanner() {
             <SalePriceBadge priceUsd={0} size="sm" />
           </span>
           <span className="mt-1.5 block text-sm font-bold leading-5 text-white">
-            New here? Open Free Tests and pick any of 20 topics — start in under a minute.
+            Enter the free library — 20 research-grade assessments. Serious depth. $0.
           </span>
           <span className="mt-1 block text-xs text-[#9fd9b8]">{wasNowFreeLine}</span>
         </span>
       </Link>
       <div className="mt-3 flex justify-center">
         <SaleCtaLink to={FREE_TESTS_HREF} className="w-full sm:w-auto">
-          Explore free tests
+          Enter the free library
         </SaleCtaLink>
       </div>
     </div>

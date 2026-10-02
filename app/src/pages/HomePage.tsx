@@ -43,7 +43,7 @@ export function HomePage() {
   return (
     <>
       <Seo
-        title={`Start free — ${t.hero.eyebrow}`}
+        title={`${t.hero.eyebrow} · MindoraInsight`}
         description={t.hero.subtitle}
         path="/"
         jsonLd={[
@@ -87,14 +87,14 @@ export function HomePage() {
               className="mx-auto mb-3 h-10 w-10"
             />
             <p className="text-sm font-semibold uppercase tracking-[0.12em] text-mi-muted">
-              Free to start
+              Full-force free library
             </p>
             <p className="font-display mt-1 text-4xl font-bold text-mi-forest md:text-5xl">20</p>
             <p className="mt-2 text-sm leading-6 text-mi-muted">
-              Free assessments · 100 questions · PDF report · $0
+              Research-grade assessments · 100Q · unique PDF · $0
             </p>
             <Link to="/library" className="btn-primary mt-4 inline-flex !px-5 !py-3 !text-[15px]">
-              Explore free tests
+              Enter the free library
             </Link>
           </div>
         </div>

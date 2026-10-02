@@ -16,9 +16,9 @@ export function absoluteUrl(path = '/'): string {
 export const DEFAULT_OG_IMAGE = absoluteUrl('/brand/mindorainsight-brain-logo-forest.png')
 
 export const DEFAULT_SEO = {
-  title: 'MindoraInsight — 20 Free Personality, ADHD & Trait Tests (100Q · PDF)',
+  title: 'MindoraInsight — The Most Powerful Free Personality, ADHD & Trait Tests (100Q · PDF)',
   description:
-    'Start free on MindoraInsight: 20 educational assessments — Personality, Big 5, 16 Personalities, Enneagram, ADHD, Autism, Depression, Love Style, Attachment, Strengths, Career, DISC, EQ, and more. 100 questions · instant scores · printable Mindora Dossier PDF. No PIN. Educational — not a medical diagnosis.',
+    'MindoraInsight is the free assessment engine built to outclass soft quizzes: 20 research-grade paths — Personality, Big 5, 16 Personalities, Enneagram, ADHD, Autism, Depression, Love Style, Attachment, Strengths, Career, DISC, EQ, and more. 100 questions · ranked scores · unique Mindora Dossier PDF. No PIN. Educational — not a medical diagnosis.',
   keywords: SITE_SEO_KEYWORDS,
 }
 

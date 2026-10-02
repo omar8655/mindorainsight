@@ -39,7 +39,7 @@ export function FreeAccessGate({ courseTitle, children }: FreeAccessGateProps) {
         </p>
         <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:justify-center">
           <Link to="/library" className="btn-primary justify-center">
-            Browse free tests →
+            Enter the free library →
           </Link>
         </div>
       </div>

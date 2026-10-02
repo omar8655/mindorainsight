@@ -2,7 +2,7 @@ export const faqs = [
   {
     question: 'What does MindoraInsight do?',
     answer:
-      'MindoraInsight offers 20 free educational assessments — Personality, Big 5, ADHD, EQ, Career, and more — with clear scores and a printable Mindora Dossier PDF. Calm self-reflection, not entertainment quizzes.',
+      'MindoraInsight is the free assessment engine built to outclass soft quizzes — 20 research-grade paths (Personality, Big 5, ADHD, EQ, Career, and more) with ranked scores and a unique Mindora Dossier PDF. Educational power, not entertainment fluff.',
   },
   {
     question: 'Is this a medical diagnosis?',
@@ -12,17 +12,17 @@ export const faqs = [
   {
     question: 'Are the tests really free?',
     answer:
-      'Yes. All 20 assessments are free — 100 questions each, instant scores, and a downloadable PDF dossier. No PIN and no card required.',
+      'Yes. All 20 assessments are free — 100 questions each, ranked scores, and a downloadable PDF dossier. No PIN and no card required.',
   },
   {
     question: 'How long does a test take?',
     answer:
-      'About 15 minutes. You answer 100 questions, five per screen, then see plain-English scores and can download your PDF.',
+      'About 15 minutes. You answer 100 questions, five per screen, then see ranked scores and can download your unique Mindora Dossier PDF.',
   },
   {
     question: 'What is a Mindora Dossier?',
     answer:
-      'A unique PDF report built from your scores for that sitting — not a screenshot. Basic and extended versions are available after you finish.',
+      'A unique PDF report built from your scores for that sitting — written to talk to you, not a screenshot. Basic and extended versions are available after you finish.',
   },
   {
     question: 'Where do my reports live?',

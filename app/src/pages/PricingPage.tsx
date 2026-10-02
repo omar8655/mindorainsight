@@ -15,8 +15,8 @@ export function PricingPage() {
   return (
     <>
       <Seo
-        title="Pricing — all plans free · sold out"
-        description="MindoraInsight paid plans are sold out. Every assessment is free on the Free tests library — no card required."
+        title="Pricing — free library open · paid plans sold out"
+        description="MindoraInsight paid plans are sold out. Enter the free library of 20 research-grade assessments — ranked scores, unique PDFs, no card."
         path="/pricing"
       />
       <section className="relative overflow-hidden border-b border-mi-border bg-[#0c1f17] text-white">
@@ -35,20 +35,20 @@ export function PricingPage() {
             />
           </div>
           <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-[#9fd9b8] sm:text-sm">
-            MindoraInsight · Paid plans sold out
+            MindoraInsight · The free engine stays open
           </p>
           <h1 className="font-display mx-auto mb-4 max-w-2xl text-[1.65rem] font-semibold leading-tight sm:text-[32px] md:text-[44px]">
-            Everything is <span className="text-[#7ddea8]">free</span> — paid seats are sold out
+            Full power is <span className="text-[#7ddea8]">free</span> — paid seats sold out
           </h1>
           <p className="mx-auto max-w-[640px] px-1 text-[15px] leading-6 text-white/70 sm:text-base sm:leading-7 md:text-lg">
-            Was {shortList}. Now £0 / $0. Checkout is closed. Take any of the 20 free assessments
-            instead — no card, no PIN.
+            Was {shortList}. Now £0 / $0. Checkout is closed. Take any of the 20 research-grade
+            assessments instead — ranked scores, unique dossiers, no card, no PIN.
           </p>
           <Link
             to="/library"
             className="btn-primary mt-6 inline-flex !bg-mi-green !px-6 !py-3.5 !text-base"
           >
-            Browse free tests →
+            Enter the free library →
           </Link>
         </div>
       </section>
@@ -57,10 +57,10 @@ export function PricingPage() {
         <div className="container mb-8 max-w-xl rounded-2xl border border-mi-green/25 bg-white p-5 text-center shadow-sm sm:p-6">
           <p className="text-xs font-bold uppercase tracking-[0.14em] text-mi-green">Open now</p>
           <p className="mt-2 text-sm leading-6 text-mi-forest">
-            All 20 assessments are free — 100 questions, instant scores, printable PDF.
+            All 20 assessments free — 100 questions, ranked scores, unique Mindora Dossier PDF.
           </p>
           <Link to="/library" className="btn-primary mt-4 inline-flex w-full justify-center sm:w-auto">
-            Start a free test →
+            Start a free assessment →
           </Link>
         </div>
 
@@ -100,7 +100,7 @@ export function PricingPage() {
                 Sold out — not available
               </p>
               <Link to="/library" className="btn-outline flex w-full justify-center">
-                Browse free tests →
+                Enter the free library →
               </Link>
             </article>
           ))}

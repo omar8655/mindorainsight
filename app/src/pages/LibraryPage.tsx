@@ -65,7 +65,7 @@ export function LibraryPage() {
     <>
       <Seo
         title="20 Free Tests — Personality, ADHD, EQ & More"
-        description="Browse 20 free MindoraInsight assessments: Personality, Big 5, ADHD, Enneagram, Attachment, Career, DISC, EQ, and more. Instant scores and printable Mindora Dossier PDFs. No referral PIN."
+        description="Enter the free MindoraInsight library: 20 research-grade assessments — Personality, Big 5, ADHD, Enneagram, Attachment, Career, DISC, EQ, and more. Ranked scores and unique Mindora Dossier PDFs. Built to outclass soft quizzes."
         path="/library"
         keywords={DEFAULT_SEO.keywords}
         jsonLd={[

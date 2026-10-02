@@ -110,7 +110,7 @@ export function SiteHeader() {
                 <span className="font-semibold text-[#8a9a92] line-through">{listPrice}</span>
                 {saleFreeLabel}
               </span>
-              Free tests
+              Free library
             </Link>
             <Link
               to="/contact"
@@ -158,7 +158,7 @@ export function SiteHeader() {
             to="/library"
             className="inline-flex h-10 items-center justify-center rounded-lg bg-mi-green px-4 text-sm font-bold text-white transition hover:bg-mi-green-hover"
           >
-            Free tests
+            Free library
           </Link>
         </div>
 

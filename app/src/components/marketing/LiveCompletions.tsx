@@ -152,7 +152,7 @@ export function LiveCompletions() {
         </ul>
 
         <p className="mt-3 text-center text-[11px] text-mi-muted">
-          Recent educational completions · mainly{' '}
+          Recent MindoraInsight completions · mainly{' '}
           <a
             href={`/test/${ADHD_SCREENING_SLUG}`}
             className="font-semibold text-mi-green hover:underline"

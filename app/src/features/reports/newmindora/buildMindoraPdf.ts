@@ -64,7 +64,7 @@ function drawHeader(doc: jsPDF, title: string, serial: string, date: string, y =
   doc.text(title, 14, y + 6)
   doc.setTextColor(213, 228, 220)
   doc.setFontSize(8)
-  doc.text(`REF ${serial} · ${date}`, 196, y + 2, { align: 'right' })
+  doc.text(`POWER DOSSIER · REF ${serial} · ${date}`, 196, y + 2, { align: 'right' })
   return 36
 }
 
@@ -74,7 +74,7 @@ function drawFooter(doc: jsPDF, page: number, ofPages: number, serial: string) {
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(8)
   doc.setTextColor(MUTED)
-  doc.text('MindoraInsight · Educational summary', 14, 292)
+  doc.text('MindoraInsight · Research-grade educational dossier', 14, 292)
   doc.text(`Page ${page}/${ofPages} · ${serial}`, 196, 292, { align: 'right' })
 }
 

@@ -17,7 +17,7 @@ type SaleCtaLinkProps = {
  */
 export function SaleCtaLink({
   to,
-  children = 'Explore free tests',
+  children = 'Enter the free library',
   className = '',
   showBadge = true,
   variant = 'primary',
