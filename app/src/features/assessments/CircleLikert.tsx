@@ -12,10 +12,11 @@ const OPTIONS = [
   { value: 5, label: 'Strongly Agree', short: 'SA', color: '#31B070', bg: '#D8F0E4', size: 'lg' },
 ] as const
 
+/** Visual circle sizes — mobile circles are ≥44px (h-11) for tap targets. */
 const SIZE_CLASS = {
-  lg: 'h-10 w-10 sm:h-14 sm:w-14 md:h-16 md:w-16',
-  md: 'h-9 w-9 sm:h-12 sm:w-12 md:h-14 md:w-14',
-  sm: 'h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12',
+  lg: 'h-11 w-11 sm:h-14 sm:w-14 md:h-16 md:w-16',
+  md: 'h-11 w-11 sm:h-12 sm:w-12 md:h-14 md:w-14',
+  sm: 'h-11 w-11 sm:h-10 sm:w-10 md:h-12 md:w-12',
 } as const
 
 /**
@@ -23,7 +24,7 @@ const SIZE_CLASS = {
  */
 export function CircleLikert({ value, onChange, name }: CircleLikertProps) {
   return (
-    <fieldset className="relative z-30 mt-4 w-full min-w-0 border-0 p-0 sm:mt-6">
+    <fieldset className="relative mt-4 w-full min-w-0 border-0 p-0 sm:mt-6">
       <legend className="sr-only">{name}</legend>
 
       <div className="mb-3 flex items-center justify-between gap-2 px-0.5 text-[10px] font-semibold leading-tight sm:mb-4 sm:gap-3 sm:px-1 sm:text-sm">
@@ -32,7 +33,7 @@ export function CircleLikert({ value, onChange, name }: CircleLikertProps) {
       </div>
 
       <div
-        className="grid w-full min-w-0 grid-cols-5 gap-2 sm:gap-4 md:gap-6"
+        className="grid w-full min-w-0 grid-cols-5 gap-1.5 sm:gap-4 md:gap-6"
         role="radiogroup"
         aria-label={name}
       >
@@ -47,8 +48,8 @@ export function CircleLikert({ value, onChange, name }: CircleLikertProps) {
               aria-label={opt.label}
               onClick={() => onChange(opt.value)}
               className={[
-                'flex w-full min-w-0 flex-col items-center justify-center gap-1.5 rounded-2xl px-1 py-3 transition sm:gap-2 sm:py-5 md:py-6',
-                'min-h-[5.25rem] touch-manipulation select-none sm:min-h-[6.5rem] md:min-h-[7.25rem]',
+                'flex w-full min-w-0 flex-col items-center justify-center gap-1.5 rounded-2xl px-0.5 py-3 transition sm:gap-2 sm:px-1 sm:py-5 md:py-6',
+                'min-h-[5.5rem] min-w-[44px] touch-manipulation select-none sm:min-h-[6.5rem] md:min-h-[7.25rem]',
                 selected
                   ? 'bg-mi-green-soft/70 ring-2 ring-mi-green ring-offset-1'
                   : 'hover:bg-slate-50 active:bg-slate-100',

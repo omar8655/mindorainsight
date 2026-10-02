@@ -26,7 +26,7 @@ export function organizationJsonLd() {
     },
     sameAs: [SITE_ORIGIN],
     description:
-      'MindoraInsight provides educational professional assessments including a free Adult ADHD Test.',
+      'MindoraInsight provides 20 free educational assessments (Personality, Big 5, ADHD, Enneagram, Attachment, Career, DISC, EQ, and more) with printable Mindora Dossier PDFs. Not a medical diagnosis.',
   }
 }
 
@@ -37,7 +37,7 @@ export function websiteJsonLd() {
     name: 'MindoraInsight',
     url: SITE_ORIGIN,
     description:
-      'Free Adult ADHD test and professional assessments for focus, personality, career, and growth.',
+      '20 free psychometric assessments — 100 questions each, instant scores, printable Mindora Dossier PDF. Personality, ADHD, Autism, EQ, Career, and more.',
     publisher: { '@type': 'Organization', name: 'MindoraInsight', url: SITE_ORIGIN },
     potentialAction: {
       '@type': 'SearchAction',
@@ -83,13 +83,71 @@ export function assessmentJsonLd(opts: {
 }) {
   return {
     '@context': 'https://schema.org',
-    '@type': 'LearningResource',
-    name: opts.title,
+    '@type': ['LearningResource', 'Quiz'],
+    name: `Free ${opts.title} Test (100 Questions)`,
+    alternateName: `${opts.title} assessment`,
     description: opts.description,
     url: absoluteUrl(`/test/${opts.slug}`),
     learningResourceType: 'Assessment',
+    educationalLevel: 'Adult',
     isAccessibleForFree: Boolean(opts.free),
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
+      availability: 'https://schema.org/InStock',
+    },
+    numberOfQuestions: 100,
+    timeRequired: 'PT15M',
     provider: { '@type': 'Organization', name: 'MindoraInsight', url: SITE_ORIGIN },
     inLanguage: 'en',
+    about: { '@type': 'Thing', name: opts.title },
+  }
+}
+
+/** BreadcrumbList for assessment pages — helps Google sitelinks. */
+export function breadcrumbJsonLd(opts: { title: string; slug: string }) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: SITE_ORIGIN,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Library',
+        item: absoluteUrl('/library'),
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: opts.title,
+        item: absoluteUrl(`/test/${opts.slug}`),
+      },
+    ],
+  }
+}
+
+/** ItemList of all free assessments for the library / free-tests hubs. */
+export function freeTestsItemListJsonLd(
+  items: { title: string; slug: string; description: string }[],
+) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: '20 Free MindoraInsight Assessments',
+    numberOfItems: items.length,
+    itemListElement: items.map((t, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: absoluteUrl(`/test/${t.slug}`),
+      name: `Free ${t.title} Test`,
+      description: t.description,
+    })),
   }
 }

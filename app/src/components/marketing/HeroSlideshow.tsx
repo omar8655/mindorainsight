@@ -11,7 +11,7 @@ import { ACTIVE_SALE_TACTIC, saleTacticUsesScarcity } from '@/features/sale/sale
 import { useLocalizedTest } from '@/hooks/useLocalizedCatalog'
 import { useI18n } from '@/i18n/I18nProvider'
 
-const FREE_ADHD_HREF = `/test/${ADHD_SCREENING_SLUG}`
+const FREE_TESTS_HREF = '/free-tests'
 
 function SlideBody({
   slug,
@@ -25,7 +25,7 @@ function SlideBody({
   const { t } = useI18n()
   const test = testsForLibrary().find((item) => item.slug === slug)!
   const localized = useLocalizedTest(test)
-  const free = (test.priceUsd ?? 49) === 0
+  const free = (test.priceUsd ?? 0) === 0
 
   return (
     <div key={slug} className="animate-fade-up">
@@ -42,7 +42,7 @@ function SlideBody({
       <p className="mb-4 line-clamp-3 text-sm leading-6 text-mi-muted md:mb-5 md:line-clamp-none md:text-[15px]">
         {localized.description}
       </p>
-      <div className="mb-4 flex flex-wrap items-center gap-2 md:mb-5">
+      <div className="mb-4 flex min-w-0 flex-wrap items-center gap-2 md:mb-5">
         <span className="badge badge-level">{localized.levelLabel}</span>
         <span className="badge badge-meta">
           {test.questions} {t.common.questions}
@@ -50,12 +50,12 @@ function SlideBody({
         <span className="badge badge-meta">
           {test.minutes} {t.common.minutes}
         </span>
-        <SalePriceBadge priceUsd={test.priceUsd ?? 49} />
+        <SalePriceBadge priceUsd={test.priceUsd ?? 0} />
         <NhsMark size="sm" />
       </div>
       {free ? (
         <SaleCtaLink to={`/test/${test.slug}`} className="w-full !text-sm md:w-auto md:!text-base">
-          Start free ADHD
+          Start test →
         </SaleCtaLink>
       ) : (
         <Link
@@ -72,8 +72,13 @@ function SlideBody({
 export function HeroSlideshow() {
   const { t } = useI18n()
   const { localize, wasNowFreeLine } = useCurrency()
-  // Free ADHD first, then other featured paths
-  const slides = useMemo(() => testsForLibrary().slice(0, 6), [])
+  // Featured: ADHD + next five catalog topics
+  const slides = useMemo(() => {
+    const all = testsForLibrary()
+    const adhd = all.find((t) => t.slug === ADHD_SCREENING_SLUG)
+    const rest = all.filter((t) => t.slug !== ADHD_SCREENING_SLUG)
+    return (adhd ? [adhd, ...rest] : rest).slice(0, 6).map((t) => t.slug)
+  }, [])
   const [index, setIndex] = useState(0)
 
   useEffect(() => {
@@ -86,18 +91,18 @@ export function HeroSlideshow() {
   const current = slides[index]
 
   return (
-    <section className="relative overflow-hidden bg-[#0c1f17] text-white">
+    <section className="relative overflow-x-clip bg-[#0c1f17] text-white">
       <div
-        className="hero-glow pointer-events-none absolute -left-20 top-10 h-56 w-56 rounded-full bg-mi-green/25 blur-3xl md:left-[8%] md:top-[15%]"
+        className="hero-glow pointer-events-none absolute left-0 top-10 h-40 w-40 -translate-x-1/3 rounded-full bg-mi-green/25 blur-3xl sm:h-56 sm:w-56 md:left-[8%] md:top-[15%] md:translate-x-0"
         aria-hidden
       />
       <div
-        className="hero-glow hero-glow-delay pointer-events-none absolute -right-16 bottom-8 h-48 w-48 rounded-full bg-mi-blue/20 blur-3xl md:right-[10%] md:top-[8%] md:bottom-auto"
+        className="hero-glow hero-glow-delay pointer-events-none absolute bottom-8 right-0 h-36 w-36 translate-x-1/3 rounded-full bg-mi-blue/20 blur-3xl sm:h-48 sm:w-48 md:right-[10%] md:top-[8%] md:bottom-auto md:translate-x-0"
         aria-hidden
       />
 
-      <div className="container relative grid items-center gap-8 py-10 sm:py-12 md:grid-cols-2 md:gap-12 md:py-20">
-        <div className="animate-fade-up text-center md:text-start">
+      <div className="container relative grid min-w-0 items-center gap-8 py-10 sm:py-12 md:grid-cols-2 md:gap-12 md:py-20">
+        <div className="min-w-0 animate-fade-up text-center md:text-start">
           {/* No duplicate logo/wordmark — site header already brands the page */}
 
           <div className="mb-3 flex flex-wrap items-center justify-center gap-2 md:justify-start">
@@ -107,7 +112,7 @@ export function HeroSlideshow() {
             </p>
           </div>
 
-          <h1 className="font-display mx-auto mb-3 max-w-[18ch] text-[1.85rem] font-semibold leading-[1.15] tracking-[-0.03em] sm:text-[2.15rem] md:mx-0 md:mb-4 md:max-w-xl md:text-[48px] md:leading-[1.12]">
+          <h1 className="font-display mx-auto mb-3 max-w-[18ch] break-words text-[1.65rem] font-semibold leading-[1.15] tracking-[-0.03em] text-balance sm:text-[2.15rem] md:mx-0 md:mb-4 md:max-w-xl md:text-[48px] md:leading-[1.12]">
             {t.hero.title}{' '}
             <span className="text-[#7eb6ff]">{t.hero.titleAccent}</span>
           </h1>
@@ -117,7 +122,7 @@ export function HeroSlideshow() {
           </p>
 
           <Link
-            to={FREE_ADHD_HREF}
+            to={FREE_TESTS_HREF}
             className="mx-auto mb-6 flex max-w-md items-start gap-3 rounded-2xl border-2 border-mi-green/60 bg-gradient-to-br from-mi-green/25 to-mi-green/10 px-4 py-3.5 text-start shadow-[0_0_0_1px_rgba(49,176,112,0.25)] transition hover:from-mi-green/35 hover:to-mi-green/15 md:mx-0 md:mb-7 md:max-w-lg"
           >
             <span
@@ -147,11 +152,11 @@ export function HeroSlideshow() {
 
           <div className="mx-auto flex w-full max-w-sm flex-col gap-2.5 sm:max-w-none sm:flex-row sm:flex-wrap sm:justify-center md:mx-0 md:justify-start md:gap-3">
             <SaleCtaLink
-              to={FREE_ADHD_HREF}
+              to={FREE_TESTS_HREF}
               variant="hero"
               className="w-full !px-5 !text-[15px] sm:w-auto"
             >
-              Start free ADHD test
+              {t.hero.ctaPrimary}
             </SaleCtaLink>
             <Link
               to="/library"
@@ -162,7 +167,7 @@ export function HeroSlideshow() {
           </div>
         </div>
 
-        <div className="animate-fade-up animate-delay-1 md:pt-0">
+        <div className="min-w-0 w-full animate-fade-up animate-delay-1 md:pt-0">
           <p className="mb-2 text-center text-[11px] font-semibold uppercase tracking-wider text-white/45 md:mb-3 md:text-start md:text-xs">
             {t.hero.slideLabel}
           </p>
@@ -171,13 +176,13 @@ export function HeroSlideshow() {
               index === 0 ? 'border-mi-green/50 ring-2 ring-mi-green/30' : 'border-white/10'
             }`}
           >
-            <SlideBody slug={current.slug} index={index} total={slides.length} />
+            <SlideBody slug={current} index={index} total={slides.length} />
 
             <div className="mt-5 flex items-center justify-between gap-3 md:mt-6">
               <div className="flex gap-1.5">
                 {slides.map((s, i) => (
                   <button
-                    key={s.slug}
+                    key={s}
                     type="button"
                     aria-label={`Slide ${i + 1}`}
                     className={`h-2 rounded-full transition-all duration-300 ${

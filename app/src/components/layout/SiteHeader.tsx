@@ -17,6 +17,7 @@ export function SiteHeader() {
     { to: '/', label: t.nav.home, end: true },
     { to: '/about', label: t.nav.about },
     { to: '/library', label: t.nav.library },
+    { to: '/free-tests', label: t.footer.freeTests },
     { to: '/pricing', label: t.nav.pricing },
   ]
 
@@ -43,12 +44,12 @@ export function SiteHeader() {
     createPortal(
       <div
         id={navId}
-        className="fixed inset-0 z-[100] flex flex-col bg-white lg:hidden"
+        className="fixed inset-0 z-[100] flex min-h-[100dvh] max-h-[100dvh] flex-col overscroll-contain bg-white pt-[env(safe-area-inset-top,0px)] pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)] lg:hidden"
         role="dialog"
         aria-modal="true"
         aria-label="Menu"
       >
-        <div className="flex h-14 shrink-0 items-center justify-between gap-2 border-b border-mi-border px-4 pt-[env(safe-area-inset-top)] sm:h-16 sm:px-5">
+        <div className="flex h-14 shrink-0 items-center justify-between gap-2 border-b border-mi-border px-4 sm:h-16 sm:px-5">
           <BrandLogo size={32} onClick={() => setOpen(false)} />
           <button
             type="button"
@@ -78,7 +79,7 @@ export function SiteHeader() {
           ))}
           <div className="mt-auto space-y-2 border-t border-mi-border pt-4">
             <Link
-              to="/test/adhd-adult-screening"
+              to="/free-tests"
               onClick={() => setOpen(false)}
               className="btn-primary flex w-full items-center justify-center gap-2 !text-base"
             >
@@ -86,7 +87,7 @@ export function SiteHeader() {
                 <span className="font-semibold text-[#8a9a92] line-through">{listPrice}</span>
                 {saleFreeLabel}
               </span>
-              Free ADHD
+              Free tests
             </Link>
             <Link
               to="/contact"
@@ -102,9 +103,11 @@ export function SiteHeader() {
     )
 
   return (
-    <header className="sticky top-0 z-50 border-b border-mi-border bg-white/95 pt-[env(safe-area-inset-top)] backdrop-blur-md">
-      <div className="container flex h-14 items-center justify-between gap-2 sm:h-16 md:h-[72px]">
-        <BrandLogo size={32} onClick={() => setOpen(false)} />
+    <header className="sticky top-0 z-50 border-b border-mi-border bg-white/95 pt-[env(safe-area-inset-top,0px)] backdrop-blur-md supports-[backdrop-filter]:bg-white/80">
+      <div className="container flex h-14 min-w-0 items-center justify-between gap-2 sm:h-16 md:h-[72px]">
+        <div className="min-w-0 shrink">
+          <BrandLogo size={32} onClick={() => setOpen(false)} />
+        </div>
 
         <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Primary">
           {navLinks.map((link) => (
@@ -129,14 +132,14 @@ export function SiteHeader() {
         <div className="hidden items-center gap-2 lg:flex">
           <LanguageSwitcher showLabel />
           <Link
-            to="/test/adhd-adult-screening"
+            to="/free-tests"
             className="inline-flex h-10 items-center justify-center rounded-lg bg-mi-green px-4 text-sm font-bold text-white transition hover:bg-mi-green-hover"
           >
-            Free ADHD
+            Free tests
           </Link>
         </div>
 
-        <div className="flex items-center gap-1.5 lg:hidden">
+        <div className="flex shrink-0 items-center gap-1.5 lg:hidden">
           <LanguageSwitcher />
           <button
             type="button"

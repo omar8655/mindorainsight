@@ -1,4 +1,5 @@
 import { useMemo, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { NhsMark } from '@/components/brand/NhsMark'
 import { SalePriceBadge } from '@/components/marketing/SalePriceBadge'
 import { tests, type TestItem } from '@/data/tests'
@@ -11,16 +12,16 @@ type RelatedLockedTestsProps = {
   limit?: number
 }
 
-function LockedSlideCard({ test }: { test: TestItem }) {
+function RelatedSlideCard({ test }: { test: TestItem }) {
   const { t } = useI18n()
   const localized = useLocalizedTest(test)
-  const price = test.priceUsd ?? 49
+  const price = test.priceUsd ?? 0
 
   return (
-    <div
+    <Link
+      to={`/test/${test.slug}`}
       data-slide-card
-      className="relative flex h-full min-h-[19.5rem] w-[min(78vw,17.5rem)] shrink-0 snap-center flex-col rounded-xl border border-mi-border bg-white p-3.5 shadow-sm sm:min-h-[20.5rem] sm:w-[16.5rem]"
-      aria-disabled="true"
+      className="relative flex h-full min-h-[19.5rem] w-[min(78vw,17.5rem)] shrink-0 snap-center flex-col rounded-xl border border-mi-border bg-white p-3.5 shadow-sm transition hover:border-mi-green/40 sm:min-h-[20.5rem] sm:w-[16.5rem]"
     >
       <div className="flex min-h-[1.35rem] flex-wrap items-center gap-1.5">
         <p className="text-[9px] font-bold uppercase tracking-[0.12em] text-mi-blue">Similar</p>
@@ -44,21 +45,15 @@ function LockedSlideCard({ test }: { test: TestItem }) {
         </span>
         <NhsMark size="xs" />
       </div>
-      <div className="mt-auto rounded-lg border border-amber-200/80 bg-amber-50 px-2 py-1.5">
-        <p className="text-[9px] font-bold uppercase tracking-wide text-amber-900/80">Locked</p>
-        <p className="mt-0.5 text-[10px] leading-3.5 text-amber-950/85">
-          Referral from your healthcare provider required.
-        </p>
-      </div>
-      <span className="mt-2 inline-flex w-full cursor-not-allowed items-center justify-center rounded-lg border border-mi-border bg-slate-50 px-2 py-2 text-[11px] font-semibold text-mi-muted">
-        Referral required
+      <span className="mt-auto inline-flex w-full items-center justify-center rounded-lg bg-mi-green px-2 py-2 text-[11px] font-semibold text-white">
+        {t.common.tryNow} →
       </span>
-    </div>
+    </Link>
   )
 }
 
 /**
- * Amazon/eBay-style horizontal slideshow of similar locked assessments.
+ * Horizontal slideshow of similar free assessments.
  */
 export function RelatedLockedTests({
   currentSlug,
@@ -110,7 +105,7 @@ export function RelatedLockedTests({
             Other similar assessments
           </h2>
           <p className="mt-1 text-xs leading-5 text-mi-muted sm:text-sm">
-            Swipe to preview. Locked until your GP / healthcare provider refers you.
+            Swipe to browse. Every assessment is free — no PIN required.
           </p>
         </div>
 
@@ -120,9 +115,7 @@ export function RelatedLockedTests({
           className="mt-3 flex items-stretch gap-3 overflow-x-auto scroll-smooth px-4 pb-2 [-ms-overflow-style:none] [scrollbar-width:none] snap-x snap-mandatory sm:px-5 [&::-webkit-scrollbar]:hidden"
         >
           {related.map((test) => (
-            <div key={test.slug} data-slide-card>
-              <LockedSlideCard test={test} />
-            </div>
+            <RelatedSlideCard key={test.slug} test={test} />
           ))}
         </div>
 

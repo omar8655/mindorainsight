@@ -17,7 +17,7 @@ type SaleCtaLinkProps = {
  */
 export function SaleCtaLink({
   to,
-  children = 'Start free ADHD test',
+  children = 'Explore free tests',
   className = '',
   showBadge = true,
   variant = 'primary',

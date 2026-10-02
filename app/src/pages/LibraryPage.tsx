@@ -6,6 +6,9 @@ import { categories, getCategory, type CategoryId } from '@/data/categories'
 import { testsForLibrary } from '@/data/tests'
 import { getAccessCopy } from '@/i18n/accessCopy'
 import { useI18n } from '@/i18n/I18nProvider'
+import { DEFAULT_SEO } from '@/lib/seo'
+import { freeTestsItemListJsonLd, organizationJsonLd } from '@/lib/structuredData'
+import { TEST_META } from '@/data/newmindora/tests-core.js'
 
 export function LibraryPage() {
   const { t, code } = useI18n()
@@ -28,11 +31,22 @@ export function LibraryPage() {
 
   return (
     <>
-      <Seo title={t.library.title} description={t.library.subtitle} />
+      <Seo
+        title="Assessment Library — 20 Free Tests (100 Questions Each)"
+        description="Browse 20 free MindoraInsight assessments: Personality, Big 5, ADHD, Enneagram, Attachment, Career, DISC, EQ, and more. Instant scores and printable Mindora Dossier PDFs. No referral PIN."
+        path="/library"
+        keywords={DEFAULT_SEO.keywords}
+        jsonLd={[
+          organizationJsonLd(),
+          freeTestsItemListJsonLd(
+            TEST_META.map((t) => ({ title: t.title, slug: t.id, description: t.blurb })),
+          ),
+        ]}
+      />
 
       {/* Theme chips — static (does not scroll/stick with the page) */}
-      <div className="border-b border-mi-border bg-white">
-        <div className="container py-3">
+      <div className="overflow-x-hidden border-b border-mi-border bg-white">
+        <div className="container min-w-0 py-3">
           <div className="mb-2 flex items-center justify-between gap-2">
             <p className="text-xs font-bold uppercase tracking-wide text-mi-muted">
               {t.library.themesTitle}
@@ -47,7 +61,7 @@ export function LibraryPage() {
               </button>
             )}
           </div>
-          <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="flex w-full max-w-full gap-2 overflow-x-auto overscroll-x-contain pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [touch-action:pan-x] [&::-webkit-scrollbar]:hidden">
             <button
               type="button"
               onClick={() => onSelect(null)}
@@ -87,9 +101,12 @@ export function LibraryPage() {
       </div>
 
       <section className="bg-mi-canvas py-5 md:py-10">
-        <div className="container">
+        <div className="container min-w-0">
           <div className="mb-5 rounded-2xl border border-[#005EB8]/20 bg-gradient-to-br from-[#E8F1FA] via-white to-mi-green-soft/40 px-4 py-4 sm:px-5 sm:py-5">
-            <p className="text-sm leading-6 text-mi-forest sm:text-[15px]">{access.libraryBanner}</p>
+            <h1 className="font-display text-xl font-semibold text-mi-forest sm:text-2xl">
+              Assessment library — 20 free tests
+            </h1>
+            <p className="mt-2 text-sm leading-6 text-mi-forest sm:text-[15px]">{access.libraryBanner}</p>
           </div>
 
           <div className="mb-4 flex items-baseline justify-between gap-3">
@@ -112,9 +129,11 @@ export function LibraryPage() {
               </button>
             </div>
           ) : (
-            <div className="grid gap-3 sm:grid-cols-2 sm:gap-5 xl:grid-cols-3">
+            <div className="grid min-w-0 gap-3 sm:grid-cols-2 sm:gap-5 xl:grid-cols-3">
               {filtered.map((test) => (
-                <TestCard key={test.slug} test={test} />
+                <div key={test.slug} className="min-w-0">
+                  <TestCard test={test} />
+                </div>
               ))}
             </div>
           )}

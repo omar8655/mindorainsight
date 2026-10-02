@@ -25,7 +25,7 @@ const growthImages = [
 
 export function HomePage() {
   const { t } = useI18n()
-  const { listPrice, localize } = useCurrency()
+  const { localize } = useCurrency()
 
   const steps = [
     { n: '01', title: t.steps.oneTitle, text: t.steps.oneText },
@@ -68,11 +68,11 @@ export function HomePage() {
               Why we exist
             </p>
             <h2 className="font-display text-[24px] font-semibold leading-snug text-mi-forest md:text-[32px]">
-              Breaking down barriers to tomorrow&apos;s society.
+              Clear answers about you — without medical labels.
             </h2>
             <p className="mt-3 max-w-2xl text-[15px] leading-7 text-mi-muted md:text-base">
-              We are a nonprofit built for people ready to stop staying quiet. Better quality of
-              life starts with confidence — and we walk with you every step of the way.
+              Twenty free educational assessments with plain-English scores and a Mindora Dossier
+              PDF. Soft forest branding, calm language — never a clinic or diagnosis.
             </p>
           </div>
           <div className="rounded-2xl border border-mi-green/25 bg-white px-5 py-5 text-center shadow-[var(--mi-card-shadow)] md:px-6 md:py-6">
@@ -84,14 +84,14 @@ export function HomePage() {
               className="mx-auto mb-3 h-10 w-10"
             />
             <p className="text-sm font-semibold uppercase tracking-[0.12em] text-mi-muted">
-              Flat course pricing
+              Free to start
             </p>
-            <p className="font-display mt-1 text-4xl font-bold text-mi-forest md:text-5xl">{listPrice}</p>
+            <p className="font-display mt-1 text-4xl font-bold text-mi-forest md:text-5xl">20</p>
             <p className="mt-2 text-sm leading-6 text-mi-muted">
-              Every course. Same clear price. No surprise tiers.
+              Free assessments · 100 questions · PDF report · $0
             </p>
-            <Link to="/pricing" className="btn-primary mt-4 inline-flex !px-5 !py-3 !text-[15px]">
-              Build your confidence now
+            <Link to="/free-tests" className="btn-primary mt-4 inline-flex !px-5 !py-3 !text-[15px]">
+              Explore free tests
             </Link>
           </div>
         </div>
@@ -124,7 +124,7 @@ export function HomePage() {
               </li>
             ))}
           </ol>
-          <Link to="/library" className="btn-primary mt-8 inline-flex !px-6 !py-3.5 !text-base">
+          <Link to="/free-tests" className="btn-primary mt-8 inline-flex !px-6 !py-3.5 !text-base">
             {t.steps.cta}
           </Link>
         </div>
@@ -161,7 +161,7 @@ export function HomePage() {
             </div>
           </div>
           <div className="mt-8">
-            <Link to="/library" className="btn-primary !px-6 !py-3.5 !text-base">
+            <Link to="/free-tests" className="btn-primary !px-6 !py-3.5 !text-base">
               {t.common.explore}
             </Link>
           </div>

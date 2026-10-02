@@ -2,6 +2,7 @@ import { COMPANY } from '@/data/legal/company'
 import { ADHD_SCREENING_SLUG } from '@/data/adhdScreening'
 import { FOOTER_SEO_TESTS } from '@/data/footerSeoTests'
 import { tests } from '@/data/tests'
+import { SITE_SEO_KEYWORDS } from '@/lib/seoKeywords'
 
 /** Canonical production origin — used for sitemap, OG, and structured data. */
 export const SITE_ORIGIN = COMPANY.website.replace(/\/$/, '')
@@ -15,23 +16,10 @@ export function absoluteUrl(path = '/'): string {
 export const DEFAULT_OG_IMAGE = absoluteUrl('/brand/mindorainsight-brain-logo-forest.png')
 
 export const DEFAULT_SEO = {
-  title: 'MindoraInsight — Free Adult ADHD Test & Professional Assessments',
+  title: 'MindoraInsight — 20 Free Personality, ADHD & Trait Tests (100 Questions)',
   description:
-    'MindoraInsight offers a free Adult ADHD Test plus professional assessments for focus, personality, career fit, and growth. Calm, private, educational — not a medical diagnosis.',
-  keywords: [
-    'MindoraInsight',
-    'free ADHD test',
-    'adult ADHD screening',
-    'ADHD pattern screen',
-    'personality test',
-    'OCEAN test',
-    'Big Five test',
-    'career assessment',
-    'workplace personality',
-    'free psychological tests',
-    'professional development assessments',
-    'focus assessment',
-  ].join(', '),
+    'Take 20 free scientific assessments: Personality, Big 5, 16 Personalities, Enneagram, ADHD, Autism, Depression, Love Style, Attachment, Strengths, Career, DISC, EQ, and more. 100 questions each, instant scores, printable Mindora Dossier PDF. Educational — not a medical diagnosis.',
+  keywords: SITE_SEO_KEYWORDS,
 }
 
 /** Static + SEO free-test paths for sitemap generation. */
@@ -59,7 +47,7 @@ export function sitemapPaths(): { path: string; priority: string; changefreq: st
 
   const catalog = tests.map((t) => ({
     path: `/test/${t.slug}`,
-    priority: (t.priceUsd ?? 49) === 0 ? '0.9' : '0.7',
+    priority: (t.priceUsd ?? 0) === 0 ? '0.9' : '0.7',
     changefreq: 'weekly',
   }))
 

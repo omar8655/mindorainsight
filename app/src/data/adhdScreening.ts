@@ -203,6 +203,8 @@ export function scoreAdhdAnswers(answers: Record<number, number>) {
   }
 }
 
-export const ADHD_SCREENING_SLUG = 'adhd-adult-screening'
+export const ADHD_SCREENING_SLUG = 'adhd'
+/** @deprecated old slug — redirects via getTestBySlug */
+export const ADHD_SCREENING_SLUG_LEGACY = 'adhd-adult-screening'
 /** One question per view — phone + web friendly, minimal scrolling. */
 export const ADHD_PAGE_SIZE = 5

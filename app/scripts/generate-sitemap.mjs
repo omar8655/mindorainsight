@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 /**
- * Regenerates public/sitemap.xml from catalog data.
- * Run: node scripts/generate-sitemap.mjs
- * Also runs automatically before production builds when wired in package.json.
+ * Regenerates public/sitemap.xml + public/llms.txt from NewMindora catalog.
+ * Run: npm run seo:sitemap
  */
 import { readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
@@ -13,22 +12,28 @@ const root = join(__dirname, '..')
 const origin = 'https://www.mindorainsight.com'
 const lastmod = new Date().toISOString().slice(0, 10)
 
-const testsSrc = readFileSync(join(root, 'src/data/tests.ts'), 'utf8')
-const slugs = [...testsSrc.matchAll(/slug:\s*'([^']+)'/g)].map((m) => m[1])
+const coreSrc = readFileSync(join(root, 'src/data/newmindora/tests-core.js'), 'utf8')
+const topics = [...coreSrc.matchAll(/\{\s*id\s*:\s*"([^"]+)"\s*,\s*title\s*:\s*"([^"]+)"/g)].map(
+  (m) => ({ id: m[1], title: m[2] }),
+)
+
+if (topics.length < 20) {
+  console.error(`[seo] expected ≥20 topics, found ${topics.length}`)
+  process.exit(1)
+}
 
 const staticPages = [
   ['/', '1.0', 'daily'],
-  ['/library', '0.9', 'weekly'],
+  ['/library', '0.95', 'daily'],
   ['/free-tests', '0.95', 'daily'],
-  ['/pricing', '0.8', 'weekly'],
-  ['/about', '0.7', 'monthly'],
-  ['/contact', '0.6', 'monthly'],
-  ['/faq', '0.7', 'monthly'],
+  ['/pricing', '0.7', 'weekly'],
+  ['/about', '0.6', 'monthly'],
+  ['/contact', '0.5', 'monthly'],
+  ['/faq', '0.6', 'monthly'],
   ['/docs/terms', '0.3', 'yearly'],
   ['/docs/privacy', '0.3', 'yearly'],
   ['/docs/subscription', '0.3', 'yearly'],
-  ['/cancel', '0.4', 'monthly'],
-  ['/test/adhd-adult-screening', '1.0', 'daily'],
+  ['/cancel', '0.3', 'monthly'],
   ['/llms.txt', '0.5', 'monthly'],
   ['/ai.txt', '0.4', 'monthly'],
 ]
@@ -40,12 +45,19 @@ for (const [path, priority, changefreq] of staticPages) {
   seen.add(path)
   urls.push({ path, priority, changefreq })
 }
-for (const slug of slugs) {
-  const path = `/test/${slug}`
+for (const t of topics) {
+  const path = `/test/${t.id}`
   if (seen.has(path)) continue
   seen.add(path)
-  const free = slug === 'adhd-adult-screening' || slug === 'ui-preview-5'
-  urls.push({ path, priority: free ? '0.9' : '0.7', changefreq: 'weekly' })
+  urls.push({
+    path,
+    priority: t.id === 'adhd' ? '1.0' : '0.9',
+    changefreq: 'weekly',
+  })
+}
+// Legacy ADHD slug redirect target still indexed briefly
+if (!seen.has('/test/adhd-adult-screening')) {
+  urls.push({ path: '/test/adhd-adult-screening', priority: '0.4', changefreq: 'yearly' })
 }
 
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -64,4 +76,19 @@ ${urls
 `
 
 writeFileSync(join(root, 'public/sitemap.xml'), xml)
-console.log(`[seo] sitemap.xml → ${urls.length} urls (${lastmod})`)
+
+const llms = `# MindoraInsight
+> 20 free psychometric assessments · 100 questions each · printable Mindora Dossier PDFs
+
+Site: ${origin}
+Library: ${origin}/library
+Free tests hub: ${origin}/free-tests
+
+## Assessments
+${topics.map((t) => `- [${t.title}](${origin}/test/${t.id}) — free · 100Q · ~15 min · unique PDF`).join('\n')}
+
+Educational only — not medical diagnosis.
+`
+
+writeFileSync(join(root, 'public/llms.txt'), llms)
+console.log(`[seo] sitemap.xml → ${urls.length} urls · llms.txt → ${topics.length} topics (${lastmod})`)

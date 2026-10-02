@@ -55,7 +55,10 @@ export function Seo({
       <meta name="googlebot" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
       <meta name="author" content="MindoraInsight" />
       <meta name="application-name" content="MindoraInsight" />
+      <meta name="publisher" content="MindoraInsight" />
+      <meta name="rating" content="general" />
       <link rel="canonical" href={canonical} />
+      <link rel="alternate" type="text/plain" title="llms.txt" href={`${SITE_ORIGIN}/llms.txt`} />
 
       <meta property="og:site_name" content="MindoraInsight" />
       <meta property="og:locale" content="en_GB" />
@@ -64,12 +67,13 @@ export function Seo({
       <meta property="og:type" content={type} />
       <meta property="og:url" content={canonical} />
       <meta property="og:image" content={ogImage} />
-      <meta property="og:image:alt" content="MindoraInsight" />
+      <meta property="og:image:alt" content={full} />
 
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={full} />
       <meta name="twitter:description" content={desc} />
       <meta name="twitter:image" content={ogImage} />
+      <meta name="twitter:image:alt" content={full} />
 
       <link rel="alternate" type="application/rss+xml" title="MindoraInsight" href={`${SITE_ORIGIN}/sitemap.xml`} />
 

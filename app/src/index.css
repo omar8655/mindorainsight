@@ -66,23 +66,33 @@ html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  overflow-x: clip;
+  overflow-x: hidden;
 }
 
 html,
 body,
 #root {
+  width: 100%;
   max-width: 100%;
+  overflow-x: clip;
   overflow-x: hidden;
 }
 
 body {
   margin: 0;
+  min-height: 100dvh;
+  min-height: 100vh;
   background: #fff;
   color: var(--mi-text);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
+}
+
+#root {
+  min-height: 100dvh;
+  min-height: 100vh;
+  isolation: isolate;
 }
 
 /* iOS: avoid auto-zoom on focus (needs ≥16px) */
@@ -108,8 +118,8 @@ a {
   width: 100%;
   max-width: 1120px;
   margin-inline: auto;
-  padding-left: max(16px, env(safe-area-inset-left));
-  padding-right: max(16px, env(safe-area-inset-right));
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
 }
 
 @media (min-width: 640px) {
@@ -365,6 +375,14 @@ a {
 
 .hero-glow {
   animation: hero-glow-drift 9s ease-in-out infinite;
+  will-change: transform;
+}
+
+@media (max-width: 767px) {
+  .hero-glow {
+    animation: none;
+    opacity: 0.65;
+  }
 }
 
 .hero-glow-delay {

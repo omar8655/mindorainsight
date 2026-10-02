@@ -1,20 +1,18 @@
 import { Link } from 'react-router-dom'
 import { SalePriceBadge } from '@/components/marketing/SalePriceBadge'
-import { ADHD_SCREENING_SLUG } from '@/data/adhdScreening'
-import { useCurrency } from '@/features/currency/CurrencyProvider'
 import { SaleCtaLink } from '@/features/sale/SaleCtaLink'
+import { useCurrency } from '@/features/currency/CurrencyProvider'
 
-const FREE_ADHD_HREF = `/test/${ADHD_SCREENING_SLUG}`
+const FREE_TESTS_HREF = '/free-tests'
 
-/** Dark sale strip — localized list / free pricing. */
+/** Dark sale strip — points to the 20 free-tests hub. */
 export function FreeAdhdSaleBanner() {
-  const { listPrice, wasNowFreeLine } = useCurrency()
-  const shortList = listPrice.replace(/\.00$/, '')
+  const { wasNowFreeLine } = useCurrency()
 
   return (
     <div className="mx-auto mb-5 w-full max-w-2xl sm:mb-6">
       <Link
-        to={FREE_ADHD_HREF}
+        to={FREE_TESTS_HREF}
         className="flex w-full items-start gap-3 rounded-2xl border-2 border-mi-green/55 bg-gradient-to-br from-[#0c1f17] to-[#143528] px-4 py-3.5 text-start shadow-sm transition active:scale-[0.99] sm:px-5"
       >
         <span
@@ -28,14 +26,14 @@ export function FreeAdhdSaleBanner() {
             <SalePriceBadge priceUsd={0} size="sm" />
           </span>
           <span className="mt-1.5 block text-sm font-bold leading-5 text-white">
-            New here? Grab the free ADHD test (normally {shortList}) — start in under a minute.
+            New here? Open Free Tests and pick any of 20 topics — start in under a minute.
           </span>
           <span className="mt-1 block text-xs text-[#9fd9b8]">{wasNowFreeLine}</span>
         </span>
       </Link>
       <div className="mt-3 flex justify-center">
-        <SaleCtaLink to={FREE_ADHD_HREF} className="w-full sm:w-auto">
-          Start free ADHD test
+        <SaleCtaLink to={FREE_TESTS_HREF} className="w-full sm:w-auto">
+          Explore free tests
         </SaleCtaLink>
       </div>
     </div>

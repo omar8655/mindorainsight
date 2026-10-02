@@ -32,7 +32,7 @@ export function BrandLogo({
       />
       {withWordmark && (
         <span
-          className={`font-display text-[1.05em] font-semibold tracking-tight ${
+          className={`font-display truncate text-[1.05em] font-semibold tracking-tight ${
             onDark ? 'text-white' : 'text-mi-forest'
           }`}
           style={{ fontSize: Math.max(16, Math.round(size * 0.52)) }}
@@ -47,7 +47,12 @@ export function BrandLogo({
   if (!to) return mark
 
   return (
-    <Link to={to} onClick={onClick} aria-label="MindoraInsight home" className="inline-flex shrink-0">
+    <Link
+      to={to}
+      onClick={onClick}
+      aria-label="MindoraInsight home"
+      className="inline-flex max-w-full min-w-0 items-center"
+    >
       {mark}
     </Link>
   )

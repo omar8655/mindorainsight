@@ -179,10 +179,25 @@ export const termsBlocks: LegalBlock[] = [
     text: `You retain ownership of information you submit. You grant us a licence to process that information to operate, improve, and secure the Services and generate reports. Reports are for your personal use and may not be resold or commercially exploited without consent.`,
   },
 
-  { type: 'h2', text: '11. Not healthcare advice' },
+  { type: 'h2', text: '11. Not healthcare advice — assessments & reports' },
   {
     type: 'p',
-    text: `${brand} content, assessments, and reports are for informational, educational, and professional-development purposes only. They are not clinical tools and are not intended to diagnose, treat, cure, or prevent any disease or condition. Always consult a qualified healthcare professional for health decisions. Do not disregard professional advice based on our Services.`,
+    text: `${brand} content, assessments, scores, Mindora Dossier PDFs, and any “consulting-room style” educational wording are for informational, educational, and professional-development / self-reflection purposes only. They are not clinical tools and are not intended to diagnose, treat, cure, or prevent any disease or condition.`,
+  },
+  {
+    type: 'ul',
+    items: [
+      `${brand} is a software product, not a clinic, hospital, medical practice, or licensed healthcare provider.`,
+      'No doctor–patient, therapist–client, or similar professional relationship is created by using the Services.',
+      'Educational wording that sounds calm or clinical is stylistic only and does not constitute medical advice, psychotherapy, counselling, or a clinical opinion about you.',
+      'Reports and PDFs are not medical records and must not be used as a sole basis for hiring, legal, immigration, custody, insurance, or clinical decisions.',
+      'Always consult a qualified licensed professional for health decisions. Do not disregard professional advice based on our Services.',
+      'If you are in crisis or may harm yourself or others, contact emergency services or local crisis lines immediately — the Services cannot keep you safe.',
+    ],
+  },
+  {
+    type: 'p',
+    text: `By starting or completing an assessment you acknowledge these limits and agree that you use results at your own risk, to the fullest extent permitted by law.`,
   },
 
   { type: 'h2', text: '12. Disclaimer of warranties' },

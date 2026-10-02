@@ -3,24 +3,31 @@ import { Link, useParams } from 'react-router-dom'
 import { NhsMark } from '@/components/brand/NhsMark'
 import { Seo } from '@/components/layout/Seo'
 import { SalePriceBadge } from '@/components/marketing/SalePriceBadge'
-import { HealthcareReferralGate } from '@/features/access/HealthcareReferralGate'
-import { isReferralUnlocked } from '@/features/access/referralPin'
-import { FreeAdhdSaleBanner } from '@/features/assessments/FreeAdhdSaleBanner'
 import { GenderSelect } from '@/features/assessments/GenderSelect'
 import { PreparingTestScreen } from '@/features/assessments/PreparingTestScreen'
 import { HowToUseScreen } from '@/features/assessments/HowToUseScreen'
 import { RelatedTryCarousel } from '@/features/assessments/RelatedTryCarousel'
 import { TestRunner } from '@/features/assessments/TestRunner'
-import { FreeAccessGate } from '@/features/sale/FreeAccessGate'
 import { ADHD_SCREENING_SLUG } from '@/data/adhdScreening'
-import { UI_PREVIEW_SLUG, getTestBySlug } from '@/data/tests'
+import { getTestBySlug } from '@/data/tests'
 import { useLocalizedTest } from '@/hooks/useLocalizedCatalog'
 import { getAccessCopy } from '@/i18n/accessCopy'
 import { useI18n } from '@/i18n/I18nProvider'
 import type { ReportGender } from '@/features/reports/emblemAssets'
-import { assessmentJsonLd, freeAdhdJsonLd, organizationJsonLd } from '@/lib/structuredData'
+import { assessmentJsonLd, breadcrumbJsonLd, freeAdhdJsonLd, organizationJsonLd } from '@/lib/structuredData'
+import { BOOK_SOURCES } from '@/data/newmindora'
+import { topicSeoKeywords } from '@/lib/seoKeywords'
 
-type Phase = 'referral' | 'gender' | 'preparing' | 'howto' | 'running'
+type Phase = 'gender' | 'preparing' | 'howto' | 'running'
+
+function topicKeywords(slug: string, title: string): string {
+  const book = BOOK_SOURCES[slug]
+  const parts = [topicSeoKeywords(slug, title)]
+  if (book?.theory) parts.push(book.theory)
+  if (book?.authors) parts.push(book.authors)
+  if (book?.bookTitle) parts.push(book.bookTitle)
+  return parts.join(', ')
+}
 
 export function TestPage() {
   const { slug = '' } = useParams()
@@ -45,20 +52,9 @@ function TestPageReady({ test }: { test: NonNullable<ReturnType<typeof getTestBy
   const { t, code } = useI18n()
   const access = getAccessCopy(code)
   const localized = useLocalizedTest(test)
-  const price = test.priceUsd ?? 49
-  const free = price === 0
-  const needsReferral = !free
-  const [unlocked, setUnlocked] = useState(() => !needsReferral || isReferralUnlocked(test.slug))
+  const price = test.priceUsd ?? 0
   const [gender, setGender] = useState<ReportGender | null>(null)
-  const [phase, setPhase] = useState<Phase>(() =>
-    needsReferral && !isReferralUnlocked(test.slug) ? 'referral' : 'gender',
-  )
-
-  const onReferralUnlocked = useCallback(() => {
-    setUnlocked(true)
-    setPhase('gender')
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }, [])
+  const [phase, setPhase] = useState<Phase>('gender')
 
   const onGender = useCallback((g: ReportGender) => {
     setGender(g)
@@ -76,74 +72,24 @@ function TestPageReady({ test }: { test: NonNullable<ReturnType<typeof getTestBy
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [])
 
-  const freeLabel =
-    test.slug === ADHD_SCREENING_SLUG
-      ? access.limitedFree
-      : test.slug === UI_PREVIEW_SLUG
-        ? access.freeUiPreview
-        : access.limitedFree
-
-  const intro = (
-    <div className="mx-auto w-full max-w-3xl">
-      {needsReferral && <FreeAdhdSaleBanner />}
-
-      <header className="mb-4 text-center sm:mb-5">
-        <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-mi-blue">
-          {free ? freeLabel : access.healthcareReferralCourse}
-        </p>
-        <h1 className="font-display mx-auto mt-1.5 max-w-[22ch] text-[1.35rem] font-semibold leading-snug text-mi-forest sm:max-w-none sm:text-2xl md:text-[1.75rem]">
-          {localized.title}
-        </h1>
-        <p className="mx-auto mt-2 max-w-xl text-[13px] leading-5 text-mi-muted sm:text-sm sm:leading-6">
-          {localized.description}
-        </p>
-        <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
-          <span className="badge badge-level">{localized.levelLabel}</span>
-          <span className="badge badge-meta">
-            {test.questions} {t.common.questions}
-          </span>
-          <span className="badge badge-meta">
-            {test.minutes} {t.common.minutes}
-          </span>
-          <SalePriceBadge priceUsd={price} />
-          <NhsMark size="sm" />
-          {needsReferral && (
-            <span className="rounded-full bg-amber-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-amber-900">
-              {access.referralPin}
-            </span>
-          )}
-        </div>
-      </header>
-
-      <div className="mx-auto max-w-md">
-        <GenderSelect onSelect={onGender} />
-      </div>
-
-      <RelatedTryCarousel currentSlug={test.slug} categoryIds={test.categoryIds} />
-    </div>
-  )
-
   const portalPhase = phase === 'preparing' || phase === 'howto' || phase === 'running'
 
   return (
     <>
       <Seo
-        title={localized.title}
-        description={localized.description}
+        title={`Free ${localized.title} Test (100 Questions)`}
+        description={`${localized.description} Free · ~${test.minutes} min · 100 questions · instant scores · printable Mindora Dossier PDF. Educational only — not a medical diagnosis.`}
         path={`/test/${test.slug}`}
-        keywords={
-          test.slug === ADHD_SCREENING_SLUG
-            ? 'free ADHD test, adult ADHD screening, ADHD pattern screen, MindoraInsight'
-            : undefined
-        }
+        keywords={topicKeywords(test.slug, localized.title)}
         jsonLd={[
           organizationJsonLd(),
           assessmentJsonLd({
             title: localized.title,
             description: localized.description,
             slug: test.slug,
-            free,
+            free: true,
           }),
+          breadcrumbJsonLd({ title: localized.title, slug: test.slug }),
           ...(test.slug === ADHD_SCREENING_SLUG ? [freeAdhdJsonLd()] : []),
         ]}
       />
@@ -152,12 +98,16 @@ function TestPageReady({ test }: { test: NonNullable<ReturnType<typeof getTestBy
           portalPhase ? 'bg-mi-canvas py-4 sm:py-8' : 'bg-mi-canvas py-3 sm:py-8 md:py-10'
         }`}
       >
-        <div className="container mx-auto !max-w-4xl !px-1 sm:!px-4">
+        <div
+          className={`container mx-auto !max-w-4xl sm:!px-4 ${
+            phase === 'gender' ? '!px-3' : '!px-2 min-[400px]:!px-3'
+          }`}
+        >
           {phase !== 'running' && (
             <div className="mb-3 flex items-center pt-[max(0.25rem,env(safe-area-inset-top))] sm:mb-4">
               <Link
                 to="/library"
-                className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-sm font-semibold text-mi-forest transition hover:bg-mi-green-soft/70"
+                className="inline-flex min-h-11 items-center gap-1.5 rounded-full px-3 py-2.5 text-sm font-semibold text-mi-forest transition hover:bg-mi-green-soft/70 active:bg-mi-green-soft/90"
               >
                 <span aria-hidden>←</span>
                 {t.library.backToLibrary}
@@ -165,34 +115,38 @@ function TestPageReady({ test }: { test: NonNullable<ReturnType<typeof getTestBy
             </div>
           )}
 
-          {phase === 'referral' && !unlocked && (
-            <div className="mx-auto max-w-2xl py-2 sm:py-4">
-              <FreeAdhdSaleBanner />
+          {phase === 'gender' && (
+            <div className="mx-auto w-full min-w-0 max-w-3xl overflow-x-hidden">
+              <header className="mb-4 min-w-0 text-center sm:mb-5">
+                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-mi-blue min-[360px]:tracking-[0.16em]">
+                  {access.limitedFree}
+                </p>
+                <h1 className="font-display mx-auto mt-1.5 max-w-[22ch] text-[1.2rem] font-semibold leading-snug text-mi-forest min-[360px]:text-[1.35rem] sm:max-w-none sm:text-2xl md:text-[1.75rem]">
+                  {localized.title}
+                </h1>
+                <p className="mx-auto mt-2 max-w-xl px-0.5 text-[13px] leading-5 text-mi-muted sm:px-0 sm:text-sm sm:leading-6">
+                  {localized.description}
+                </p>
+                <div className="mt-3 flex flex-wrap items-center justify-center gap-1.5 min-[360px]:gap-2">
+                  <span className="badge badge-level">{localized.levelLabel}</span>
+                  <span className="badge badge-meta">
+                    {test.questions} {t.common.questions}
+                  </span>
+                  <span className="badge badge-meta">
+                    {test.minutes} {t.common.minutes}
+                  </span>
+                  <SalePriceBadge priceUsd={price} />
+                  <NhsMark size="sm" />
+                </div>
+              </header>
 
-              <div className="mx-auto max-w-lg">
-                <header className="mb-5 text-center">
-                  <h1 className="font-display mt-1 text-xl font-semibold text-mi-forest sm:text-2xl">
-                    {localized.title}
-                  </h1>
-                  <p className="mx-auto mt-2 max-w-[40ch] text-sm text-mi-muted">
-                    {access.needsEmailPin}
-                  </p>
-                </header>
-                <HealthcareReferralGate
-                  courseTitle={localized.title}
-                  slug={test.slug}
-                  onUnlocked={onReferralUnlocked}
-                />
+              <div className="mx-auto w-full min-w-0 max-w-md">
+                <GenderSelect onSelect={onGender} />
               </div>
+
+              <RelatedTryCarousel currentSlug={test.slug} categoryIds={test.categoryIds} />
             </div>
           )}
-
-          {phase === 'gender' &&
-            (test.slug === ADHD_SCREENING_SLUG ? (
-              <FreeAccessGate courseTitle={localized.title}>{intro}</FreeAccessGate>
-            ) : (
-              intro
-            ))}
 
           {phase === 'preparing' && (
             <PreparingTestScreen
@@ -203,7 +157,14 @@ function TestPageReady({ test }: { test: NonNullable<ReturnType<typeof getTestBy
             />
           )}
 
-          {phase === 'howto' && <HowToUseScreen title={localized.title} onStart={onHowToStart} />}
+          {phase === 'howto' && (
+            <HowToUseScreen
+              title={localized.title}
+              clinical={!!test.clinical}
+              crisis={!!test.crisis}
+              onStart={onHowToStart}
+            />
+          )}
 
           {phase === 'running' && gender && <TestRunner test={test} gender={gender} />}
         </div>

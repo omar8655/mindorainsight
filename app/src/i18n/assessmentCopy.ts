@@ -6,6 +6,87 @@ export type AssessmentCopy = {
 }
 
 const en: Record<string, AssessmentCopy> = {
+  'personality': {
+    title: "Personality",
+    description: "Five-factor snapshot (OCEAN-style): how you explore, organize, energize, connect, and react.",
+  },
+  'big5': {
+    title: "Big 5",
+    description: "Openness, Conscientiousness, Extraversion, Agreeableness, and emotional sensitivity \u2014 educational trait domains.",
+  },
+  'sixteen': {
+    title: "16 Personalities",
+    description: "How you take in information, decide, and recharge.",
+  },
+  'enneagram': {
+    title: "Enneagram",
+    description: "Core motivations across nine types.",
+  },
+  'autism': {
+    title: "Autism Spectrum",
+    description: "A non-diagnostic screen of social, sensory and pattern traits.",
+  },
+  'adhd': {
+    title: "ADHD",
+    description: "Educational pattern screen: focus, restlessness, impulse, executive regulation, emotions, and follow-through.",
+  },
+  'depression': {
+    title: "Depression",
+    description: "Mood, energy, sleep, cognition and self-perception. Not a diagnosis.",
+  },
+  'love': {
+    title: "Love Style",
+    description: "How you most naturally give and receive care.",
+  },
+  'attachment': {
+    title: "Attachment Style",
+    description: "How you bond, trust and handle closeness.",
+  },
+  'strengths': {
+    title: "Strengths Finder",
+    description: "The talent domain where you naturally do your best work.",
+  },
+  'career': {
+    title: "Career",
+    description: "Work environments and roles that fit how you operate.",
+  },
+  'archetype': {
+    title: "Archetype",
+    description: "The character pattern that tends to drive your story.",
+  },
+  'political': {
+    title: "Political Identity",
+    description: "Where your values sit on economic and social axes.",
+  },
+  'disc': {
+    title: "DISC",
+    description: "Dominance, Influence, Steadiness and Conscientiousness.",
+  },
+  'eq': {
+    title: "Emotional Intelligence",
+    description: "How you notice, understand and work with emotion.",
+  },
+  'character': {
+    title: "Character Strengths",
+    description: "Signature virtues across six broad families.",
+  },
+  'bpd': {
+    title: "BPD traits",
+    description: "A gentle, non-diagnostic look at emotion and relationship intensity.",
+  },
+  'bipolar': {
+    title: "Bipolar spectrum",
+    description: "Mood-cycle and energy-pattern signs. Not a diagnosis.",
+  },
+  'narcissism': {
+    title: "Narcissism",
+    description: "Self-focus and recognition needs on a spectrum \u2014 a reflection, not a label.",
+  },
+  'trauma': {
+    title: "Trauma patterns",
+    description: "A trauma-informed screen of common stress aftereffects.",
+  },
+
   'work-focus-patterns': {
     title: 'Concentration Test',
     description:

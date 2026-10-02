@@ -1,4 +1,8 @@
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { AssessmentPortalShell } from '@/features/assessments/AssessmentPortalShell'
+import { ASSESSMENT_LEGAL } from '@/data/legal/assessmentProtection'
+import { COMPANY } from '@/data/legal/company'
 
 const DEMO_OPTIONS = [
   { short: 'SD', label: 'Strongly Disagree', color: '#C45C6A', bg: '#F8E4E7', size: 'lg' },
@@ -16,22 +20,27 @@ const SIZE = {
 
 type HowToUseScreenProps = {
   title: string
+  clinical?: boolean
+  crisis?: boolean
   onStart: () => void
 }
 
 /**
- * Second portal page — how to answer (circles), then start.
+ * How to answer + mandatory legal acknowledgement before the assessment starts.
  */
-export function HowToUseScreen({ title, onStart }: HowToUseScreenProps) {
+export function HowToUseScreen({ title, clinical, crisis, onStart }: HowToUseScreenProps) {
+  const [acked, setAcked] = useState(false)
+
   return (
-    <AssessmentPortalShell eyebrow="How to answer">
+    <AssessmentPortalShell eyebrow="How this works">
       <div className="w-full overflow-hidden rounded-2xl border border-mi-border bg-white shadow-[var(--mi-card-shadow)]">
         <div className="border-b border-mi-border/70 px-4 py-5 text-center sm:px-8">
           <h1 className="font-display mx-auto max-w-[22ch] text-xl font-semibold text-mi-forest sm:text-2xl">
             {title}
           </h1>
-          <p className="mx-auto mt-2 max-w-[36ch] text-sm leading-5 text-mi-muted">
-            Tap one circle per question. 5 questions per screen. Phone scrolls to the next for you.
+          <p className="mx-auto mt-2 max-w-[40ch] text-sm leading-5 text-mi-muted">
+            Choose one option per question. Five per screen — on mobile we scroll you to the next.
+            When you finish, you get clear scores and a Mindora Dossier PDF.
           </p>
         </div>
 
@@ -61,9 +70,45 @@ export function HowToUseScreen({ title, onStart }: HowToUseScreenProps) {
           </p>
         </div>
 
-        <div className="border-t border-mi-border/70 px-4 py-4 sm:px-8">
-          <button type="button" onClick={onStart} className="btn-primary w-full !py-3.5 !text-[15px]">
-            Start answering →
+        <div
+          className={`border-t px-4 py-4 sm:px-8 ${
+            crisis ? 'border-red-200 bg-red-50/80' : 'border-mi-border/70 bg-mi-green-soft/30'
+          }`}
+        >
+          <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-mi-forest">
+            {ASSESSMENT_LEGAL.gateTitle}
+          </p>
+          <p className="mt-2 text-[13px] leading-5 text-mi-forest">{ASSESSMENT_LEGAL.gateBody}</p>
+          {clinical ? (
+            <p className="mt-2 text-[12px] leading-5 text-amber-950">{ASSESSMENT_LEGAL.clinicalBanner}</p>
+          ) : null}
+          {crisis ? (
+            <p className="mt-2 text-[12px] font-semibold leading-5 text-red-950">
+              {ASSESSMENT_LEGAL.crisisBanner}
+            </p>
+          ) : null}
+          <label className="mt-3 flex cursor-pointer items-start gap-3 rounded-xl border border-mi-border bg-white px-3 py-3 text-start">
+            <input
+              type="checkbox"
+              className="mt-0.5 h-5 w-5 shrink-0 accent-mi-forest sm:h-6 sm:w-6"
+              checked={acked}
+              onChange={(e) => setAcked(e.target.checked)}
+            />
+            <span className="text-[13px] leading-5 text-mi-text">
+              {ASSESSMENT_LEGAL.gateAck}{' '}
+              <Link to={COMPANY.termsUrl} className="font-semibold text-mi-green underline">
+                Read Terms
+              </Link>
+              .
+            </span>
+          </label>
+          <button
+            type="button"
+            onClick={onStart}
+            disabled={!acked}
+            className="btn-primary mt-3 w-full !py-3.5 !text-[15px] disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            Start assessment →
           </button>
         </div>
       </div>

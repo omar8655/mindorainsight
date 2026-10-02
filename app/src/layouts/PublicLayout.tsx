@@ -9,13 +9,13 @@ export function PublicLayout() {
   const hideFooter = inAssessmentPortal || pathname.startsWith('/report/')
 
   return (
-    <div className="flex min-h-[100dvh] min-h-screen flex-col overflow-x-hidden bg-mi-canvas">
+    <div className="flex min-h-[100dvh] min-h-screen w-full min-w-0 flex-col overflow-x-clip bg-mi-canvas">
       {!inAssessmentPortal && (
         <div className="report-no-print" data-site-chrome>
           <SiteHeader />
         </div>
       )}
-      <main className="min-w-0 flex-1">
+      <main className="min-w-0 flex-1 overflow-x-clip">
         <Outlet />
       </main>
       {!hideFooter && (

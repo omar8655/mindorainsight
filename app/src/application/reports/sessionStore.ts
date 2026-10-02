@@ -13,7 +13,18 @@ function readAll(): Record<string, ReportSession> {
 }
 
 function writeAll(map: Record<string, ReportSession>) {
-  localStorage.setItem(KEY, JSON.stringify(map))
+  try {
+    localStorage.setItem(KEY, JSON.stringify(map))
+  } catch (err) {
+    console.warn('[mi] report session save failed (storage full or blocked)', err)
+    throw err
+  }
+}
+
+/** Strict lookup by session id only — never falls back to latest-by-slug. */
+export function getReportSessionById(sessionId: string): ReportSession | null {
+  const map = readAll()
+  return map[sessionId] ?? null
 }
 
 export function createSessionId() {

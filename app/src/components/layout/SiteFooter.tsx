@@ -9,7 +9,7 @@ import { useI18n } from '@/i18n/I18nProvider'
 import { getSeoTestLabel } from '@/i18n/seoTestLabels'
 
 const disclaimer =
-  'Educational assessments for professional development only — not medical or clinical advice. Seek a licensed professional for health concerns.'
+  'Educational assessments for professional development and self-reflection only — not medical, clinical, or diagnostic advice. MindoraInsight is not a healthcare provider and creates no doctor–patient relationship. Seek a licensed professional for health concerns.'
 
 export function SiteFooter() {
   const { t, code } = useI18n()
@@ -46,8 +46,8 @@ export function SiteFooter() {
   ]
 
   return (
-    <footer className="mt-auto border-t border-mi-border bg-mi-text text-white">
-      <div className="container py-10 pb-[max(2.5rem,calc(1.5rem+env(safe-area-inset-bottom)))] md:py-14">
+    <footer className="mt-auto overflow-x-hidden border-t border-mi-border bg-mi-text text-white">
+      <div className="container min-w-0 py-10 pb-[max(2.5rem,calc(1.5rem+env(safe-area-inset-bottom)))] md:py-14">
         <div className="grid gap-8 md:grid-cols-[1.2fr_2fr] md:gap-10">
           <div>
             <BrandLogo size={32} onDark />
@@ -61,16 +61,16 @@ export function SiteFooter() {
                 </p>
               </div>
               <p className="mt-2 text-sm leading-5 text-white/75">{access.nhsBody}</p>
-              <div className="mt-2.5 flex flex-wrap gap-x-4 gap-y-1">
+              <div className="mt-2.5 flex flex-wrap gap-x-2 gap-y-0">
                 <Link
                   to={`/test/${ADHD_SCREENING_SLUG}`}
-                  className="inline-flex text-sm font-semibold text-mi-green hover:underline"
+                  className="-mx-2 inline-flex min-h-11 items-center px-2 py-2 text-sm font-semibold text-mi-green hover:underline sm:min-h-0 sm:py-1"
                 >
                   {freeAdhdLabel} →
                 </Link>
                 <a
                   href="mailto:hello@mindorainsight.com"
-                  className="inline-flex text-sm font-semibold text-white/70 hover:text-white hover:underline"
+                  className="-mx-2 inline-flex min-h-11 items-center px-2 py-2 text-sm font-semibold text-white/70 hover:text-white hover:underline sm:min-h-0 sm:py-1"
                 >
                   hello@mindorainsight.com
                 </a>
@@ -83,12 +83,12 @@ export function SiteFooter() {
                 <p className="mb-3 text-xs font-bold uppercase tracking-wide text-white/45">
                   {col.title}
                 </p>
-                <ul className="space-y-2.5">
+                <ul className="space-y-0.5">
                   {col.links.map((l) => (
                     <li key={l.to + l.label}>
                       <Link
                         to={l.to}
-                        className="inline-block py-0.5 text-sm text-white/80 active:text-white hover:text-white"
+                        className="-mx-2 inline-flex min-h-11 items-center px-2 py-2 text-sm text-white/80 active:text-white hover:text-white sm:min-h-0 sm:py-1"
                       >
                         {l.label}
                       </Link>
@@ -112,21 +112,19 @@ export function SiteFooter() {
             </div>
             <Link
               to="/free-tests"
-              className="text-sm font-semibold text-mi-green hover:underline"
+              className="-mx-2 inline-flex min-h-11 items-center px-2 py-2 text-sm font-semibold text-mi-green hover:underline sm:min-h-0 sm:py-1"
             >
               {access.allFreeTests}
             </Link>
           </div>
-          <ul className="grid grid-cols-2 gap-x-4 gap-y-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4">
+          <ul className="grid min-w-0 grid-cols-2 gap-x-3 gap-y-0 sm:grid-cols-3 sm:gap-x-4 md:grid-cols-4 lg:grid-cols-5">
             {FOOTER_SEO_TESTS.map((item) => {
-              const label = getSeoTestLabel(code, item.labelKey)
+              const label = item.title ?? getSeoTestLabel(code, item.labelKey)
               return (
-                <li key={`${item.labelKey}-${item.slug}`}>
+                <li key={item.slug} className="min-w-0">
                   <Link
                     to={`/test/${item.slug}`}
-                    className={`inline-block py-0.5 text-sm transition hover:text-white ${
-                      item.free ? 'font-semibold text-mi-green' : 'text-white/55 hover:text-white/90'
-                    }`}
+                    className="-mx-2 inline-flex min-h-11 w-full max-w-full items-center break-words px-2 py-2.5 text-sm font-semibold leading-snug text-mi-green transition hover:text-white hover:underline sm:min-h-0 sm:w-auto sm:py-1.5"
                   >
                     {label}
                   </Link>

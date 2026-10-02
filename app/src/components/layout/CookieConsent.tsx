@@ -1,5 +1,5 @@
 import { useEffect, useId, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 const STORAGE_KEY = 'mi.cookie.consent.v1'
 
@@ -36,16 +36,21 @@ function writeConsent(record: ConsentRecord) {
  */
 export function CookieConsent() {
   const titleId = useId()
+  const { pathname } = useLocation()
   const [visible, setVisible] = useState(false)
   const [customiseOpen, setCustomiseOpen] = useState(false)
   const [analyticsOn, setAnalyticsOn] = useState(true)
   const [marketingOn, setMarketingOn] = useState(false)
 
+  // Don't cover assessment taps or PDF CTAs on first visit
+  const suppressOnRoute =
+    pathname.startsWith('/test/') || pathname.startsWith('/report/')
+
   useEffect(() => {
-    if (readConsent()) return
+    if (suppressOnRoute || readConsent()) return
     const t = window.setTimeout(() => setVisible(true), 450)
     return () => window.clearTimeout(t)
-  }, [])
+  }, [suppressOnRoute])
 
   function decide(choice: ConsentChoice, analytics: boolean, marketing: boolean) {
     writeConsent({
@@ -58,7 +63,7 @@ export function CookieConsent() {
     setCustomiseOpen(false)
   }
 
-  if (!visible) return null
+  if (!visible || suppressOnRoute) return null
 
   return (
     <div
