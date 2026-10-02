@@ -7,11 +7,11 @@ We are **not** using TestLibrary, Test Library, or any close variant (logo, copy
 ### **MindoraInsight**
 - **Why:** “Mindora” = calm clarity of mind; “Insight” = usable self-knowledge at work.
 - **Tagline options:**
-  - *Know your mind at work.*
+  - *The most powerful free assessment engine.*
   - *Assessments that sharpen how you think, lead, and grow.*
-  - *Practical insight for focus, teams, and career fit.*
+  - *Outperform every soft quiz — 100 questions, ranked scores, unique dossiers.*
 - **Domain:** mindorainsight.com (primary)
-- **Tone:** Confident, sharp, professional — not clinical, not “quizzy entertainment.”
+- **Tone:** Confident, sharp, professional, powerful — not clinical theatre, not “quizzy entertainment.”
 
 > Note: A separate UK company uses the root name “Mindora.” Prefer the full compound **MindoraInsight** in all public branding to reduce confusion.
 

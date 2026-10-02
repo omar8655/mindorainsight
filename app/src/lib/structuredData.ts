@@ -39,8 +39,8 @@ export function organizationJsonLd() {
       'Psychometric testing (educational)',
     ],
     description:
-      'MindoraInsight provides 20 free educational assessments (Personality, Big 5, ADHD, Enneagram, Attachment, Career, DISC, EQ, and more) with printable Mindora Dossier PDFs. Not a medical diagnosis.',
-    slogan: '20 free assessments · personal results · Mindora Dossier PDF',
+      'MindoraInsight is the free assessment engine for decisive educational readings — 20 research-grade paths (Personality, Big 5, ADHD, Enneagram, Attachment, Career, DISC, EQ, and more) with printable Mindora Dossier PDFs. Not a medical diagnosis.',
+    slogan: 'The most powerful free assessments · 100 questions · Mindora Dossier PDF',
   }
 }
 
@@ -52,7 +52,7 @@ export function websiteJsonLd() {
     alternateName: 'MindoraInsight Free Assessments',
     url: SITE_ORIGIN,
     description:
-      '20 free psychometric assessments — 100 questions each, instant scores, printable Mindora Dossier PDF. Personality, ADHD, Autism, EQ, Career, and more. Educational — not a medical diagnosis.',
+      '20 free research-grade assessments — 100 questions each, ranked scores, printable Mindora Dossier PDF. Personality, ADHD, Autism, EQ, Career, and more. Educational — not a medical diagnosis. Built to outclass soft quizzes.',
     inLanguage: 'en',
     publisher: { '@type': 'Organization', name: 'MindoraInsight', url: SITE_ORIGIN },
     about: {

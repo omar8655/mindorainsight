@@ -44,7 +44,7 @@ const en: AccessCopy = {
   startFreeAdhd: 'Start free ADHD',
   tryUiPreview: 'Try 5 questions',
   libraryBanner:
-    'Every assessment is free right now — no PIN, no card. Pick a topic and start.',
+    'The full MindoraInsight library is free — 20 research-grade assessments, no PIN, no card. Built to outclass soft quizzes. Pick a topic and start.',
   gateTitle: 'This assessment is free',
   gateBody: '{course} is open — no PIN required.',
   emailLabel: 'Healthcare professional email',
@@ -60,13 +60,13 @@ const en: AccessCopy = {
   featuredFreePath: 'Featured free test',
   moreFreeTests: '20 free tests',
   moreFreeTestsHint: 'All 20 assessments are free — 100 questions each, instant scores, PDF report.',
-  nhsLabel: 'Open catalog',
+  nhsLabel: 'Full-force free catalog',
   nhsBody:
-    'The full MindoraInsight library is free to start. No PIN or payment is required for any assessment.',
-  exploreAssessments: '20 free assessments — start in minutes',
-  allFreeTests: 'Browse the list ↓',
+    'MindoraInsight’s full library is free — 20 research-grade assessments, no PIN, no payment. Built to outclass soft quizzes.',
+  exploreAssessments: '20 free assessments — serious depth, start now',
+  allFreeTests: 'Browse the full library ↓',
   freeTestsDisclaimer:
-    'All listed assessments are free — 100 questions, Mindora Dossier PDF, no PIN required.',
+    'All listed assessments are free — 100 questions, unique Mindora Dossier PDF, no PIN required. Educational power, not a diagnosis.',
 }
 
 const fr: AccessCopy = {

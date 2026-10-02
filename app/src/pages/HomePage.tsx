@@ -67,14 +67,15 @@ export function HomePage() {
         <div className="container grid gap-6 md:grid-cols-[1.2fr_0.8fr] md:items-center md:gap-10">
           <div>
             <p className="mb-2 text-sm font-semibold uppercase tracking-[0.14em] text-mi-blue">
-              Why we exist
+              Why we lead
             </p>
             <h2 className="font-display text-[24px] font-semibold leading-snug text-mi-forest md:text-[32px]">
-              Results about you — without medical labels.
+              The most powerful free assessments online — without medical theatre.
             </h2>
             <p className="mt-3 max-w-2xl text-[15px] leading-7 text-mi-muted md:text-base">
-              Twenty free educational assessments with plain-English scores and a Mindora Dossier
-              PDF. Soft forest branding, calm language — never a clinic or diagnosis.
+              Twenty research-grade educational paths. One hundred questions each. Ranked scores and a
+              unique Mindora Dossier PDF written for you. Soft forest branding. Maximum clarity. Zero
+              soft-quiz fluff.
             </p>
           </div>
           <div className="rounded-2xl border border-mi-green/25 bg-white px-5 py-5 text-center shadow-[var(--mi-card-shadow)] md:px-6 md:py-6">

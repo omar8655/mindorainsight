@@ -93,7 +93,9 @@ export function BasicResultView({
             Assessment complete
           </p>
           <p className="mt-1 text-sm font-semibold text-mi-forest">
-            {you !== 'You' ? `${you}, your results are ready.` : `Your results for ${doc.assessmentTitle} are ready.`}
+            {you !== 'You'
+              ? `${you}, your MindoraInsight results are ready.`
+              : `Your MindoraInsight results for ${doc.assessmentTitle} are ready.`}
           </p>
         </div>
 

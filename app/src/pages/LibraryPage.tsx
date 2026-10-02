@@ -147,7 +147,7 @@ export function LibraryPage() {
         <div className="container min-w-0">
           <div className="mb-5 rounded-2xl border border-mi-green/25 bg-gradient-to-br from-mi-green-soft/50 via-white to-white px-4 py-4 sm:px-5 sm:py-5">
             <h1 className="font-display text-xl font-semibold text-mi-forest sm:text-2xl">
-              Free tests — 20 assessments
+              Free tests — the full-force library
             </h1>
             <p className="mt-2 text-sm leading-6 text-mi-forest sm:text-[15px]">
               {access.libraryBanner}

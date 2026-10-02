@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { MI_TRUST } from '@/components/brand/trustAssets'
 
 /**
- * Site-wide trust band — original MindoraInsight mark + calm claims.
+ * Site-wide trust band — original MindoraInsight mark + powerful calm claims.
  * Distinct from TestLibrary collage/emblem patterns.
  */
 export function SiteTrustBand() {
@@ -17,28 +17,31 @@ export function SiteTrustBand() {
           className="h-24 w-24 shrink-0 object-contain md:h-28 md:w-28"
         />
         <div className="min-w-0 flex-1">
-          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-mi-blue">Built on clarity</p>
+          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-mi-blue">
+            Built to dominate soft quizzes
+          </p>
           <h2 className="font-display mt-1 text-xl font-semibold text-mi-forest md:text-2xl">
-            Trust starts with how the product feels
+            Trust the product that feels powerful and calm
           </h2>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-mi-muted md:text-base">
-            Soft visuals, plain language, and honest limits — educational assessments you can share
-            with a professional, not a theatrical quiz. Our marks and copy are MindoraInsight’s own.
+            Soft forest visuals, decisive language, ranked scores, and unique dossiers — educational
+            assessments you can bring to a professional, not a theatrical quiz. MindoraInsight’s marks
+            and copy are our own.
           </p>
           <div className="mt-4 flex flex-wrap justify-center gap-2 md:justify-start">
             <span className="rounded-full bg-mi-green-soft px-3 py-1 text-xs font-semibold text-mi-forest">
-              Private by default
+              20 free · 100Q each
             </span>
             <span className="rounded-full bg-mi-green-soft px-3 py-1 text-xs font-semibold text-mi-forest">
-              Not a diagnosis
+              Unique Mindora Dossier
             </span>
             <span className="rounded-full bg-sky-50 px-3 py-1 text-xs font-semibold text-mi-blue">
-              Clinician-ready language
+              Clinician-ready voice
             </span>
           </div>
         </div>
-        <Link to="/about" className="btn-outline shrink-0 !px-5 !py-2.5 !text-sm">
-          Why we built this
+        <Link to="/library" className="btn-primary shrink-0 !px-5 !py-2.5 !text-sm">
+          Enter the free library
         </Link>
       </div>
     </section>
