@@ -2,7 +2,6 @@ import { useMemo } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { buildReportDocument } from '@/application/reports/buildReportDocument'
 import { getReportSession, getReportSessionById } from '@/application/reports/sessionStore'
-import { LanguageSwitcher } from '@/components/layout/LanguageSwitcher'
 import { Seo } from '@/components/layout/Seo'
 import { BasicResultView } from '@/features/reports/BasicResultView'
 import { ComprehensiveReportView } from '@/features/reports/ComprehensiveReportView'
@@ -150,7 +149,6 @@ export function ReportPage() {
             <Link to="/free-tests" className="text-xs font-semibold text-mi-muted hover:text-mi-forest">
               ← Free tests
             </Link>
-            <LanguageSwitcher />
           </div>
           {showFull ? (
             <ComprehensiveReportView doc={doc} sharePath={sharePath} basicHref={basicHref} />

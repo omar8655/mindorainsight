@@ -20,6 +20,11 @@ function RelatedSlideCard({ test }: { test: TestItem }) {
   return (
     <Link
       to={`/test/${test.slug}`}
+      onClick={() => {
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+        document.documentElement.scrollTop = 0
+        document.body.scrollTop = 0
+      }}
       data-slide-card
       className="relative flex h-full min-h-[19.5rem] w-[min(78vw,17.5rem)] shrink-0 snap-center flex-col rounded-xl border border-mi-border bg-white p-3.5 shadow-sm transition hover:border-mi-green/40 sm:min-h-[20.5rem] sm:w-[16.5rem]"
     >

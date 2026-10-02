@@ -13,6 +13,12 @@ type RelatedTryCarouselProps = {
   limit?: number
 }
 
+function goToTestTop() {
+  window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+  document.documentElement.scrollTop = 0
+  document.body.scrollTop = 0
+}
+
 function TrySlideCard({ test }: { test: TestItem }) {
   const { t } = useI18n()
   const localized = useLocalizedTest(test)
@@ -54,6 +60,8 @@ function TrySlideCard({ test }: { test: TestItem }) {
       </div>
       <Link
         to={`/test/${test.slug}`}
+        replace={false}
+        onClick={goToTestTop}
         className="btn-outline mt-auto inline-flex min-h-11 w-full items-center justify-center !py-2.5 !text-sm font-bold sm:min-h-[2.75rem] sm:!text-[13px]"
       >
         Start test →

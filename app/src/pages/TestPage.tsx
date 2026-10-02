@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { NhsMark } from '@/components/brand/NhsMark'
 import { Seo } from '@/components/layout/Seo'
@@ -55,6 +55,13 @@ function TestPageReady({ test }: { test: NonNullable<ReturnType<typeof getTestBy
   const price = test.priceUsd ?? 0
   const [gender, setGender] = useState<ReportGender | null>(null)
   const [phase, setPhase] = useState<Phase>('gender')
+
+  // Fresh test entry (including from “Similar assessments”) always starts at the top
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+    document.documentElement.scrollTop = 0
+    document.body.scrollTop = 0
+  }, [test.slug])
 
   const onGender = useCallback((g: ReportGender) => {
     setGender(g)
