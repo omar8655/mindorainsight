@@ -161,9 +161,10 @@ export function AdhdScreeningRunner({ gender }: { gender: ReportGender }) {
         doc={doc}
         unlocked={session.unlocked}
         saved={saved}
-        checkoutHref={`/checkout?product=0&addon=comprehensive-report&test=${session.slug}&session=${session.id}`}
-        fullReportHref={`/report/${session.slug}?session=${session.id}&full=1`}
+        checkoutHref="/library"
+        fullReportHref={`/report/${session.slug}?session=${session.id}`}
         sharePath={sharePath}
+        hideLegacyFullUpsell
       />
     )
   }

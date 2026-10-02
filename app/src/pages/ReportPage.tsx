@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { buildReportDocument } from '@/application/reports/buildReportDocument'
 import { getReportSession, getReportSessionById } from '@/application/reports/sessionStore'
@@ -149,6 +149,16 @@ export function ReportPage() {
   const checkoutHref = `/checkout?product=0&addon=comprehensive-report&test=${session.slug}&session=${session.id}`
   const unlocked = session.unlocked || isNm
   const showFull = wantFull && unlocked && !isNm
+  const pdfSectionRef = useRef<HTMLDivElement>(null)
+
+  // NewMindora has no HTML "full report" page — scroll to the PDF download buttons.
+  useEffect(() => {
+    if (!wantFull || !isNm) return
+    const t = window.setTimeout(() => {
+      pdfSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }, 120)
+    return () => window.clearTimeout(t)
+  }, [wantFull, isNm])
 
   return (
     <>
@@ -163,6 +173,15 @@ export function ReportPage() {
               ← Free tests
             </Link>
           </div>
+          {wantFull && isNm ? (
+            <div
+              ref={pdfSectionRef}
+              className="mx-auto mb-3 max-w-xl rounded-xl border border-mi-green/30 bg-mi-green-soft/60 px-4 py-3 text-center text-sm text-mi-forest"
+            >
+              Your full report is the <strong>Download full report PDF</strong> button below — tap
+              it to save or share. This page stays open so you never get a blank screen.
+            </div>
+          ) : null}
           {showFull ? (
             <ComprehensiveReportView doc={doc} sharePath={sharePath} basicHref={basicHref} />
           ) : (

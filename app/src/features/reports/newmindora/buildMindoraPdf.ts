@@ -414,13 +414,13 @@ export function buildMindoraPdfBytes(result: RunAssessmentResult, opts: PdfOpts)
     drawFooter(doc, i, total, serial)
   }
 
-  return doc.output('arraybuffer') as unknown as Uint8Array
+  return new Uint8Array(doc.output('arraybuffer') as ArrayBuffer)
 }
 
-export function downloadMindoraPdf(result: RunAssessmentResult, opts: PdfOpts) {
+export async function downloadMindoraPdf(result: RunAssessmentResult, opts: PdfOpts) {
   const bytes = buildMindoraPdfBytes(result, opts)
   const copy = new Uint8Array(bytes.byteLength)
   copy.set(bytes)
   const blob = new Blob([copy], { type: 'application/pdf' })
-  triggerPdfDownload(blob, dossierFileName(result, opts.tier))
+  return triggerPdfDownload(blob, dossierFileName(result, opts.tier))
 }

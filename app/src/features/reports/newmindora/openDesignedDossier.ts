@@ -7,7 +7,7 @@ import { downloadMindoraPdf } from '@/features/reports/newmindora/buildMindoraPd
  */
 export async function openDesignedDossier(result: RunAssessmentResult, name = 'You') {
   try {
-    downloadMindoraPdf(result, { name, tier: 'basic' })
+    return await downloadMindoraPdf(result, { name, tier: 'basic' })
   } catch (err) {
     console.error('[mi] basic PDF failed', err)
     throw err instanceof Error ? err : new Error('Could not create PDF')

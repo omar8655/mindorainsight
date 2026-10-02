@@ -37,21 +37,80 @@ export function dossierFileName(result: RunAssessmentResult, tier: 'basic' | 'ex
 }
 
 /**
- * Download the PDF file in-place — never navigate or open a blank tab.
- * (Opening blob: URLs in a new window caused blank screens for many users.)
+ * Mobile-safe PDF download.
+ * Never navigate the current tab to a blob: URL — on iOS/Android that often
+ * replaces the SPA with a blank/black PDF viewer and looks like a crash.
  */
-export function triggerPdfDownload(blob: Blob, fileName: string) {
+export function triggerPdfDownload(
+  blob: Blob,
+  fileName: string,
+): Promise<'shared' | 'downloaded' | 'opened'> {
+  return runDownload(blob, fileName)
+}
+
+async function runDownload(
+  blob: Blob,
+  fileName: string,
+): Promise<'shared' | 'downloaded' | 'opened'> {
+  const file = new File([blob], fileName, { type: 'application/pdf' })
+
+  // iOS / Android: Share Sheet keeps the user on the results page
+  if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
+    try {
+      const canFiles =
+        typeof navigator.canShare === 'function' ? navigator.canShare({ files: [file] }) : false
+      if (canFiles) {
+        await navigator.share({
+          files: [file],
+          title: fileName,
+          text: 'Your MindoraInsight report PDF',
+        })
+        return 'shared'
+      }
+    } catch (err) {
+      // AbortError = user cancelled — treat as handled so we don't open a blank tab
+      if (err instanceof DOMException && err.name === 'AbortError') return 'shared'
+      /* fall through */
+    }
+  }
+
   const url = URL.createObjectURL(blob)
+  const mobile = isMobileBrowser()
+
   try {
+    if (mobile) {
+      // Open in a NEW tab so the results screen stays put
+      const opened = window.open(url, '_blank', 'noopener,noreferrer')
+      if (opened) {
+        window.setTimeout(() => URL.revokeObjectURL(url), 120_000)
+        return 'opened'
+      }
+      // Popup blocked — fall through to anchor (still try not to replace SPA)
+    }
+
     const a = document.createElement('a')
     a.href = url
     a.download = fileName
     a.rel = 'noopener'
     a.style.display = 'none'
+    // Desktop Chrome/Firefox honor download. On stubborn mobile, target=_blank
+    // is safer than same-tab navigation.
+    if (mobile) a.target = '_blank'
     document.body.appendChild(a)
     a.click()
     a.remove()
-  } finally {
-    window.setTimeout(() => URL.revokeObjectURL(url), 90_000)
+    window.setTimeout(() => URL.revokeObjectURL(url), 120_000)
+    return mobile ? 'opened' : 'downloaded'
+  } catch {
+    window.setTimeout(() => URL.revokeObjectURL(url), 120_000)
+    throw new Error('Could not start PDF download')
   }
+}
+
+function isMobileBrowser() {
+  if (typeof navigator === 'undefined') return false
+  const ua = navigator.userAgent || ''
+  if (/Android|iPhone|iPad|iPod|Mobile/i.test(ua)) return true
+  // iPadOS desktop UA
+  return navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1
 }

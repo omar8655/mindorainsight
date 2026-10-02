@@ -15,6 +15,31 @@ type ComprehensiveReportViewProps = {
 
 export function ComprehensiveReportView({ doc, sharePath, basicHref }: ComprehensiveReportViewProps) {
   function downloadPdf() {
+    // Mobile Safari print preview often shows a blank/black screen.
+    // Prefer native share of a text summary on touch devices; else print on desktop.
+    const mobile =
+      typeof navigator !== 'undefined' &&
+      (/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) ||
+        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1))
+
+    if (mobile && typeof navigator.share === 'function') {
+      void navigator
+        .share({
+          title: `${doc.assessmentTitle} — ${doc.primary.name}`,
+          text: [
+            `MindoraInsight full report: ${doc.primary.name}`,
+            doc.summary,
+            'Open this page on desktop and use Download PDF / Print for a printable file.',
+          ].join('\n\n'),
+          url: typeof window !== 'undefined' ? window.location.href : undefined,
+        })
+        .catch(() => {
+          window.alert(
+            'On phones, use Share above, or open this report on a computer to print/save as PDF.',
+          )
+        })
+      return
+    }
     window.print()
   }
 
@@ -37,7 +62,7 @@ export function ComprehensiveReportView({ doc, sharePath, basicHref }: Comprehen
         </div>
         <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
           <button type="button" onClick={downloadPdf} className="btn-primary !px-3 !py-2.5 !text-sm">
-            Download PDF
+            Save / print PDF
           </button>
           <Link to={basicHref} className="btn-outline !px-3 !py-2.5 !text-sm">
             Short summary

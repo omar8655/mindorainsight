@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
 import type { ReportDocument } from '@/domain/reports/types'
 import { getTestBySlug } from '@/data/tests'
 import { AssessmentLegalBanner } from '@/features/assessments/AssessmentLegalBanner'
@@ -33,8 +34,8 @@ type BasicResultViewProps = {
   participantFirstName?: string
   /** Hide legacy pack “full report” upsell when NM dossier PDFs are the product */
   hideLegacyFullUpsell?: boolean
-  onOpenBasicPdf?: () => void | Promise<void>
-  onOpenExtendedPdf?: () => void | Promise<void>
+  onOpenBasicPdf?: () => void | Promise<unknown>
+  onOpenExtendedPdf?: () => void | Promise<unknown>
 }
 
 export function BasicResultView({
@@ -53,6 +54,8 @@ export function BasicResultView({
   onOpenBasicPdf,
   onOpenExtendedPdf,
 }: BasicResultViewProps) {
+  const [pdfBusy, setPdfBusy] = useState<'basic' | 'extended' | null>(null)
+  const [pdfNote, setPdfNote] = useState<string | null>(null)
   const categories = getTestBySlug(doc.slug)?.categoryIds ?? []
   const testMeta = getTestBySlug(doc.slug)
   const answers = buildClearAnswers(doc.traits)
@@ -144,36 +147,76 @@ export function BasicResultView({
               Download your report (PDF)
             </p>
             <p className="mt-1 text-sm text-mi-muted">
-              Saves a unique Mindora Dossier file to this device.
+              Saves a unique Mindora Dossier file. On phones, use Save to Files / Share — we never
+              leave this screen blank.
             </p>
             <div className="mt-3 flex flex-col gap-2">
               {onOpenBasicPdf && (
                 <button
                   type="button"
-                  className="btn-primary flex w-full justify-center"
+                  disabled={pdfBusy !== null}
+                  className="btn-primary flex w-full justify-center disabled:opacity-60"
                   onClick={() => {
-                    void Promise.resolve(onOpenBasicPdf()).catch(() => {
-                      window.alert('Could not create the PDF. Please try again.')
-                    })
+                    setPdfBusy('basic')
+                    setPdfNote(null)
+                    void Promise.resolve(onOpenBasicPdf())
+                      .then((mode) => {
+                        const kind = typeof mode === 'string' ? mode : 'downloaded'
+                        setPdfNote(
+                          kind === 'shared'
+                            ? 'Share sheet opened — save the PDF to Files.'
+                            : kind === 'opened'
+                              ? 'PDF opened in a new tab — your results stay here.'
+                              : 'PDF download started.',
+                        )
+                      })
+                      .catch(() => {
+                        setPdfNote(null)
+                        window.alert('Could not create the PDF. Please try again.')
+                      })
+                      .finally(() => setPdfBusy(null))
                   }}
                 >
-                  Download summary PDF
+                  {pdfBusy === 'basic' ? 'Creating PDF…' : 'Download summary PDF'}
                 </button>
               )}
               {onOpenExtendedPdf && (
                 <button
                   type="button"
-                  className="btn-outline flex w-full justify-center"
+                  disabled={pdfBusy !== null}
+                  className="btn-outline flex w-full justify-center disabled:opacity-60"
                   onClick={() => {
-                    void Promise.resolve(onOpenExtendedPdf()).catch(() => {
-                      window.alert('Could not create the PDF. Please try again.')
-                    })
+                    setPdfBusy('extended')
+                    setPdfNote(null)
+                    void Promise.resolve(onOpenExtendedPdf())
+                      .then((mode) => {
+                        const kind = typeof mode === 'string' ? mode : 'downloaded'
+                        setPdfNote(
+                          kind === 'shared'
+                            ? 'Share sheet opened — save the full PDF to Files.'
+                            : kind === 'opened'
+                              ? 'Full PDF opened in a new tab — your results stay here.'
+                              : 'Full PDF download started.',
+                        )
+                      })
+                      .catch(() => {
+                        setPdfNote(null)
+                        window.alert('Could not create the PDF. Please try again.')
+                      })
+                      .finally(() => setPdfBusy(null))
                   }}
                 >
-                  Download extended PDF (full write-up)
+                  {pdfBusy === 'extended'
+                    ? 'Creating full report…'
+                    : 'Download full report PDF'}
                 </button>
               )}
             </div>
+            {pdfNote ? (
+              <p className="mt-3 text-center text-sm font-semibold text-mi-green" role="status">
+                {pdfNote}
+              </p>
+            ) : null}
           </div>
         )}
 

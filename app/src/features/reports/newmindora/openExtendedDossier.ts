@@ -36,7 +36,7 @@ export async function openExtendedDossier(result: RunAssessmentResult, name = 'Y
       body: String(s.body || s.text || ''),
     }))
 
-    downloadMindoraPdf(result, {
+    return await downloadMindoraPdf(result, {
       name,
       tier: 'extended',
       sections,
