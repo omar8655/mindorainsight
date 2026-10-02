@@ -208,6 +208,13 @@ a {
   background: var(--mi-green-hover);
 }
 
+.btn-primary:disabled,
+.btn-outline:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 .btn-navy {
   display: inline-flex;
   align-items: center;

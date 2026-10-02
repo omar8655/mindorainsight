@@ -2,6 +2,9 @@ type CircleLikertProps = {
   value: number | undefined
   onChange: (value: number) => void
   name: string
+  /** Visible question text for screen readers (preferred over raw name). */
+  groupLabel?: string
+  labelledBy?: string
 }
 
 const OPTIONS = [
@@ -22,10 +25,11 @@ const SIZE_CLASS = {
 /**
  * Wide, easy-to-hit Likert — full width on desktop, safe on phone.
  */
-export function CircleLikert({ value, onChange, name }: CircleLikertProps) {
+export function CircleLikert({ value, onChange, name, groupLabel, labelledBy }: CircleLikertProps) {
+  const a11yLabel = groupLabel || name
   return (
     <fieldset className="relative mt-4 w-full min-w-0 border-0 p-0 sm:mt-6">
-      <legend className="sr-only">{name}</legend>
+      <legend className="sr-only">{a11yLabel}</legend>
 
       <div className="mb-3 flex items-center justify-between gap-2 px-0.5 text-[10px] font-semibold leading-tight sm:mb-4 sm:gap-3 sm:px-1 sm:text-sm">
         <span className="max-w-[48%] text-start text-[#A84856]">Strongly Disagree</span>
@@ -35,7 +39,8 @@ export function CircleLikert({ value, onChange, name }: CircleLikertProps) {
       <div
         className="grid w-full min-w-0 grid-cols-5 gap-1.5 sm:gap-4 md:gap-6"
         role="radiogroup"
-        aria-label={name}
+        aria-label={labelledBy ? undefined : a11yLabel}
+        aria-labelledby={labelledBy}
       >
         {OPTIONS.map((opt) => {
           const selected = value === opt.value
@@ -50,6 +55,7 @@ export function CircleLikert({ value, onChange, name }: CircleLikertProps) {
               className={[
                 'flex w-full min-w-0 flex-col items-center justify-center gap-1.5 rounded-2xl px-0.5 py-3 transition sm:gap-2 sm:px-1 sm:py-5 md:py-6',
                 'min-h-[5.5rem] min-w-[44px] touch-manipulation select-none sm:min-h-[6.5rem] md:min-h-[7.25rem]',
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mi-green focus-visible:ring-offset-2',
                 selected
                   ? 'bg-mi-green-soft/70 ring-2 ring-mi-green ring-offset-1'
                   : 'hover:bg-slate-50 active:bg-slate-100',

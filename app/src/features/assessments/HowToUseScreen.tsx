@@ -87,13 +87,15 @@ export function HowToUseScreen({ title, clinical, crisis, onStart }: HowToUseScr
               {ASSESSMENT_LEGAL.crisisBanner}
             </p>
           ) : null}
-          <label className="mt-3 flex cursor-pointer items-start gap-3 rounded-xl border border-mi-border bg-white px-3 py-3 text-start">
-            <input
-              type="checkbox"
-              className="mt-0.5 h-5 w-5 shrink-0 accent-mi-forest sm:h-6 sm:w-6"
-              checked={acked}
-              onChange={(e) => setAcked(e.target.checked)}
-            />
+          <label className="mt-3 flex min-h-11 cursor-pointer items-center gap-3 rounded-xl border border-mi-border bg-white px-3 py-3 text-start">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center">
+              <input
+                type="checkbox"
+                className="h-6 w-6 accent-mi-forest"
+                checked={acked}
+                onChange={(e) => setAcked(e.target.checked)}
+              />
+            </span>
             <span className="text-[13px] leading-5 text-mi-text">
               {ASSESSMENT_LEGAL.gateAck}{' '}
               <Link to={COMPANY.termsUrl} className="font-semibold text-mi-green underline">

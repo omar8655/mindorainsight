@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import type { ReportDocument } from '@/domain/reports/types'
 import { getTestBySlug } from '@/data/tests'
-import { AdhdTrustSupport } from '@/features/assessments/AdhdTrustSupport'
 import { AssessmentLegalBanner } from '@/features/assessments/AssessmentLegalBanner'
 import { RelatedTryCarousel } from '@/features/assessments/RelatedTryCarousel'
 import { ResultEmblem } from '@/features/reports/ResultEmblem'
@@ -11,7 +10,7 @@ import {
   clearResultSentence,
   scoreBandColor,
 } from '@/features/reports/clearAnswers'
-import { doctorOnScreenClose, doctorWatchBody } from '@/features/reports/clinicalVoice'
+import { doctorOnScreenClose, doctorWatchBody, isActionableWatch } from '@/features/reports/clinicalVoice'
 import { ASSESSMENT_LEGAL } from '@/data/legal/assessmentProtection'
 import '@/features/reports/reportPrint.css'
 
@@ -76,14 +75,8 @@ export function BasicResultView({
   return (
     <>
       <div className="mx-auto max-w-xl pb-4 sm:pb-6">
-        {doc.family === 'adhd' && (
-          <div className="report-no-print mb-4">
-            <AdhdTrustSupport variant="full" />
-          </div>
-        )}
-
         <div className="report-no-print mb-4">
-          <AssessmentLegalBanner clinical={!!testMeta?.clinical} crisis={!!testMeta?.crisis} />
+          <AssessmentLegalBanner clinical={!!testMeta?.clinical} crisis={!!testMeta?.crisis} compact />
         </div>
 
         <div className="report-no-print mb-4 rounded-2xl border border-mi-green/25 bg-gradient-to-br from-mi-green-soft/80 to-white px-4 py-3 text-center shadow-sm">
@@ -205,10 +198,10 @@ export function BasicResultView({
             ))}
           </div>
 
-          {clearWatch ? (
+          {isActionableWatch(clearWatch) ? (
             <p className="mt-5 rounded-xl border border-amber-200/80 bg-amber-50 px-3 py-2.5 text-[13px] leading-5 text-amber-950">
               <span className="font-semibold">Watch-out: </span>
-              {doctorWatchBody(clearWatch)}
+              {doctorWatchBody(clearWatch!)}
             </p>
           ) : null}
 
@@ -280,7 +273,6 @@ export function BasicResultView({
       </div>
 
       <div className="mx-auto max-w-xl pb-8 sm:pb-10">
-        <p className="mt-4 text-center text-[11px] leading-5 text-mi-muted">{doc.disclaimer}</p>
         <div className="report-no-print mt-6 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-3">
           <Link
             to="/free-tests"

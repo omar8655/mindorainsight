@@ -81,7 +81,10 @@ function GenericTestRunner({ test, gender }: { test: TestItem; gender: ReportGen
     })
     const target = firstOpenIdx >= 0 ? page * PAGE_SIZE + firstOpenIdx : page * PAGE_SIZE
     window.setTimeout(() => {
-      cardRefs.current[target]?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      const card = cardRefs.current[target]
+      card?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      const focusable = card?.querySelector<HTMLElement>('button[role="radio"]')
+      focusable?.focus({ preventScroll: true })
     }, 80)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page])
@@ -334,12 +337,17 @@ function GenericTestRunner({ test, gender }: { test: TestItem; gender: ReportGen
                 Question {globalIndex + 1}
                 {test.slug === UI_PREVIEW_SLUG ? ' · preview' : ''}
               </p>
-              <p className="mt-2 text-[15px] font-semibold leading-6 text-mi-forest sm:text-base">
+              <p
+                id={`q-text-${globalIndex}`}
+                className="mt-2 text-[15px] font-semibold leading-6 text-mi-forest sm:text-base"
+              >
                 {q.text}
               </p>
               <div className="mt-4">
                 <CircleLikert
                   name={`q-${globalIndex}`}
+                  groupLabel={q.text}
+                  labelledBy={`q-text-${globalIndex}`}
                   value={answers[globalIndex]}
                   onChange={(v) => onPick(i, v)}
                 />

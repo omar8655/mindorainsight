@@ -169,20 +169,19 @@ import { TEST_META } from './tests-core.js';
   function citeFramework(testId){
     const b = (BOOK_SOURCES||{})[testId];
     if(!b) return "";
-    return "Educational framework: "+b.theory+". Grounded in "+b.authors+" — «"+b.bookTitle+"». Original educational wording only; not an official branded instrument and not a diagnosis.";
+    return "Educational framework: "+b.theory+". Grounded in "+b.authors+" — «"+b.bookTitle+"».";
   }
 
   function pack(headline, parts, watch, extra){
     const raw = parts.filter(Boolean).join("\n\n");
     const body = padTo(raw, 400, 480);
-    const watchText = watch || "This is a reading of your answers, not a diagnosis and not a permanent label.";
+    const watchText = watch || ""
     const longform = padTo([raw, extra||"",
       "How to use this second page. Read it once without arguing. Mark one sentence that feels accurate and one that feels unfair. The unfair sentence is often the useful one. Then pick a single behaviour for the next seven days — not a personality overhaul.",
       "Work. Design the week around the highest score instead of spending the week apologising for the lowest. Ask a colleague which of these scores they would have guessed. If they name a different lead trait, notice where you perform rather than live.",
       "Relationships. Tell one person what the high score needs (space, words, pace, praise, plan) and what the low score drops when tired. Ask what they need in the same language. Keep the request small enough to finish this week.",
       "Practice for 14 days. Morning: one sentence on what the lead trait will do today. Evening: one sentence on where it overplayed. No journal essay required.",
-      "Limits. This report is educational. It is not a medical, psychological or legal diagnosis. Scores move a little with sleep, stress and the day you took the test. Clinical-style screens can flag a conversation with a licensed professional; they cannot confirm a condition.",
-      "If you are in crisis, contact local emergency services, 988 in the United States, or Samaritans 116 123 in the United Kingdom."
+      "Scores move a little with sleep, stress and the day you took the test."
     ].filter(Boolean).join("\n\n"), 700, 900);
     return { headline, body, watch: watchText, longform };
   }
@@ -908,8 +907,8 @@ export const BRIEFS = {
       "Fourteen-day experiment for "+first+": morning line on "+top.key+"; evening line on "+low.key+".",
       completedClose,
       ref && ref.clinical
-        ? "Educational pattern screen only — you completed a self-report sitting, not a diagnosis. Discuss persistent impairment with a licensed clinician. Crisis: emergency services, 988 (US), Samaritans 116 123 (UK)."
-        : "Educational only, not a diagnosis. Crisis: emergency services, 988 (US), Samaritans 116 123 (UK)."
+        ? "If daily life feels impaired, talk with a licensed clinician. Crisis: emergency services, 988 (US), Samaritans 116 123 (UK)."
+        : "Scores can shift with sleep and stress. Crisis: emergency services, 988 (US), Samaritans 116 123 (UK)."
     ].filter(Boolean).join("\n\n");
     brief.body = padTo(uniqueSnap, 400, 480);
     brief.longform = padTo(uniqueFull, 900, 1400);
@@ -983,7 +982,7 @@ export const BRIEFS = {
       theory: "Educational themes only: inattention, hyperactivity, impulsivity, executive self-regulation, emotional dysregulation, time & motivation (not a diagnostic instrument)",
       vibe: "Understanding Focus, Energy & Follow-Through Patterns",
       emoji: "🎯",
-      screenNote: "Barkley-informed educational themes: Domains reflect inattention, restlessness, impulsivity, executive self-regulation, emotional dysregulation, and time/motivation — not a diagnosis and not a copyrighted clinical scale."
+      screenNote: "Barkley-informed educational themes: Domains reflect inattention, restlessness, impulsivity, executive self-regulation, emotional dysregulation, and time/motivation."
     },
     autism: {
       bookTitle: "The Complete Guide to Asperger’s Syndrome (autism-spectrum conceptual literature)",
@@ -1094,7 +1093,7 @@ export const BRIEFS = {
     sixteen: "Jungian / Myers preference themes from Gifts Differing (energy, information, decisions, lifestyle) for educational reflection. Type codes are shorthand for habits of attention — not an official MBTI® certification.",
     enneagram: "Nine-type motivation themes in the Riso & Hudson tradition (core drive, stress/security directions) for growth reflection. Educational paraphrase of type motives — not a fixed identity label.",
     autism: "Attwood / spectrum-informed educational themes: Domains reflect social communication, sensory sensitivity, routines, special interests, masking, and pattern thinking — not an ASD diagnosis and not a copyrighted clinical scale.",
-    adhd: "Barkley-informed educational themes: Domains reflect inattention, restlessness, impulsivity, executive self-regulation, emotional dysregulation, and time/motivation — not a diagnosis and not a copyrighted clinical scale.",
+    adhd: "Barkley-informed educational themes: Domains reflect inattention, restlessness, impulsivity, executive self-regulation, emotional dysregulation, and time/motivation.",
     depression: "Beck / Burns CBT and Feeling Good–informed educational themes: Domains reflect mood, energy, sleep, cognition, and self-view — a mood pattern screen only, not a depression diagnosis and not PHQ-9. If you feel unsafe or have crisis thoughts, contact local emergency services or 988 (US) / Samaritans 116 123 (UK).",
     love: "Chapman’s love-language preference channels (words, time, gifts, acts of service, touch) for communication insight. One model among many — not a relationship verdict.",
     attachment: "Adult attachment pattern themes (Levine & Heller; Bowlby–Ainsworth): secure, anxious, avoidant, and fearful-avoidant bonding styles. Learned predictions about closeness — not a disorder label.",
@@ -1143,7 +1142,7 @@ export const BRIEFS = {
   // Pre-bundled notes for instant offline / local execution without CORS or network 404s
   export const TEST_NOTES = {
     "16 Personalities": "SNAPSHOT FRAME\nEducational Myers–Briggs-style preferences (Gifts Differing / Jungian tradition) — not an official MBTI® certification.\n\nFour pairs: Energy (E–I), Information (S–N), Decisions (T–F), Lifestyle (J–P). Type code is shorthand for habits of attention.\n\nGROWTH\nUse the preferred pair on purpose. Practice the other pair in a low-stakes hour. Friction in close relationships often sits on how you decide and how planned the week feels.",
-    "ADHD": "SNAPSHOT FRAME\nEducational pattern screen — not a diagnosis. Six domains as percentages: focus & attention, restlessness, impulse control, getting started & finishing, feelings & stress, time & follow-through.\n\nREAD THE SHAPE\nOverall % is a headline; your top domains make the profile individual.\n\nWHAT HELPS\nExternal memory, one next step, movement breaks, pause before send/buy, visible deadlines.\n\nLIMIT\nLicensed professionals interpret ADHD with history and impact — this tool cannot.",
+    "ADHD": "SNAPSHOT FRAME\nEducational pattern screen. Six domains as percentages: focus & attention, restlessness, impulse control, getting started & finishing, feelings & stress, time & follow-through.\n\nREAD THE SHAPE\nOverall % is a headline; your top domains make the profile individual.\n\nWHAT HELPS\nExternal memory, one next step, movement breaks, pause before send/buy, visible deadlines.\n\nLIMIT\nLicensed professionals interpret ADHD with history and impact — this tool cannot.",
     "Archetype": "SNAPSHOT FRAME\nPearson–Marr / Jungian mythic plots — gift and shadow arrive together. Not a clinical complex.\n\nRead the top two if scores are close. Innocent trust/denial. Explorer map/leaving. Sage understanding/watching. Hero contest/only a fight. Lover bond/loss of self. Jester play/avoiding feeling. Everyperson belonging/shrinking. Caregiver provide/over-giving. Ruler order/smothering. Creator make/work over people. Magician transform/manipulation. Outlaw break rules/destruction without a better world.\n\nUSE\nName the shadow before it runs the meeting or the relationship.",
     "Attachment Style": "SNAPSHOT FRAME\nAdult bonding patterns (Levine & Heller; Bowlby–Ainsworth) — learned predictions about whether closeness is safe. Not a life sentence; can move with steady relationships.\n\nSECURE EASE — closeness and space together; conflict is repairable.\nANXIOUS PROTEST — distance rings like danger; soothe the body before the third message.\nAVOIDANT DISTANCE — independence as safety; stay one extra minute when you want to leave.\nDISORGANIZED PULL — want close and out; predictability beats intensity.\n\nWORK\nShows up in feedback, deadlines, and manager distance.",
     "Autism Spectrum": "SNAPSHOT FRAME\nAttwood / spectrum education — non-diagnostic screen of social cueing, pattern focus, sensory load, routine need, and masking cost.\n\nSUPPORTS\nWritten instructions, one topic at a time, advance notice, quiet recovery. Exhaustion after ‘successful’ social days is masking data.\n\nLIMIT\nNot an ASD diagnosis; only a clinician can assess.",

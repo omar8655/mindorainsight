@@ -89,7 +89,7 @@ import { TEST_META } from './tests-core.js';
     return (
       name + ", let me close the way a careful doctor would close a thoughtful consultation.\n\n" +
       "You have spent time looking at yourself honestly. That takes courage. " +
-      "What we have here is a powerful educational reading of your answers — a map of tendencies in this sitting — not a diagnosis, not a sentence, and not permission for anyone to define you.\n\n" +
+      "What we have here is a powerful educational reading of your answers — a map of tendencies in this sitting, not a permanent identity and not permission for anyone to define you.\n\n" +
       "If life feels impaired — work slipping, relationships fraying, sleep broken, mood stuck — please take this dossier to a licensed clinician or trusted professional. " +
       "Say: “These are my self-report patterns; can we look at them together?” That sentence alone often opens the right door.\n\n" +
       "If you are coping, I still want you to leave with one concrete kindness: for the next seven days, notice when «" + key + "» is running the room, and choose one smaller behaviour that protects your energy or your relationships. " +
@@ -107,7 +107,7 @@ import { TEST_META } from './tests-core.js';
       "Here is what I want you to carry out of the room:\n\n" +
       "1. You generated a complete educational profile" +
       (shape ? " shaped as «" + shape.title + "»" : "") +
-      " — a snapshot of how you answered today, not a permanent identity and never a medical diagnosis.\n\n" +
+      " — a snapshot of how you answered today, not a permanent identity.\n\n" +
       "2. Your scored stack for this sitting is: " + stack + ". Lead with «" + ((top && top.key) || "your lead") + "» without shame; notice the quieter channels without contempt.\n\n" +
       "3. " + nextActionFromTop(top, name) + "\n\n" +
       clinicianSeed +
@@ -173,7 +173,7 @@ import { TEST_META } from './tests-core.js';
 
     const execSeed =
       you + ", I want to walk you through your " + test + " results the way a careful clinician would — calmly, specifically, and without turning you into a label. " + (brief.headline || "") + "\n\n" +
-      achieveVerb + " — an educational sitting, not a diagnosis.\n\n" +
+      achieveVerb + " — an educational sitting for personal insight.\n\n" +
       shapeBlock +
       refFrame +
       slice(bodyParts, 0, brief.body || "");
@@ -182,7 +182,7 @@ import { TEST_META } from './tests-core.js';
       ? ("If you were bringing this to clinic, I would hand a colleague this note (educational screen only):\n\n" +
          "Top domains: " + numeric.slice(0,3).map(s=>s.key+" "+s.score+"/100").join("; ") + ".\n" +
          (shape ? "Shape tag: «" + shape.title + "».\n" : "") +
-         "Self-report educational screen only — interpret with full clinical context. Not a diagnosis.\n\n")
+         "Self-report educational screen only — interpret with full clinical context.\n\n")
       : "";
 
     const wellbeingSeed = clinicalClosing(you, top, crisisTest, brief.watch || "");
@@ -201,7 +201,7 @@ import { TEST_META } from './tests-core.js';
         slice(bodyParts, 3, "Tell one person what the high score needs this week — space, words, pace, praise, or plan — and ask what they need in return.") + "\n\n" +
         "Friction often sits on pace and decision style, not on caring less."],
       ["Emotional load, recovery, and watch-outs",
-        (brief.watch || "This is a reading of your answers, not a diagnosis and not a permanent label.") + "\n\n" +
+        (brief.watch || "Scores can shift with sleep and stress — treat this as a snapshot of today.") + "\n\n" +
         slice(longParts, 4, "Recovery after intensity is data, not weakness. Schedule it before the week chooses for you.")],
       ["14-day behaviour plan",
         "Days 1–3: Each morning, one sentence on how " + top.key + " will shape today’s priority. Days 4–7: One work conversation and one relationship check-in in plain language. Days 8–11: Evening review — where the lead trait helped and where it overplayed. Days 12–14: Keep one habit small enough to repeat next month.\n\n" +
@@ -292,7 +292,7 @@ import { TEST_META } from './tests-core.js';
     const refNoteCard = frameworkNote
       ? `<div style="background:#f7fbf8;border:1px solid #d5ebe0;border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:11.5px;line-height:1.55;color:#3d4f48">
           <strong style="color:#0f4a36">${escapeHtml((ref && ref.label) || "Framework note")}:</strong> ${escapeHtml(frameworkNote)}
-          ${isClinical ? " Educational screen only — not a diagnosis." : ""}
+          ${isClinical ? " Educational screen for personal insight." : ""}
         </div>`
       : "";
 
@@ -301,7 +301,7 @@ import { TEST_META } from './tests-core.js';
           <div style="font-size:9px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:#4880d9;margin-bottom:6px">Clinician handoff</div>
           <strong style="color:#0f4a36">Top domains:</strong> ${escapeHtml(top3.map(s=>s.key+" "+s.score+"/100").join("; ") || "see sections")}.
           ${shape ? " Shape · " + escapeHtml(shape.title) + "." : ""}
-          Educational screen only — interpret with full clinical context. Not a diagnosis.
+          Educational screen only — interpret with full clinical context.
         </div>`
       : "";
 
@@ -489,7 +489,7 @@ import { TEST_META } from './tests-core.js';
     <header class="hero">
       <div class="hero-kicker">${book.emoji} ${escapeHtml(testTitle).toUpperCase()} · EXTENDED PERSONAL DOSSIER</div>
       <h1>${escapeHtml(testTitle)} — Full Extended Report</h1>
-      <p>For ${escapeHtml(p.name || "Explorer")}${p.email ? " (" + escapeHtml(p.email) + ")" : ""} · Completed ${date} · ${achieveLine}.${isClinical ? " Educational pattern screen — not a diagnosis." : ""}</p>
+      <p>For ${escapeHtml(p.name || "Explorer")}${p.email ? " (" + escapeHtml(p.email) + ")" : ""} · Completed ${date} · ${achieveLine}.${isClinical ? " Educational pattern screen." : ""}</p>
     </header>
 
     <div class="dossier-body">
@@ -507,7 +507,7 @@ import { TEST_META } from './tests-core.js';
         <div style="font-size:14px;font-weight:800;color:#032514">${escapeHtml(book.bookTitle)}</div>
         <div style="font-size:12px;color:#4880d9;font-weight:600">${escapeHtml(book.authors)}</div>
         <div style="font-size:11.5px;color:#3d4f48;margin-top:4px;line-height:1.5">${escapeHtml(book.theory)}</div>
-        ${frameworkNote ? `<div style="margin-top:8px;font-size:11px;color:#3d4f48;line-height:1.5"><strong style="color:#0f4a36">Primary reference:</strong> ${escapeHtml(book.bookTitle)} — ${escapeHtml(book.authors)}. ${escapeHtml(frameworkNote)}${isClinical ? " Educational screen only — not a diagnosis." : ""}</div>` : ""}
+        ${frameworkNote ? `<div style="margin-top:8px;font-size:11px;color:#3d4f48;line-height:1.5"><strong style="color:#0f4a36">Primary reference:</strong> ${escapeHtml(book.bookTitle)} — ${escapeHtml(book.authors)}. ${escapeHtml(frameworkNote)}${isClinical ? " Educational screen for personal insight." : ""}</div>` : ""}
       </div>
 
       ${shapeCard}

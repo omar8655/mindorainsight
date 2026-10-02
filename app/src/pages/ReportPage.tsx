@@ -146,7 +146,10 @@ export function ReportPage() {
       <section className="bg-[#F7FBF9] px-0 py-4 pb-[max(1.25rem,env(safe-area-inset-bottom))] sm:py-8 md:py-10">
         <div className="container !px-3 sm:!px-5">
           <div className="mx-auto mb-3 flex max-w-xl items-center justify-between gap-2">
-            <Link to="/free-tests" className="text-xs font-semibold text-mi-muted hover:text-mi-forest">
+            <Link
+              to="/free-tests"
+              className="inline-flex min-h-11 items-center text-xs font-semibold text-mi-muted hover:text-mi-forest"
+            >
               ← Free tests
             </Link>
           </div>

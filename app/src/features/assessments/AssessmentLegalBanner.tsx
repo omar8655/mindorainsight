@@ -29,12 +29,11 @@ export function AssessmentLegalBanner({
       } ${className}`}
     >
       <p className={`font-semibold uppercase tracking-[0.12em] ${compact ? 'text-[9px]' : 'text-[10px]'}`}>
-        {crisis ? 'Crisis & safety' : clinical ? 'Important · not a diagnosis' : 'Important'}
+        {crisis ? 'Crisis & safety' : 'Important'}
       </p>
       <p className={`mt-1 leading-5 ${compact ? 'text-[11px]' : 'text-xs sm:text-[13px]'}`}>{text}</p>
       {!compact ? (
         <p className="mt-1.5 text-[11px] text-mi-muted">
-          {COMPANY.brand} is educational software — not your doctor.{' '}
           <Link to={COMPANY.termsUrl} className="font-semibold text-mi-green underline">
             Terms
           </Link>

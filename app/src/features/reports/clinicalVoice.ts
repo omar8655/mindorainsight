@@ -76,6 +76,23 @@ export function doctorWatchBody(watch: string): string {
   return w
 }
 
+/** True when watch is a real caution — not a generic soft disclaimer. */
+export function isActionableWatch(watch: string | undefined | null): boolean {
+  const w = String(watch || '').trim()
+  if (!w) return false
+  const soft = [
+    'scores can shift',
+    'snapshot of today',
+    'reading of your answers',
+    'not a diagnosis',
+    'not a permanent label',
+    'educational only',
+  ]
+  const lower = w.toLowerCase()
+  if (soft.some((s) => lower.includes(s)) && w.length < 160) return false
+  return true
+}
+
 export function doctorOnScreenClose(
   result: Pick<RunAssessmentResult, 'title' | 'clinical' | 'crisis' | 'brief'> & {
     topName?: string

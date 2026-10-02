@@ -15,7 +15,7 @@ export function AdhdTrustSupport({ variant = 'full' }: AdhdTrustSupportProps) {
       <aside className="report-no-print rounded-xl border border-mi-border bg-white/95 px-3.5 py-2.5 shadow-sm">
         <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-mi-green">MindoraInsight</p>
         <p className="mt-0.5 text-xs leading-4 text-mi-muted">
-          Go at your pace. Educational screen — not a diagnosis.
+          Go at your pace. Educational screen for personal insight.
         </p>
       </aside>
     )
@@ -47,7 +47,7 @@ export function AdhdTrustSupport({ variant = 'full' }: AdhdTrustSupportProps) {
         Answer honestly, at your pace
       </h2>
       <p className="mt-1.5 text-[13px] leading-5 text-mi-muted sm:text-sm sm:leading-6">
-        Educational only — not a diagnosis. Your scores are for reflection and, if you want, a
+        Educational questionnaire for personal insight. Your scores are for reflection and, if you want, a
         conversation with a clinician.
       </p>
       <p className="mt-2 text-[11px] leading-4 text-mi-muted/90">

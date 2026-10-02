@@ -9,6 +9,7 @@ import {
   doctorFourteenDayPlan,
   doctorSessionClose,
   doctorWatchBody,
+  isActionableWatch,
 } from '@/features/reports/clinicalVoice'
 import { ASSESSMENT_LEGAL } from '@/data/legal/assessmentProtection'
 
@@ -273,7 +274,7 @@ export function buildMindoraPdfBytes(result: RunAssessmentResult, opts: PdfOpts)
   y = writeWrapped(doc, lead, y, meta, 10, 5)
   y = writeWrapped(doc, result.brief.body || '', y, meta, 10, 5)
 
-  if (result.brief.watch) {
+  if (isActionableWatch(result.brief.watch)) {
     y = ensurePage(doc, y, 22, meta)
     doc.setFont('helvetica', 'bold')
     doc.setFontSize(9)
