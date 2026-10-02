@@ -197,19 +197,29 @@ export function buildMindoraPdfBytes(result: RunAssessmentResult, opts: PdfOpts)
 
   let y = drawHeader(doc, meta.title, serial, date)
 
-  // Hero block
+  // Hero — clear answer for every topic
+  const shapeTitle = result.shape?.title || ''
+  const clearHero =
+    shapeTitle
+      ? `Clear answer: «${shapeTitle}» — ${top.key} leads at ${top.score}/100`
+      : String(result.brief.headline || result.topName || `${top.key} at ${top.score}/100`)
+  const heroLines = doc.splitTextToSize(clearHero, 174) as string[]
+  const heroH = Math.max(32, 12 + heroLines.length * 6 + 10)
   doc.setFillColor(247, 251, 248)
   doc.setDrawColor(SAGE)
-  doc.roundedRect(14, y, 182, 28, 3, 3, 'FD')
+  doc.roundedRect(14, y, 182, heroH, 3, 3, 'FD')
   doc.setFont('helvetica', 'bold')
   doc.setFontSize(8)
   doc.setTextColor(SAGE)
-  doc.text('CLEAR EDUCATIONAL ANSWER · UNIQUE TO THIS SITTING', 18, y + 7)
-  doc.setFontSize(13)
+  doc.text(`${String(result.title || 'ASSESSMENT').toUpperCase()} · CLEAR ANSWER · UNIQUE TO THIS SITTING`, 18, y + 7)
+  doc.setFontSize(12)
   doc.setTextColor(FOREST)
-  const headlineLines = doc.splitTextToSize(result.brief.headline || result.topName, 174) as string[]
-  doc.text(headlineLines, 18, y + 14)
-  y += 34
+  doc.text(heroLines, 18, y + 14)
+  doc.setFont('helvetica', 'bold')
+  doc.setFontSize(9)
+  doc.setTextColor(BLUE)
+  doc.text(`Lead ${top.score}/100 · ${bandLabel(top.score)} · Next ${second.key} ${second.score}/100`, 18, y + heroH - 5)
+  y += heroH + 6
 
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(9)
@@ -247,7 +257,7 @@ export function buildMindoraPdfBytes(result: RunAssessmentResult, opts: PdfOpts)
     doc.setFont('helvetica', 'bold')
     doc.setFontSize(10)
     doc.setTextColor(FOREST)
-    doc.text(`Profile shape · ${result.shape.title}`, 14, y)
+    doc.text(`Your type / profile shape · ${result.shape.title}`, 14, y)
     y += 5
     y = writeWrapped(doc, result.shape.blurb || '', y, meta, 9, 4.5)
   }
@@ -256,7 +266,7 @@ export function buildMindoraPdfBytes(result: RunAssessmentResult, opts: PdfOpts)
   doc.setFontSize(11)
   doc.setTextColor(TEXT)
   y = ensurePage(doc, y, 20, meta)
-  doc.text('Your scores — plain English', 14, y)
+  doc.text('Ranked scores — what stands out', 14, y)
   y += 6
   y = drawScoreBars(doc, scores, y)
   y += 2
@@ -269,8 +279,8 @@ export function buildMindoraPdfBytes(result: RunAssessmentResult, opts: PdfOpts)
   y += 5
   const lead =
     Math.abs(top.score - second.score) < 8
-      ? `${you}, ${top.key} and ${second.key} are nearly tied (${top.score} and ${second.score}/100).`
-      : `${you}, ${top.key} leads at ${top.score}/100 (${top.score - second.score} points over ${second.key}).`
+      ? `Clear answer: ${top.key} and ${second.key} are nearly tied (${top.score} and ${second.score}/100).`
+      : `Clear answer: ${top.key} leads at ${top.score}/100 (${top.score - second.score} points over ${second.key}).`
   y = writeWrapped(doc, lead, y, meta, 10, 5)
   y = writeWrapped(doc, result.brief.body || '', y, meta, 10, 5)
 

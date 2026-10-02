@@ -21,6 +21,15 @@ import { TEST_META } from './tests-core.js';
     return "Clear answer: "+f+", your strongest pattern is "+top.key+" ("+top.score+"/100). Next is "+second.key+" ("+second.score+"/100).";
   }
 
+  /** Strong one-line verdict for every topic PDF / results hero. */
+  function clearAnswerLine(shapeTitle, top, second, gap){
+    const shape = shapeTitle ? "«"+shapeTitle+"» — " : "";
+    if(gap!=null && gap<8 && second){
+      return "Clear answer: "+shape+top.key+" leads at "+top.score+"/100 (nearly tied with "+second.key+" at "+second.score+"/100).";
+    }
+    return "Clear answer: "+shape+top.key+" leads at "+top.score+"/100"+(second ? "; next "+second.key+" at "+second.score+"/100" : "")+".";
+  }
+
   const BIG5 = {
     Openness:{
       high:"You treat ideas as places to visit. Novelty, metaphor and ‘what if’ thinking come easily. Practical people may call this unfocused; it is often how you find a better frame for a problem.",
@@ -255,7 +264,9 @@ export const BRIEFS = {
       const dims = dimsOnly.map(s=>s.key+": "+s.score+"/100").join(". ");
       const weakestPole = low.key.replace(/ \(.*\)/,"");
       return pack(
-        "Clear answer: type "+code+" — "+patternLead(name, top, second, gap),
+        "Clear answer: type "+code+" — "+(gap<8
+          ? top.key+" and "+second.key+" nearly tied ("+top.score+" / "+second.score+"/100)"
+          : top.key+" leads at "+top.score+"/100; next "+second.key+" at "+second.score+"/100"),
         [essay,
          "Myers–Briggs-style preferences (from Jung via Gifts Differing) are habits of attention, not cages. The letter you did not choose is still available when the situation needs it. Type code "+code+" is shorthand for four preference pairs — not a certified official type.",
          dims,
@@ -330,9 +341,9 @@ export const BRIEFS = {
         ? top.key+" + "+second.key
         : top.key+" lead";
       return pack(
-        first(name)+", «"+shape+"» ("+top.score+"/100; "+second.key+" "+second.score+"/100).",
+        clearAnswerLine(shape, top, second, gap),
         [
-          "This is an educational trait screen informed by autism-spectrum themes (social communication, pattern/special-interest focus, sensory difference, need for predictability, and camouflaging). It is not an autism diagnosis and not a substitute for a qualified clinical assessment.",
+          "Educational trait screen informed by autism-spectrum themes (social communication, pattern focus, sensory difference, predictability, and camouflaging).",
           ...clinicalLead(top, second, low),
           ...clinicalWorkRel(top, v.work, v.rel),
           "Supports that help many people regardless of labels: written instructions, honest directness, quieter recovery, and permission to step out before overload.",
@@ -351,9 +362,15 @@ export const BRIEFS = {
         });
         overall = n ? Math.round(overall / n) : 0;
         const b = interpret.buildBrief(scores, name, overall);
-        const headline = shape
-          ? first(name)+", «"+shape.title+"» (~"+overall+"% overall on this educational screen)."
-          : b.headline;
+        const topScore = [...scores].filter(s=>s.score!=null).sort((a,b)=>b.score-a.score)[0] || {key:"Lead",score:overall};
+        const secondScore = [...scores].filter(s=>s.score!=null).sort((a,b)=>b.score-a.score)[1] || topScore;
+        const gap = Math.abs((topScore.score||0)-(secondScore.score||0));
+        const headline = clearAnswerLine(
+          (shape && shape.title) || (b.shape && b.shape.title) || "",
+          topScore,
+          secondScore,
+          gap
+        );
         let bodyRaw = b.body;
         if (shape && bodyRaw.indexOf(shape.blurb) === -1) {
           bodyRaw = shape.blurb + " " + bodyRaw;
@@ -409,9 +426,9 @@ export const BRIEFS = {
         : "Behaviour-first CBT: schedule one small action before you argue with mood (shower, walk, one message), and keep a fixed wind-down cue at night.";
       const shape = gap<8 ? top.key+" + "+second.key : top.key+" lead";
       return pack(
-        first(name)+", «"+shape+"» ("+top.score+"/100).",
+        clearAnswerLine(shape, top, second, gap),
         [
-          "This mood screen draws on cognitive-behavioural themes (mood, energy, sleep, self-criticism, hopelessness). It is not a depression diagnosis and not a substitute for licensed care.",
+          "Mood screen drawing on cognitive-behavioural themes (mood, energy, sleep, self-criticism, hopelessness).",
           ...clinicalLead(top, second, low),
           cbt,
           ...clinicalWorkRel(top, v.work, v.rel),
@@ -467,7 +484,7 @@ export const BRIEFS = {
       };
       const shapeTitle = shape ? shape.title : top.key.toLowerCase();
       return pack(
-        first(name)+", «"+shapeTitle+"» — "+top.key+" leads ("+top.score+"/100), "+second.key+" next ("+second.score+"/100).",
+        clearAnswerLine(shapeTitle, top, second, gap),
         [(shape ? shape.blurb : ""),
          meaning[top.key]||"",
          meaning[second.key] ? "Secondary "+second.key+" ("+second.score+"/100): "+meaning[second.key] : "",
@@ -570,7 +587,7 @@ export const BRIEFS = {
       const econGap = Math.abs(econL.score-econR.score);
       const socGap = Math.abs(lib.score-ord.score);
       return pack(
-        first(name)+", lead values: "+econLead+" (left "+econL.score+" vs right "+econR.score+") and "+socLead+" (liberty "+lib.score+" vs order "+ord.score+").",
+        clearAnswerLine(econLead+" · "+socLead, {key:econLead,score:Math.max(econL.score,econR.score)}, {key:socLead,score:Math.max(lib.score,ord.score)}, Math.min(econGap,socGap)),
         ["Multi-axis civic ideology (Political Compass tradition): economic left–right and social liberty–order. People rarely disagree only about facts — they disagree about which moral good wins when two goods collide (care, fairness, loyalty, authority, sanctity, liberty).",
          "Your sitting leans "+econLead+" economically and "+socLead+" socially. That is a values sketch, not a party membership card.",
          "Work. Your axes show up in team debates about rules, budgets, and who gets flexibility — name which good you are optimising before arguing facts. If econ left/right sit close, say so out loud.",
@@ -627,7 +644,7 @@ export const BRIEFS = {
         "Social skill":"end one conversation with a clear next action both agree on"
       };
       return pack(
-        first(name)+", «"+shapeTitle+"» — "+top.key+" leads ("+top.score+"/100), "+second.key+" next ("+second.score+"/100).",
+        clearAnswerLine(shapeTitle, top, second, gap),
         [(shape ? shape.blurb : ""),
          EQ_MEAN[top.key] ? "Lead competence: "+EQ_MEAN[top.key] : "",
          EQ_MEAN[second.key] ? "Secondary "+second.key+" ("+second.score+"/100): "+EQ_MEAN[second.key] : "",
@@ -696,9 +713,9 @@ export const BRIEFS = {
       top.note = v.note;
       const shape = gap<8 ? top.key+" / "+second.key : top.key+" lead";
       return pack(
-        first(name)+", «"+shape+"» ("+top.score+"/100).",
+        clearAnswerLine(shape, top, second, gap),
         [
-          "This educational screen reflects emotion-regulation and relationship-intensity themes (emotion intensity, abandonment sensitivity, identity instability, impulsivity, emptiness). It is trait reflection — not a borderline-personality diagnosis and never a character insult.",
+          "Educational screen of emotion-regulation and relationship-intensity themes (emotion intensity, abandonment sensitivity, identity instability, impulsivity, emptiness).",
           ...clinicalLead(top, second, low),
           ...clinicalWorkRel(top, v.work, v.rel),
           "Biosocial frame, in plain language: a sensitive alarm plus years of being told the alarm was wrong. Validation first, then one skilful next step — notice the present, ride distress, name emotion, ask clearly in relationships (Linehan-informed skills education).",
@@ -741,9 +758,9 @@ export const BRIEFS = {
       top.note = v.note;
       const shape = gap<8 ? "mixed mood–energy" : top.key+" lead";
       return pack(
-        first(name)+", «"+shape+"» ("+top.score+"/100; "+second.key+" "+second.score+"/100).",
+        clearAnswerLine(shape, top, second, gap),
         [
-          "This educational screen reflects bipolar-spectrum themes: mood–energy waves, sleep change, drive/risk, and cycle pattern — not a bipolar diagnosis and not prescriber advice.",
+          "Educational bipolar-spectrum themes: mood–energy waves, sleep change, drive/risk, and cycle pattern.",
           ...clinicalLead(top, second, low),
           ...clinicalWorkRel(top, v.work, v.rel),
           top.key==="Sleep shift"||second.key==="Sleep shift"
@@ -787,9 +804,9 @@ export const BRIEFS = {
       top.note = v.note;
       const shape = gap<8 ? top.key+" + "+second.key : top.key+" lead";
       return pack(
-        first(name)+", «"+shape+"» ("+top.score+"/100).",
+        clearAnswerLine(shape, top, second, gap),
         [
-          "This trait spectrum screen explores grandiosity, admiration hunger, entitlement, empathy balance, and vulnerability beneath display — dimensional reflection, not a narcissistic-personality diagnosis and not a courtroom verdict.",
+          "Trait spectrum screen: grandiosity, admiration hunger, entitlement, empathy balance, and vulnerability beneath display.",
           ...clinicalLead(top, second, low),
           ...clinicalWorkRel(top, v.work, v.rel),
           low.key==="Empathy dip" ? "Your relatively lower empathy-dip score suggests curiosity about others still has room to lead after a slight." : "Grand self-view and admiration hunger often share a floor with vulnerability — the part that hates feeling ordinary.",
@@ -832,9 +849,9 @@ export const BRIEFS = {
       top.note = v.note;
       const shape = gap<8 ? "mixed aftereffect pattern" : top.key+" lead";
       return pack(
-        first(name)+", «"+shape+"» ("+top.score+"/100).",
+        clearAnswerLine(shape, top, second, gap),
         [
-          "This trauma-informed screen (hyperarousal, numbing, intrusion, avoidance, and shaken safety beliefs) is not a PTSD diagnosis and not a demand to tell your story.",
+          "Trauma-informed screen (hyperarousal, numbing, intrusion, avoidance, and shaken safety beliefs).",
           ...clinicalLead(top, second, low),
           ...clinicalWorkRel(top, v.work, v.rel),
           "Recovery, in plain terms: stabilise the body first, then process with support at a pace that does not re-flood you, then widen life again. None of that has to be fast or alone.",
