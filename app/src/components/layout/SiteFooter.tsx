@@ -20,9 +20,8 @@ export function SiteFooter() {
     {
       title: t.footer.colProduct,
       links: [
-        { to: '/library', label: t.nav.library },
+        { to: '/library', label: 'Free tests' },
         { to: '/pricing', label: t.nav.pricing },
-        { to: '/free-tests', label: access.moreFreeTests },
         { to: `/test/${ADHD_SCREENING_SLUG}`, label: freeAdhdLabel },
       ],
     },
@@ -111,7 +110,7 @@ export function SiteFooter() {
               </h2>
             </div>
             <Link
-              to="/free-tests"
+              to="/library"
               className="-mx-2 inline-flex min-h-11 items-center px-2 py-2 text-sm font-semibold text-mi-green hover:underline sm:min-h-0 sm:py-1"
             >
               {access.allFreeTests}

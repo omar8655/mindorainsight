@@ -15,7 +15,6 @@ import { CheckoutPage } from '@/pages/CheckoutPage'
 import { ContactPage } from '@/pages/ContactPage'
 import { PrivacyPage, SubscriptionDocPage, TermsPage } from '@/pages/DocsPages'
 import { FaqPage } from '@/pages/FaqPage'
-import { FreeTestsPage } from '@/pages/FreeTestsPage'
 import { HomePage } from '@/pages/HomePage'
 import { LibraryPage } from '@/pages/LibraryPage'
 import { LoginPage } from '@/pages/LoginPage'
@@ -34,7 +33,7 @@ export default function App() {
           <Route index element={<HomePage />} />
           <Route path="library" element={<LibraryPage />} />
           <Route path="pricing" element={<PricingPage />} />
-          <Route path="free-tests" element={<FreeTestsPage />} />
+          <Route path="free-tests" element={<Navigate to="/library" replace />} />
           <Route path="about" element={<AboutPage />} />
           <Route path="contact" element={<ContactPage />} />
           <Route path="contacts" element={<Navigate to="/contact" replace />} />

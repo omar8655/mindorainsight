@@ -12,17 +12,14 @@ export function NotFoundPage() {
             Page not found
           </h1>
           <p className="mt-3 text-sm leading-6 text-mi-muted">
-            That link may have moved. Try the library, free tests, or head home.
+            That link may have moved. Try free tests, or head home.
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-2">
             <Link to="/" className="btn-primary">
               Home
             </Link>
-            <Link to="/free-tests" className="btn-outline">
-              Free tests
-            </Link>
             <Link to="/library" className="btn-outline">
-              Library
+              Free tests
             </Link>
           </div>
         </div>

@@ -48,6 +48,7 @@ export function buildClearAnswers(
 /** Strong plain summary for the result hero — type + scores, no soft hedging. */
 export function clearResultSentence(opts: {
   title?: string
+  you?: string
   leadName: string
   leadScore: number
   secondName?: string
@@ -55,6 +56,7 @@ export function clearResultSentence(opts: {
   shapeTitle?: string
 }): string {
   return doctorClearSentence({
+    you: opts.you,
     leadName: opts.leadName,
     leadScore: opts.leadScore,
     secondName: opts.secondName,

@@ -16,8 +16,7 @@ export function SiteHeader() {
   const navLinks = [
     { to: '/', label: t.nav.home, end: true },
     { to: '/about', label: t.nav.about },
-    { to: '/library', label: t.nav.library },
-    { to: '/free-tests', label: t.footer.freeTests },
+    { to: '/library', label: 'Free tests' },
     { to: '/pricing', label: t.nav.pricing },
   ]
 
@@ -79,7 +78,7 @@ export function SiteHeader() {
           ))}
           <div className="mt-auto space-y-2 border-t border-mi-border pt-4">
             <Link
-              to="/free-tests"
+              to="/library"
               onClick={() => setOpen(false)}
               className="btn-primary flex w-full items-center justify-center gap-2 !text-base"
             >
@@ -132,7 +131,7 @@ export function SiteHeader() {
         <div className="hidden items-center gap-2 lg:flex">
           <LanguageSwitcher showLabel />
           <Link
-            to="/free-tests"
+            to="/library"
             className="inline-flex h-10 items-center justify-center rounded-lg bg-mi-green px-4 text-sm font-bold text-white transition hover:bg-mi-green-hover"
           >
             Free tests

@@ -27,6 +27,10 @@ type BasicResultViewProps = {
   clearShape?: string
   /** Watch / caution line in plain English */
   clearWatch?: string
+  /** Full name for clinician-style address */
+  participantName?: string
+  /** First name for short clinician voice */
+  participantFirstName?: string
   /** Hide legacy pack “full report” upsell when NM dossier PDFs are the product */
   hideLegacyFullUpsell?: boolean
   onOpenBasicPdf?: () => void | Promise<void>
@@ -43,6 +47,8 @@ export function BasicResultView({
   clearHeadline,
   clearShape,
   clearWatch,
+  participantName,
+  participantFirstName,
   hideLegacyFullUpsell = false,
   onOpenBasicPdf,
   onOpenExtendedPdf,
@@ -52,7 +58,9 @@ export function BasicResultView({
   const answers = buildClearAnswers(doc.traits)
   const lead = answers[0]
   const second = answers[1]
+  const you = participantFirstName || participantName?.split(' ')[0] || 'You'
   const plain = clearResultSentence({
+    you,
     leadName: lead?.name || doc.primary.name,
     leadScore: lead?.score ?? doc.primary.score,
     secondName: second?.name,
@@ -71,6 +79,7 @@ export function BasicResultView({
     clinical: !!testMeta?.clinical,
     crisis: !!testMeta?.crisis,
     brief: { headline: displayHeadline, body: '', watch: clearWatch || '' },
+    you,
   })
 
   return (
@@ -138,11 +147,17 @@ export function BasicResultView({
             gender={doc.gender}
           />
           <p className="mt-6 text-xs font-bold uppercase tracking-[0.18em] text-mi-green">
-            Your clear answer
+            {participantName ? `Clear answer for ${participantName}` : 'Your clear answer'}
           </p>
           <h1 className="font-display mt-2 text-2xl font-semibold leading-snug text-mi-text sm:text-3xl">
             {displayHeadline}
           </h1>
+          {participantName ? (
+            <p className="mx-auto mt-3 max-w-[44ch] text-[13px] leading-6 text-mi-muted">
+              {you}, here is what your answers show — spoken plainly, the way a careful clinician
+              would open a results conversation.
+            </p>
+          ) : null}
           <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-mi-green-soft px-3 py-1.5 text-sm font-bold text-mi-forest">
             Lead · {lead?.name || doc.primary.name} · {leadScore}/100
           </p>
@@ -284,16 +299,10 @@ export function BasicResultView({
       <div className="mx-auto max-w-xl pb-8 sm:pb-10">
         <div className="report-no-print mt-6 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-3">
           <Link
-            to="/free-tests"
-            className="btn-outline flex w-full justify-center sm:inline-flex sm:w-auto"
-          >
-            More free tests
-          </Link>
-          <Link
             to="/library"
             className="btn-primary flex w-full justify-center sm:inline-flex sm:w-auto"
           >
-            Browse library
+            More free tests
           </Link>
         </div>
       </div>

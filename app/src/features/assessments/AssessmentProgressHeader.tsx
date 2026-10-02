@@ -25,7 +25,7 @@ export function AssessmentProgressHeader({
     <div className="sticky top-0 z-40 -mx-1 mb-3 border-b border-mi-border/80 bg-mi-canvas/95 px-2 pb-3 pt-[max(0.5rem,env(safe-area-inset-top))] backdrop-blur-md sm:-mx-4 sm:px-4 md:static md:mx-0 md:mb-5 md:rounded-2xl md:border md:border-mi-border md:bg-white/95 md:px-5 md:pb-4 md:pt-4 md:shadow-sm">
       <div className="mb-2 flex items-center justify-between gap-2">
         <Link
-          to="/free-tests"
+          to="/library"
           className="-ms-1 inline-flex min-h-11 items-center rounded-lg px-2 text-xs font-semibold text-mi-muted transition hover:text-mi-forest active:bg-mi-green-soft/40"
         >
           ← Free tests

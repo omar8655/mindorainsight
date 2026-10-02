@@ -92,7 +92,7 @@ export function HomePage() {
             <p className="mt-2 text-sm leading-6 text-mi-muted">
               Free assessments · 100 questions · PDF report · $0
             </p>
-            <Link to="/free-tests" className="btn-primary mt-4 inline-flex !px-5 !py-3 !text-[15px]">
+            <Link to="/library" className="btn-primary mt-4 inline-flex !px-5 !py-3 !text-[15px]">
               Explore free tests
             </Link>
           </div>
@@ -126,7 +126,7 @@ export function HomePage() {
               </li>
             ))}
           </ol>
-          <Link to="/free-tests" className="btn-primary mt-8 inline-flex !px-6 !py-3.5 !text-base">
+          <Link to="/library" className="btn-primary mt-8 inline-flex !px-6 !py-3.5 !text-base">
             {t.steps.cta}
           </Link>
         </div>
@@ -163,7 +163,7 @@ export function HomePage() {
             </div>
           </div>
           <div className="mt-8">
-            <Link to="/free-tests" className="btn-primary !px-6 !py-3.5 !text-base">
+            <Link to="/library" className="btn-primary !px-6 !py-3.5 !text-base">
               {t.common.explore}
             </Link>
           </div>

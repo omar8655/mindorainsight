@@ -63,7 +63,7 @@ export function FreeTestsPage() {
       <Seo
         title="20 Free Tests — Personality, ADHD, EQ & More (100 Questions)"
         description="Take any of 20 free MindoraInsight assessments — Personality, Big 5, ADHD, Enneagram, Attachment, Career, DISC, EQ, and more. 100 questions each · instant scores · printable Mindora Dossier PDF. No PIN, no card."
-        path="/free-tests"
+        path="/library"
         keywords={DEFAULT_SEO.keywords}
         jsonLd={[
           organizationJsonLd(),
@@ -71,7 +71,7 @@ export function FreeTestsPage() {
             '@context': 'https://schema.org',
             '@type': 'CollectionPage',
             name: '20 Free MindoraInsight Assessments',
-            url: absoluteUrl('/free-tests'),
+            url: absoluteUrl('/library'),
             description:
               'Free psychometric assessments with 100 questions each and printable Mindora Dossier PDFs.',
             numberOfItems: 20,

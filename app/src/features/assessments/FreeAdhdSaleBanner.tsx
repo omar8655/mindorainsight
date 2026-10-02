@@ -3,7 +3,7 @@ import { SalePriceBadge } from '@/components/marketing/SalePriceBadge'
 import { SaleCtaLink } from '@/features/sale/SaleCtaLink'
 import { useCurrency } from '@/features/currency/CurrencyProvider'
 
-const FREE_TESTS_HREF = '/free-tests'
+const FREE_TESTS_HREF = '/library'
 
 /** Dark sale strip — points to the 20 free-tests hub. */
 export function FreeAdhdSaleBanner() {

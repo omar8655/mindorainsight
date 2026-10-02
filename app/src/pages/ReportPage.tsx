@@ -5,10 +5,14 @@ import { getReportSession, getReportSessionById } from '@/application/reports/se
 import { Seo } from '@/components/layout/Seo'
 import { BasicResultView } from '@/features/reports/BasicResultView'
 import { ComprehensiveReportView } from '@/features/reports/ComprehensiveReportView'
-import { parseNmResult } from '@/features/reports/newmindora/nmSessionMeta'
+import { parseNmResult, parseParticipantFromMeta } from '@/features/reports/newmindora/nmSessionMeta'
 import { openDesignedDossier } from '@/features/reports/newmindora/openDesignedDossier'
 import { openExtendedDossier } from '@/features/reports/newmindora/openExtendedDossier'
 import { isNewMindoraId } from '@/data/newmindora'
+import {
+  participantDisplayName,
+  participantFirstName,
+} from '@/features/assessments/participantDetails'
 
 export function ReportPage() {
   const { slug = '' } = useParams()
@@ -28,6 +32,12 @@ export function ReportPage() {
     () => (session ? parseNmResult(session.meta) : null),
     [session],
   )
+  const participant = useMemo(
+    () => (session ? parseParticipantFromMeta(session.meta) : null),
+    [session],
+  )
+  const displayName = participantDisplayName(participant)
+  const firstName = participantFirstName(participant)
 
   const built = useMemo(() => {
     if (!session) return { ok: false as const, reason: 'missing' as const }
@@ -147,7 +157,7 @@ export function ReportPage() {
         <div className="container !px-3 sm:!px-5">
           <div className="mx-auto mb-3 flex max-w-xl items-center justify-between gap-2">
             <Link
-              to="/free-tests"
+              to="/library"
               className="inline-flex min-h-11 items-center text-xs font-semibold text-mi-muted hover:text-mi-forest"
             >
               ← Free tests
@@ -166,8 +176,10 @@ export function ReportPage() {
               clearHeadline={nmBrief?.brief.headline}
               clearShape={nmBrief?.shape.title}
               clearWatch={nmBrief?.brief.watch}
-              onOpenBasicPdf={nmBrief ? () => openDesignedDossier(nmBrief) : undefined}
-              onOpenExtendedPdf={nmBrief ? () => openExtendedDossier(nmBrief) : undefined}
+              participantName={participant ? displayName : undefined}
+              participantFirstName={participant ? firstName : undefined}
+              onOpenBasicPdf={nmBrief ? () => openDesignedDossier(nmBrief, displayName) : undefined}
+              onOpenExtendedPdf={nmBrief ? () => openExtendedDossier(nmBrief, displayName) : undefined}
             />
           )}
           {wantFull && nmBrief && (
@@ -176,7 +188,7 @@ export function ReportPage() {
               <button
                 type="button"
                 className="font-semibold text-mi-green underline"
-                onClick={() => void openExtendedDossier(nmBrief)}
+                onClick={() => void openExtendedDossier(nmBrief, displayName)}
               >
                 extended 1000+ word Mindora PDF download
               </button>

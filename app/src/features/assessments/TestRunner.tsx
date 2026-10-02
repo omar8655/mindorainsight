@@ -14,6 +14,11 @@ import { openDesignedDossier } from '@/features/reports/newmindora/openDesignedD
 import { openExtendedDossier } from '@/features/reports/newmindora/openExtendedDossier'
 import { serializeNmResult } from '@/features/reports/newmindora/nmSessionMeta'
 import { BasicResultView } from '@/features/reports/BasicResultView'
+import {
+  participantDisplayName,
+  participantFirstName,
+  type ParticipantDetails,
+} from '@/features/assessments/participantDetails'
 import { useLocalizedTest } from '@/hooks/useLocalizedCatalog'
 import type { ReportDocument, ReportSession } from '@/domain/reports/types'
 import type { ReportGender } from '@/features/reports/emblemAssets'
@@ -25,13 +30,31 @@ import {
 
 const PAGE_SIZE = 5
 
-export function TestRunner({ test, gender }: { test: TestItem; gender: ReportGender }) {
-  return <GenericTestRunner test={test} gender={gender} />
+export function TestRunner({
+  test,
+  gender,
+  participant,
+}: {
+  test: TestItem
+  gender: ReportGender
+  participant: ParticipantDetails
+}) {
+  return <GenericTestRunner test={test} gender={gender} participant={participant} />
 }
 
-function GenericTestRunner({ test, gender }: { test: TestItem; gender: ReportGender }) {
+function GenericTestRunner({
+  test,
+  gender,
+  participant,
+}: {
+  test: TestItem
+  gender: ReportGender
+  participant: ParticipantDetails
+}) {
   const localized = useLocalizedTest(test)
   const useNm = isNewMindoraId(test.slug)
+  const displayName = participantDisplayName(participant)
+  const firstName = participantFirstName(participant)
 
   const questionTexts = useMemo(() => {
     if (useNm) return questionsForNewMindora(test.slug)
@@ -93,7 +116,7 @@ function GenericTestRunner({ test, gender }: { test: TestItem; gender: ReportGen
     const ordered = questions.map((_, i) => nextAnswers[i] ?? 3)
 
     if (useNm) {
-      let result = runNewMindoraAssessment(test.slug, ordered, 'You')
+      let result = runNewMindoraAssessment(test.slug, ordered, displayName)
       const traits = result.traits.map((t, i) => ({
         id: t.id || `t${i}`,
         name: t.name,
@@ -113,7 +136,7 @@ function GenericTestRunner({ test, gender }: { test: TestItem; gender: ReportGen
         unlocked: true,
         family: familyForSlug(test.slug),
         gender,
-        meta: serializeNmResult(result),
+        meta: serializeNmResult(result, participant),
       })
       let persisted: ReportSession
       try {
@@ -126,7 +149,7 @@ function GenericTestRunner({ test, gender }: { test: TestItem; gender: ReportGen
           primaryName: result.topName,
           blurb: result.shape.blurb,
           gender,
-          meta: serializeNmResult(result),
+          meta: serializeNmResult(result, participant),
         })
       } catch {
         persisted = memorySession()
@@ -137,9 +160,9 @@ function GenericTestRunner({ test, gender }: { test: TestItem; gender: ReportGen
         unlockReportSession(persisted.id) ?? {
           ...persisted,
           unlocked: true,
-          meta: serializeNmResult(result),
+          meta: serializeNmResult(result, participant),
         }
-      unlockedSession.meta = serializeNmResult(result)
+      unlockedSession.meta = serializeNmResult(result, participant)
       try {
         saveReportSession(unlockedSession)
       } catch {
@@ -291,9 +314,11 @@ function GenericTestRunner({ test, gender }: { test: TestItem; gender: ReportGen
           clearHeadline={nmBrief?.brief.headline}
           clearShape={nmBrief?.shape.title}
           clearWatch={nmBrief?.brief.watch}
+          participantName={displayName}
+          participantFirstName={firstName}
           hideLegacyFullUpsell={!!nmBrief}
-          onOpenBasicPdf={nmBrief ? () => openDesignedDossier(nmBrief) : undefined}
-          onOpenExtendedPdf={nmBrief ? () => openExtendedDossier(nmBrief) : undefined}
+          onOpenBasicPdf={nmBrief ? () => openDesignedDossier(nmBrief, displayName) : undefined}
+          onOpenExtendedPdf={nmBrief ? () => openExtendedDossier(nmBrief, displayName) : undefined}
         />
       </div>
     )

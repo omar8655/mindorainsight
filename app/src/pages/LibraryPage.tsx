@@ -32,7 +32,7 @@ export function LibraryPage() {
   return (
     <>
       <Seo
-        title="Assessment Library — 20 Free Tests (100 Questions Each)"
+        title="20 Free Tests — Personality, ADHD, EQ & More"
         description="Browse 20 free MindoraInsight assessments: Personality, Big 5, ADHD, Enneagram, Attachment, Career, DISC, EQ, and more. Instant scores and printable Mindora Dossier PDFs. No referral PIN."
         path="/library"
         keywords={DEFAULT_SEO.keywords}
@@ -104,7 +104,7 @@ export function LibraryPage() {
         <div className="container min-w-0">
           <div className="mb-5 rounded-2xl border border-[#005EB8]/20 bg-gradient-to-br from-[#E8F1FA] via-white to-mi-green-soft/40 px-4 py-4 sm:px-5 sm:py-5">
             <h1 className="font-display text-xl font-semibold text-mi-forest sm:text-2xl">
-              Assessment library — 20 free tests
+              Free tests — 20 assessments
             </h1>
             <p className="mt-2 text-sm leading-6 text-mi-forest sm:text-[15px]">{access.libraryBanner}</p>
           </div>

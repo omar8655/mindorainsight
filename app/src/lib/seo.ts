@@ -27,7 +27,7 @@ export function sitemapPaths(): { path: string; priority: string; changefreq: st
   const staticPages = [
     { path: '/', priority: '1.0', changefreq: 'daily' },
     { path: '/library', priority: '0.9', changefreq: 'weekly' },
-    { path: '/free-tests', priority: '0.95', changefreq: 'daily' },
+    { path: '/library', priority: '0.95', changefreq: 'daily' },
     { path: '/pricing', priority: '0.8', changefreq: 'weekly' },
     { path: '/about', priority: '0.7', changefreq: 'monthly' },
     { path: '/contact', priority: '0.6', changefreq: 'monthly' },

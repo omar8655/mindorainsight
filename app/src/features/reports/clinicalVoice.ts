@@ -96,15 +96,18 @@ export function doctorOnScreenClose(
   result: Pick<RunAssessmentResult, 'title' | 'clinical' | 'crisis' | 'brief'> & {
     topName?: string
     leadScore?: number
+    you?: string
   },
 ): string {
+  const you = result.you || 'You'
   const lead = result.topName || 'your top score'
   const score = result.leadScore != null ? ` at ${result.leadScore}/100` : ''
   const crisis = result.crisis
     ? ' If you feel unsafe, contact emergency services, 988, or Samaritans 116 123.'
     : ''
   return (
-    `Your answer is clear: lead with "${lead}"${score}. For seven days, give it one deliberate morning intention and one evening review — that is how this result becomes useful.` +
+    `${you}, I want to be direct with you the way a careful clinician would: your answer on ${result.title} is clear. ` +
+    `Lead with "${lead}"${score}. For the next seven days, give it one morning intention and one evening review — that is how this sitting becomes useful.` +
     crisis
   )
 }

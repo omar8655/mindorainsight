@@ -4,6 +4,13 @@ import { NhsMark } from '@/components/brand/NhsMark'
 import { Seo } from '@/components/layout/Seo'
 import { SalePriceBadge } from '@/components/marketing/SalePriceBadge'
 import { GenderSelect } from '@/features/assessments/GenderSelect'
+import { ParticipantDetailsScreen } from '@/features/assessments/ParticipantDetailsScreen'
+import {
+  loadParticipantDetails,
+  participantDisplayName,
+  saveParticipantDetails,
+  type ParticipantDetails,
+} from '@/features/assessments/participantDetails'
 import { PreparingTestScreen } from '@/features/assessments/PreparingTestScreen'
 import { HowToUseScreen } from '@/features/assessments/HowToUseScreen'
 import { RelatedTryCarousel } from '@/features/assessments/RelatedTryCarousel'
@@ -18,7 +25,7 @@ import { assessmentJsonLd, breadcrumbJsonLd, freeAdhdJsonLd, organizationJsonLd 
 import { BOOK_SOURCES } from '@/data/newmindora'
 import { topicSeoKeywords } from '@/lib/seoKeywords'
 
-type Phase = 'gender' | 'preparing' | 'howto' | 'running'
+type Phase = 'details' | 'gender' | 'preparing' | 'howto' | 'running'
 
 function topicKeywords(slug: string, title: string): string {
   const book = BOOK_SOURCES[slug]
@@ -39,7 +46,7 @@ export function TestPage() {
       <section className="bg-mi-canvas py-16 text-center">
         <h1 className="text-2xl font-semibold text-mi-text">{t.library.notFound}</h1>
         <Link to="/library" className="btn-primary mt-6 inline-flex">
-          {t.library.backToLibrary}
+          ← Free tests
         </Link>
       </section>
     )
@@ -53,15 +60,24 @@ function TestPageReady({ test }: { test: NonNullable<ReturnType<typeof getTestBy
   const access = getAccessCopy(code)
   const localized = useLocalizedTest(test)
   const price = test.priceUsd ?? 0
+  const [participant, setParticipant] = useState<ParticipantDetails | null>(() =>
+    loadParticipantDetails(),
+  )
   const [gender, setGender] = useState<ReportGender | null>(null)
-  const [phase, setPhase] = useState<Phase>('gender')
+  const [phase, setPhase] = useState<Phase>('details')
 
-  // Fresh test entry (including from “Similar assessments”) always starts at the top
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
     document.documentElement.scrollTop = 0
     document.body.scrollTop = 0
   }, [test.slug])
+
+  const onDetails = useCallback((details: ParticipantDetails) => {
+    saveParticipantDetails(details)
+    setParticipant(details)
+    setPhase('gender')
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [])
 
   const onGender = useCallback((g: ReportGender) => {
     setGender(g)
@@ -107,7 +123,7 @@ function TestPageReady({ test }: { test: NonNullable<ReturnType<typeof getTestBy
       >
         <div
           className={`container mx-auto !max-w-4xl sm:!px-4 ${
-            phase === 'gender' ? '!px-3' : '!px-2 min-[400px]:!px-3'
+            phase === 'gender' || phase === 'details' ? '!px-3' : '!px-2 min-[400px]:!px-3'
           }`}
         >
           {phase !== 'running' && (
@@ -117,21 +133,21 @@ function TestPageReady({ test }: { test: NonNullable<ReturnType<typeof getTestBy
                 className="inline-flex min-h-11 items-center gap-1.5 rounded-full px-3 py-2.5 text-sm font-semibold text-mi-forest transition hover:bg-mi-green-soft/70 active:bg-mi-green-soft/90"
               >
                 <span aria-hidden>←</span>
-                {t.library.backToLibrary}
+                Free tests
               </Link>
             </div>
           )}
 
-          {phase === 'gender' && (
+          {phase === 'details' && (
             <div className="mx-auto w-full min-w-0 max-w-3xl overflow-x-hidden">
               <header className="mb-4 min-w-0 text-center sm:mb-5">
-                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-mi-blue min-[360px]:tracking-[0.16em]">
+                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-mi-blue">
                   {access.limitedFree}
                 </p>
                 <h1 className="font-display mx-auto mt-1.5 max-w-[22ch] text-[1.2rem] font-semibold leading-snug text-mi-forest min-[360px]:text-[1.35rem] sm:max-w-none sm:text-2xl md:text-[1.75rem]">
                   {localized.title}
                 </h1>
-                <p className="mx-auto mt-2 max-w-xl px-0.5 text-[13px] leading-5 text-mi-muted sm:px-0 sm:text-sm sm:leading-6">
+                <p className="mx-auto mt-2 max-w-xl text-[13px] leading-5 text-mi-muted sm:text-sm sm:leading-6">
                   {localized.description}
                 </p>
                 <div className="mt-3 flex flex-wrap items-center justify-center gap-1.5 min-[360px]:gap-2">
@@ -145,6 +161,26 @@ function TestPageReady({ test }: { test: NonNullable<ReturnType<typeof getTestBy
                   <SalePriceBadge priceUsd={price} />
                   <NhsMark size="sm" />
                 </div>
+              </header>
+              <ParticipantDetailsScreen
+                assessmentTitle={localized.title}
+                onContinue={onDetails}
+              />
+            </div>
+          )}
+
+          {phase === 'gender' && (
+            <div className="mx-auto w-full min-w-0 max-w-3xl overflow-x-hidden">
+              <header className="mb-4 min-w-0 text-center sm:mb-5">
+                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-mi-green">
+                  Welcome, {participantDisplayName(participant)}
+                </p>
+                <h1 className="font-display mx-auto mt-1.5 max-w-[22ch] text-[1.2rem] font-semibold leading-snug text-mi-forest min-[360px]:text-[1.35rem] sm:max-w-none sm:text-2xl md:text-[1.75rem]">
+                  Choose how we address you
+                </h1>
+                <p className="mx-auto mt-2 max-w-xl px-0.5 text-[13px] leading-5 text-mi-muted sm:px-0 sm:text-sm sm:leading-6">
+                  This personalizes your emblem and the voice of your report for {localized.title}.
+                </p>
               </header>
 
               <div className="mx-auto w-full min-w-0 max-w-md">
@@ -173,7 +209,9 @@ function TestPageReady({ test }: { test: NonNullable<ReturnType<typeof getTestBy
             />
           )}
 
-          {phase === 'running' && gender && <TestRunner test={test} gender={gender} />}
+          {phase === 'running' && gender && participant && (
+            <TestRunner test={test} gender={gender} participant={participant} />
+          )}
         </div>
       </section>
     </>

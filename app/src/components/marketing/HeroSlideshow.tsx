@@ -11,7 +11,7 @@ import { ACTIVE_SALE_TACTIC, saleTacticUsesScarcity } from '@/features/sale/sale
 import { useLocalizedTest } from '@/hooks/useLocalizedCatalog'
 import { useI18n } from '@/i18n/I18nProvider'
 
-const FREE_TESTS_HREF = '/free-tests'
+const FREE_TESTS_HREF = '/library'
 
 function SlideBody({
   slug,
