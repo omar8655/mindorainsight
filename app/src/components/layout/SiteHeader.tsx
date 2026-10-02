@@ -16,8 +16,7 @@ export function SiteHeader() {
   const navLinks = [
     { to: '/', label: t.nav.home, end: true },
     { to: '/about', label: t.nav.about },
-    { to: '/library', label: 'Free tests' },
-    { to: '/pricing', label: t.nav.pricing },
+    { to: '/pricing', label: 'Plans' },
   ]
 
   useEffect(() => {

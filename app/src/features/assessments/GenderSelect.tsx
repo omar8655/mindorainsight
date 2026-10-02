@@ -3,6 +3,8 @@ import type { ReportGender } from '@/features/reports/emblemAssets'
 
 type GenderSelectProps = {
   onSelect: (gender: ReportGender) => void
+  /** Hide duplicate “Before you begin” chrome when the parent page already has a header */
+  compact?: boolean
 }
 
 const CHOICES: {
@@ -57,7 +59,7 @@ const CHOICES: {
  * Gender step — text + symbol only.
  * Female = rose, Male = blue so the two options are instantly distinct.
  */
-export function GenderSelect({ onSelect }: GenderSelectProps) {
+export function GenderSelect({ onSelect, compact = false }: GenderSelectProps) {
   const [choice, setChoice] = useState<ReportGender | null>(null)
 
   function pick(id: ReportGender) {
@@ -68,18 +70,20 @@ export function GenderSelect({ onSelect }: GenderSelectProps) {
   return (
     <div className="mx-auto w-full min-w-0 max-w-md">
       <div className="overflow-hidden rounded-2xl border border-mi-border bg-white shadow-[var(--mi-card-shadow)]">
-        <div className="border-b border-mi-border/70 px-3 pb-4 pt-4 text-center min-[360px]:px-4 sm:px-6 sm:pb-5 sm:pt-6">
-          <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-mi-blue sm:text-[11px] sm:tracking-[0.18em]">
-            Before you begin
-          </p>
-          <h2 className="font-display mt-1.5 text-[1.2rem] font-semibold leading-snug text-mi-forest min-[360px]:text-[1.35rem] sm:text-2xl">
-            Are you female or male?
-          </h2>
-          <p className="mx-auto mt-2 max-w-[34ch] text-[13px] leading-5 text-mi-muted sm:text-sm sm:leading-6">
-            Choose female or male. We use this only for your report emblem and listening voice —
-            never for scoring or diagnosis.
-          </p>
-        </div>
+        {!compact ? (
+          <div className="border-b border-mi-border/70 px-3 pb-4 pt-4 text-center min-[360px]:px-4 sm:px-6 sm:pb-5 sm:pt-6">
+            <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-mi-blue sm:text-[11px] sm:tracking-[0.18em]">
+              Before you begin
+            </p>
+            <h2 className="font-display mt-1.5 text-[1.2rem] font-semibold leading-snug text-mi-forest min-[360px]:text-[1.35rem] sm:text-2xl">
+              Are you female or male?
+            </h2>
+            <p className="mx-auto mt-2 max-w-[34ch] text-[13px] leading-5 text-mi-muted sm:text-sm sm:leading-6">
+              Choose female or male. We use this only for your report emblem and listening voice —
+              never for scoring or diagnosis.
+            </p>
+          </div>
+        ) : null}
 
         <div className="grid min-w-0 grid-cols-2 gap-2.5 p-3 min-[360px]:gap-3 min-[360px]:p-4 sm:gap-3.5 sm:p-5">
           {CHOICES.map((opt) => {

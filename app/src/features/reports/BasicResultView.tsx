@@ -85,26 +85,66 @@ export function BasicResultView({
   return (
     <>
       <div className="mx-auto max-w-xl pb-4 sm:pb-6">
-        <div className="report-no-print mb-4">
-          <AssessmentLegalBanner clinical={!!testMeta?.clinical} crisis={!!testMeta?.crisis} compact />
-        </div>
-
         <div className="report-no-print mb-4 rounded-2xl border border-mi-green/25 bg-gradient-to-br from-mi-green-soft/80 to-white px-4 py-3 text-center shadow-sm">
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-mi-green">
             Assessment complete
           </p>
           <p className="mt-1 text-sm font-semibold text-mi-forest">
-            Your clear answer for {doc.assessmentTitle} is ready.
+            {you !== 'You' ? `${you}, your clear answer is ready.` : `Your clear answer for ${doc.assessmentTitle} is ready.`}
           </p>
         </div>
 
+        <article className="rounded-2xl border border-mi-border bg-white px-4 py-7 text-center shadow-[var(--mi-card-shadow)] sm:px-10 sm:py-12">
+          <ResultEmblem
+            label={doc.primary.name}
+            hue={doc.emblemHue}
+            family={doc.family}
+            traits={doc.traits}
+            overall={doc.overall}
+            gender={doc.gender}
+          />
+          <p className="mt-6 text-xs font-bold uppercase tracking-[0.18em] text-mi-green">
+            {participantName && participantName !== 'You'
+              ? `Clear answer for ${participantName}`
+              : 'Your clear answer'}
+          </p>
+          <h1 className="font-display mt-2 text-2xl font-semibold leading-snug text-mi-text sm:text-3xl">
+            {displayHeadline}
+          </h1>
+          {participantName && participantName !== 'You' ? (
+            <p className="mx-auto mt-3 max-w-[44ch] text-[13px] leading-6 text-mi-muted">
+              {you}, here is what your answers show — spoken plainly, the way a careful clinician
+              would open a results conversation.
+            </p>
+          ) : null}
+          <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-mi-green-soft px-3 py-1.5 text-sm font-bold text-mi-forest">
+            Lead · {lead?.name || doc.primary.name} · {leadScore}/100
+          </p>
+          <p className="mx-auto mt-4 max-w-[44ch] text-[15px] font-medium leading-7 text-mi-forest">
+            {displayBlurb}
+          </p>
+          {clearHeadline && clearHeadline !== displayHeadline ? (
+            <p className="mx-auto mt-3 max-w-[42ch] text-[13px] leading-6 text-mi-muted">
+              {clearHeadline}
+            </p>
+          ) : null}
+          <p className="mt-4 text-sm font-semibold text-mi-forest">
+            Overall {doc.overall}% · completed{' '}
+            {new Date(doc.completedAt).toLocaleDateString(undefined, {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+            })}
+          </p>
+        </article>
+
         {(onOpenBasicPdf || onOpenExtendedPdf) && (
-          <div className="report-no-print mb-4 rounded-2xl border border-mi-green/30 bg-white p-4 shadow-sm sm:p-5">
+          <div className="report-no-print mt-5 rounded-2xl border border-mi-green/30 bg-white p-4 shadow-sm sm:p-5">
             <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-mi-green">
-              Your printable report (PDF)
+              Download your report (PDF)
             </p>
             <p className="mt-1 text-sm text-mi-muted">
-              Scores and patterns — downloads as a PDF on this device.
+              Saves a unique Mindora Dossier file to this device.
             </p>
             <div className="mt-3 flex flex-col gap-2">
               {onOpenBasicPdf && (
@@ -137,47 +177,9 @@ export function BasicResultView({
           </div>
         )}
 
-        <article className="rounded-2xl border border-mi-border bg-white px-4 py-7 text-center shadow-[var(--mi-card-shadow)] sm:px-10 sm:py-12">
-          <ResultEmblem
-            label={doc.primary.name}
-            hue={doc.emblemHue}
-            family={doc.family}
-            traits={doc.traits}
-            overall={doc.overall}
-            gender={doc.gender}
-          />
-          <p className="mt-6 text-xs font-bold uppercase tracking-[0.18em] text-mi-green">
-            {participantName ? `Clear answer for ${participantName}` : 'Your clear answer'}
-          </p>
-          <h1 className="font-display mt-2 text-2xl font-semibold leading-snug text-mi-text sm:text-3xl">
-            {displayHeadline}
-          </h1>
-          {participantName ? (
-            <p className="mx-auto mt-3 max-w-[44ch] text-[13px] leading-6 text-mi-muted">
-              {you}, here is what your answers show — spoken plainly, the way a careful clinician
-              would open a results conversation.
-            </p>
-          ) : null}
-          <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-mi-green-soft px-3 py-1.5 text-sm font-bold text-mi-forest">
-            Lead · {lead?.name || doc.primary.name} · {leadScore}/100
-          </p>
-          <p className="mx-auto mt-4 max-w-[44ch] text-[15px] font-medium leading-7 text-mi-forest">
-            {displayBlurb}
-          </p>
-          {clearHeadline && clearHeadline !== displayHeadline ? (
-            <p className="mx-auto mt-3 max-w-[42ch] text-[13px] leading-6 text-mi-muted">
-              {clearHeadline}
-            </p>
-          ) : null}
-          <p className="mt-4 text-sm font-semibold text-mi-forest">
-            Overall {doc.overall}% · completed{' '}
-            {new Date(doc.completedAt).toLocaleDateString(undefined, {
-              year: 'numeric',
-              month: 'short',
-              day: 'numeric',
-            })}
-          </p>
-        </article>
+        <div className="report-no-print mt-4">
+          <AssessmentLegalBanner clinical={!!testMeta?.clinical} crisis={!!testMeta?.crisis} compact />
+        </div>
 
         <section className="mt-5 rounded-2xl border border-mi-border bg-white p-5 shadow-sm sm:p-6">
           <h2 className="font-display text-lg font-semibold text-mi-text">

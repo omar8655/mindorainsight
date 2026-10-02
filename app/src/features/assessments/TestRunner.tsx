@@ -308,7 +308,7 @@ function GenericTestRunner({
           doc={resultDoc}
           unlocked
           saved={saved}
-          checkoutHref="/pricing"
+          checkoutHref="/library"
           fullReportHref={`/report/${session.slug}?session=${session.id}&full=1`}
           sharePath={`/report/${session.slug}?session=${session.id}`}
           clearHeadline={nmBrief?.brief.headline}

@@ -34,14 +34,12 @@ export function FreeAccessGate({ courseTitle, children }: FreeAccessGateProps) {
         <SalePriceBadge priceUsd={0} />
         <h2 className="font-display mt-3 text-xl font-semibold text-mi-forest">Free cohort is full</h2>
         <p className="mt-2 text-sm text-mi-muted">
-          All 1,000 free seats are taken for now. Browse the library or check plans for paid access.
+          All 1,000 free seats for this launch wave are taken. Every assessment is still free in Free
+          tests — paid plans are sold out.
         </p>
         <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:justify-center">
-          <Link to="/library" className="btn-outline justify-center">
-            Back to library
-          </Link>
-          <Link to="/pricing" className="btn-primary justify-center">
-            View plans
+          <Link to="/library" className="btn-primary justify-center">
+            Browse free tests →
           </Link>
         </div>
       </div>

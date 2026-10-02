@@ -13,7 +13,6 @@ import {
 } from '@/features/assessments/participantDetails'
 import { PreparingTestScreen } from '@/features/assessments/PreparingTestScreen'
 import { HowToUseScreen } from '@/features/assessments/HowToUseScreen'
-import { RelatedTryCarousel } from '@/features/assessments/RelatedTryCarousel'
 import { TestRunner } from '@/features/assessments/TestRunner'
 import { ADHD_SCREENING_SLUG } from '@/data/adhdScreening'
 import { getTestBySlug } from '@/data/tests'
@@ -64,7 +63,9 @@ function TestPageReady({ test }: { test: NonNullable<ReturnType<typeof getTestBy
     loadParticipantDetails(),
   )
   const [gender, setGender] = useState<ReportGender | null>(null)
-  const [phase, setPhase] = useState<Phase>('details')
+  const [phase, setPhase] = useState<Phase>(() =>
+    loadParticipantDetails() ? 'gender' : 'details',
+  )
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
@@ -95,7 +96,17 @@ function TestPageReady({ test }: { test: NonNullable<ReturnType<typeof getTestBy
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [])
 
+  const stepIndex =
+    phase === 'details' ? 1 : phase === 'gender' ? 2 : phase === 'preparing' || phase === 'howto' ? 3 : 4
+  const stepTotal = 4
   const portalPhase = phase === 'preparing' || phase === 'howto' || phase === 'running'
+
+  function goBack() {
+    if (phase === 'gender') setPhase('details')
+    else if (phase === 'howto') setPhase('gender')
+    else if (phase === 'preparing') setPhase('gender')
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   return (
     <>
@@ -127,7 +138,7 @@ function TestPageReady({ test }: { test: NonNullable<ReturnType<typeof getTestBy
           }`}
         >
           {phase !== 'running' && (
-            <div className="mb-3 flex items-center pt-[max(0.25rem,env(safe-area-inset-top))] sm:mb-4">
+            <div className="mb-3 flex flex-wrap items-center justify-between gap-2 pt-[max(0.25rem,env(safe-area-inset-top))] sm:mb-4">
               <Link
                 to="/library"
                 className="inline-flex min-h-11 items-center gap-1.5 rounded-full px-3 py-2.5 text-sm font-semibold text-mi-forest transition hover:bg-mi-green-soft/70 active:bg-mi-green-soft/90"
@@ -135,8 +146,23 @@ function TestPageReady({ test }: { test: NonNullable<ReturnType<typeof getTestBy
                 <span aria-hidden>←</span>
                 Free tests
               </Link>
+              {phase !== 'details' && phase !== 'preparing' ? (
+                <button
+                  type="button"
+                  onClick={goBack}
+                  className="inline-flex min-h-11 items-center rounded-full px-3 py-2.5 text-sm font-semibold text-mi-muted hover:text-mi-forest"
+                >
+                  Back
+                </button>
+              ) : null}
             </div>
           )}
+
+          {phase !== 'running' && phase !== 'preparing' ? (
+            <p className="mb-3 text-center text-[11px] font-semibold uppercase tracking-[0.14em] text-mi-muted">
+              Step {stepIndex} of {stepTotal}
+            </p>
+          ) : null}
 
           {phase === 'details' && (
             <div className="mx-auto w-full min-w-0 max-w-3xl overflow-x-hidden">
@@ -184,10 +210,8 @@ function TestPageReady({ test }: { test: NonNullable<ReturnType<typeof getTestBy
               </header>
 
               <div className="mx-auto w-full min-w-0 max-w-md">
-                <GenderSelect onSelect={onGender} />
+                <GenderSelect onSelect={onGender} compact />
               </div>
-
-              <RelatedTryCarousel currentSlug={test.slug} categoryIds={test.categoryIds} />
             </div>
           )}
 
@@ -196,6 +220,7 @@ function TestPageReady({ test }: { test: NonNullable<ReturnType<typeof getTestBy
               title={localized.title}
               questionCount={test.questions}
               minutes={test.minutes}
+              durationMs={900}
               onReady={onPrepReady}
             />
           )}

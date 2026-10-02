@@ -208,6 +208,13 @@ a {
   background: var(--mi-green-hover);
 }
 
+.btn-primary:focus-visible,
+.btn-outline:focus-visible,
+.btn-secondary:focus-visible {
+  outline: 2px solid var(--mi-green);
+  outline-offset: 2px;
+}
+
 .btn-primary:disabled,
 .btn-outline:disabled {
   opacity: 0.5;

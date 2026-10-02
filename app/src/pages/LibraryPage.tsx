@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { Seo } from '@/components/layout/Seo'
 import { TestCard } from '@/components/marketing/TestCard'
@@ -15,18 +15,50 @@ export function LibraryPage() {
   const access = getAccessCopy(code)
   const [params, setParams] = useSearchParams()
   const categoryId = params.get('category')
+  const qParam = params.get('q') || ''
+  const [query, setQuery] = useState(qParam)
   const activeCategory = getCategory(categoryId)
   const activeLabel = activeCategory ? t.categories[activeCategory.id] : ''
+  const allTests = useMemo(() => testsForLibrary(), [])
+
+  const themesWithTests = useMemo(
+    () =>
+      categories.filter((cat) => allTests.some((test) => test.categoryIds.includes(cat.id))),
+    [allTests],
+  )
 
   const filtered = useMemo(() => {
-    const ordered = testsForLibrary()
-    if (!categoryId) return ordered
-    return ordered.filter((test) => test.categoryIds.includes(categoryId as CategoryId))
-  }, [categoryId])
+    let list = allTests
+    if (categoryId && getCategory(categoryId)) {
+      list = list.filter((test) => test.categoryIds.includes(categoryId as CategoryId))
+    } else if (categoryId && !getCategory(categoryId)) {
+      list = allTests
+    }
+    const needle = query.trim().toLowerCase()
+    if (!needle) return list
+    return list.filter((test) => {
+      const title = test.slug
+      const meta = TEST_META.find((m) => m.id === test.slug)
+      const hay = `${title} ${meta?.title || ''} ${meta?.blurb || ''}`.toLowerCase()
+      return hay.includes(needle)
+    })
+  }, [allTests, categoryId, query])
 
   function onSelect(id: string | null) {
-    if (!id) setParams({})
-    else setParams({ category: id })
+    const next = new URLSearchParams(params)
+    if (!id) next.delete('category')
+    else next.set('category', id)
+    if (query.trim()) next.set('q', query.trim())
+    else next.delete('q')
+    setParams(next)
+  }
+
+  function onSearch(value: string) {
+    setQuery(value)
+    const next = new URLSearchParams(params)
+    if (value.trim()) next.set('q', value.trim())
+    else next.delete('q')
+    setParams(next, { replace: true })
   }
 
   return (
@@ -44,9 +76,18 @@ export function LibraryPage() {
         ]}
       />
 
-      {/* Theme chips — static (does not scroll/stick with the page) */}
-      <div className="overflow-x-hidden border-b border-mi-border bg-white">
+      <div className="sticky top-14 z-40 overflow-x-hidden border-b border-mi-border bg-white/95 backdrop-blur-md sm:top-16 md:top-[72px]">
         <div className="container min-w-0 py-3">
+          <label className="mb-2 block">
+            <span className="sr-only">Search free tests</span>
+            <input
+              type="search"
+              value={query}
+              onChange={(e) => onSearch(e.target.value)}
+              placeholder="Search ADHD, Big 5, Enneagram…"
+              className="w-full rounded-xl border border-mi-border bg-mi-canvas px-3.5 py-2.5 text-sm text-mi-text outline-none focus:border-mi-green focus:ring-2 focus:ring-mi-green/25"
+            />
+          </label>
           <div className="mb-2 flex items-center justify-between gap-2">
             <p className="text-xs font-bold uppercase tracking-wide text-mi-muted">
               {t.library.themesTitle}
@@ -54,7 +95,7 @@ export function LibraryPage() {
             {categoryId && (
               <button
                 type="button"
-                className="text-xs font-semibold text-mi-blue"
+                className="min-h-11 text-xs font-semibold text-mi-blue sm:min-h-0"
                 onClick={() => onSelect(null)}
               >
                 {t.library.clear}
@@ -65,7 +106,7 @@ export function LibraryPage() {
             <button
               type="button"
               onClick={() => onSelect(null)}
-              className={`shrink-0 rounded-full px-3.5 py-2.5 text-sm font-semibold transition min-h-10 ${
+              className={`min-h-11 shrink-0 rounded-full px-3.5 py-2.5 text-sm font-semibold transition sm:min-h-10 ${
                 !categoryId
                   ? 'bg-mi-green text-white'
                   : 'bg-mi-canvas text-mi-text ring-1 ring-mi-border'
@@ -73,14 +114,15 @@ export function LibraryPage() {
             >
               {t.library.allThemes}
             </button>
-            {categories.map((cat) => {
+            {themesWithTests.map((cat) => {
               const active = categoryId === cat.id
+              const count = allTests.filter((test) => test.categoryIds.includes(cat.id)).length
               return (
                 <button
                   key={cat.id}
                   type="button"
                   onClick={() => onSelect(active ? null : cat.id)}
-                  className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-2.5 text-sm font-semibold transition min-h-10 ${
+                  className={`inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-full px-3.5 py-2.5 text-sm font-semibold transition sm:min-h-10 ${
                     active
                       ? 'bg-mi-green text-white'
                       : 'bg-mi-canvas text-mi-text ring-1 ring-mi-border'
@@ -93,6 +135,7 @@ export function LibraryPage() {
                     {cat.icon}
                   </span>
                   {t.categories[cat.id]}
+                  <span className={active ? 'text-white/80' : 'text-mi-muted'}>({count})</span>
                 </button>
               )
             })}
@@ -106,7 +149,15 @@ export function LibraryPage() {
             <h1 className="font-display text-xl font-semibold text-mi-forest sm:text-2xl">
               Free tests — 20 assessments
             </h1>
-            <p className="mt-2 text-sm leading-6 text-mi-forest sm:text-[15px]">{access.libraryBanner}</p>
+            <p className="mt-2 text-sm leading-6 text-mi-forest sm:text-[15px]">
+              {access.libraryBanner}
+            </p>
+            <Link
+              to="/test/adhd"
+              className="btn-primary mt-4 inline-flex !px-5 !py-3 !text-[15px]"
+            >
+              Start with Adult ADHD →
+            </Link>
           </div>
 
           <div className="mb-4 flex items-baseline justify-between gap-3">
@@ -118,13 +169,26 @@ export function LibraryPage() {
                   · <span className="text-mi-green">{activeLabel}</span>
                 </>
               ) : null}
+              {query.trim() ? (
+                <>
+                  {' '}
+                  · search “{query.trim()}”
+                </>
+              ) : null}
             </p>
           </div>
 
           {filtered.length === 0 ? (
             <div className="rounded-2xl border border-dashed border-mi-border bg-white p-8 text-center">
               <p className="font-semibold text-mi-text">{t.library.empty}</p>
-              <button type="button" className="btn-primary mt-4 !px-5 !py-3 !text-base" onClick={() => onSelect(null)}>
+              <button
+                type="button"
+                className="btn-primary mt-4 !px-5 !py-3 !text-base"
+                onClick={() => {
+                  setQuery('')
+                  onSelect(null)
+                }}
+              >
                 {t.library.showAll}
               </button>
             </div>
@@ -148,12 +212,20 @@ export function LibraryPage() {
                 className="mt-0.5 h-11 w-11 shrink-0"
               />
               <div>
-                <h3 className="text-lg font-semibold text-mi-text md:text-xl">{t.library.enticeTitle}</h3>
-                <p className="mt-1 text-sm leading-6 text-mi-muted">{t.library.enticeText}</p>
+                <h3 className="text-lg font-semibold text-mi-text md:text-xl">
+                  Ready for another sitting?
+                </h3>
+                <p className="mt-1 text-sm leading-6 text-mi-muted">
+                  All 20 assessments are free. Pick a theme above or start Adult ADHD — the most
+                  popular screen.
+                </p>
               </div>
             </div>
-            <Link to="/pricing" className="btn-primary mt-4 w-full shrink-0 !px-5 !py-3 !text-base sm:w-auto md:mt-0">
-              {t.library.enticeCta}
+            <Link
+              to="/test/adhd"
+              className="btn-primary mt-4 w-full shrink-0 !px-5 !py-3 !text-base sm:w-auto md:mt-0"
+            >
+              Start Adult ADHD →
             </Link>
           </div>
         </div>

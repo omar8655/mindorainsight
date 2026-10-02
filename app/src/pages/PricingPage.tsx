@@ -38,25 +38,37 @@ export function PricingPage() {
             MindoraInsight · Paid plans sold out
           </p>
           <h1 className="font-display mx-auto mb-4 max-w-2xl text-[1.65rem] font-semibold leading-tight sm:text-[32px] md:text-[44px]">
-            Everything is{' '}
-            <span className="text-[#7ddea8]">free</span>
-            {' — '}
-            paid seats are sold out
+            Everything is <span className="text-[#7ddea8]">free</span> — paid seats are sold out
           </h1>
           <p className="mx-auto max-w-[640px] px-1 text-[15px] leading-6 text-white/70 sm:text-base sm:leading-7 md:text-lg">
             Was {shortList}. Now £0 / $0. Checkout is closed. Take any of the 20 free assessments
             instead — no card, no PIN.
           </p>
+          <Link
+            to="/library"
+            className="btn-primary mt-6 inline-flex !bg-mi-green !px-6 !py-3.5 !text-base"
+          >
+            Browse free tests →
+          </Link>
         </div>
       </section>
 
       <section className="bg-mi-canvas py-8 pb-[max(1.25rem,env(safe-area-inset-bottom))] sm:py-12 md:py-16">
+        <div className="container mb-8 max-w-xl rounded-2xl border border-mi-green/25 bg-white p-5 text-center shadow-sm sm:p-6">
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-mi-green">Open now</p>
+          <p className="mt-2 text-sm leading-6 text-mi-forest">
+            All 20 assessments are free — 100 questions, instant scores, printable PDF.
+          </p>
+          <Link to="/library" className="btn-primary mt-4 inline-flex w-full justify-center sm:w-auto">
+            Start a free test →
+          </Link>
+        </div>
+
         <div className="container grid gap-5 sm:gap-6 md:grid-cols-3">
           {plans.map((plan) => (
             <article
               key={plan.id}
-              aria-disabled="true"
-              className={`relative flex flex-col rounded-2xl bg-white p-5 opacity-90 shadow-[var(--mi-card-shadow)] sm:p-7 ${
+              className={`relative flex flex-col rounded-2xl bg-white p-5 opacity-95 shadow-[var(--mi-card-shadow)] sm:p-7 ${
                 plan.highlighted ? 'ring-2 ring-mi-border' : 'border border-mi-border'
               }`}
             >
@@ -84,26 +96,14 @@ export function PricingPage() {
                   </li>
                 ))}
               </ul>
-              <button
-                type="button"
-                disabled
-                aria-disabled="true"
-                className="inline-flex w-full cursor-not-allowed items-center justify-center rounded-lg border border-mi-border bg-slate-100 px-4 py-3.5 text-sm font-bold text-mi-muted opacity-70"
-              >
-                Sold out
-              </button>
+              <p role="status" className="mb-3 text-center text-sm font-semibold text-mi-muted">
+                Sold out — not available
+              </p>
+              <Link to="/library" className="btn-outline flex w-full justify-center">
+                Browse free tests →
+              </Link>
             </article>
           ))}
-        </div>
-
-        <div className="mx-auto mt-10 max-w-xl rounded-2xl border border-mi-green/25 bg-white p-5 text-center shadow-sm sm:p-6">
-          <p className="text-xs font-bold uppercase tracking-[0.14em] text-mi-green">Open now</p>
-          <p className="mt-2 text-sm leading-6 text-mi-forest">
-            All 20 assessments are free — 100 questions, instant scores, printable PDF.
-          </p>
-          <Link to="/library" className="btn-primary mt-4 inline-flex w-full justify-center sm:w-auto">
-            Browse free tests →
-          </Link>
         </div>
 
         <p className="mx-auto mt-8 max-w-xl text-center text-sm leading-6 text-mi-muted">

@@ -22,21 +22,34 @@ export function ParticipantDetailsScreen({
   const [firstName, setFirstName] = useState(saved?.firstName ?? '')
   const [lastName, setLastName] = useState(saved?.lastName ?? '')
   const [phone, setPhone] = useState(saved?.phone ?? '')
-  const [error, setError] = useState<string | null>(null)
+  const [errors, setErrors] = useState<{ firstName?: string; lastName?: string; phone?: string }>({})
 
   function submit(e: React.FormEvent) {
     e.preventDefault()
-    const result = validateParticipantDetails({ firstName, lastName, phone })
-    if (!result.ok) {
-      setError(result.error)
+    const next: typeof errors = {}
+    if (firstName.trim().length < 2) next.firstName = 'Enter your first name.'
+    if (lastName.trim().length < 2) next.lastName = 'Enter your last name.'
+    const digits = phone.replace(/\D/g, '')
+    if (digits.length < 7 || digits.length > 15) {
+      next.phone = 'Enter a valid phone (7–15 digits). Spaces and dashes are fine.'
+    }
+    if (Object.keys(next).length) {
+      setErrors(next)
       return
     }
-    setError(null)
+    const result = validateParticipantDetails({ firstName, lastName, phone })
+    if (!result.ok) {
+      setErrors({ phone: result.error })
+      return
+    }
+    setErrors({})
     onContinue(result.value)
   }
 
   const field =
-    'mt-1.5 w-full rounded-xl border border-mi-border bg-white px-3.5 py-3 text-[15px] text-mi-text outline-none transition placeholder:text-mi-muted/70 focus:border-mi-green focus:ring-2 focus:ring-mi-green/25'
+    'mt-1.5 w-full rounded-xl border bg-white px-3.5 py-3 text-[15px] text-mi-text outline-none transition placeholder:text-mi-muted/70 focus:border-mi-green focus:ring-2 focus:ring-mi-green/25'
+  const okBorder = 'border-mi-border'
+  const badBorder = 'border-red-400'
 
   return (
     <div className="mx-auto w-full min-w-0 max-w-md">
@@ -56,57 +69,84 @@ export function ParticipantDetailsScreen({
           <label className="block text-start">
             <span className="text-xs font-semibold text-mi-forest">First name</span>
             <input
-              className={field}
+              className={`${field} ${errors.firstName ? badBorder : okBorder}`}
               name="firstName"
               autoComplete="given-name"
               value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
+              onChange={(e) => {
+                setFirstName(e.target.value)
+                setErrors((prev) => ({ ...prev, firstName: undefined }))
+              }}
               placeholder="e.g. Alex"
               required
               minLength={2}
               maxLength={40}
+              aria-invalid={!!errors.firstName}
+              aria-describedby={errors.firstName ? 'err-first' : undefined}
             />
+            {errors.firstName ? (
+              <p id="err-first" className="mt-1 text-xs text-red-700" role="alert">
+                {errors.firstName}
+              </p>
+            ) : null}
           </label>
           <label className="block text-start">
             <span className="text-xs font-semibold text-mi-forest">Last name</span>
             <input
-              className={field}
+              className={`${field} ${errors.lastName ? badBorder : okBorder}`}
               name="lastName"
               autoComplete="family-name"
               value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
+              onChange={(e) => {
+                setLastName(e.target.value)
+                setErrors((prev) => ({ ...prev, lastName: undefined }))
+              }}
               placeholder="e.g. Morgan"
               required
               minLength={2}
               maxLength={40}
+              aria-invalid={!!errors.lastName}
+              aria-describedby={errors.lastName ? 'err-last' : undefined}
             />
+            {errors.lastName ? (
+              <p id="err-last" className="mt-1 text-xs text-red-700" role="alert">
+                {errors.lastName}
+              </p>
+            ) : null}
           </label>
           <label className="block text-start">
             <span className="text-xs font-semibold text-mi-forest">Phone number</span>
             <input
-              className={field}
+              className={`${field} ${errors.phone ? badBorder : okBorder}`}
               name="phone"
               type="tel"
               autoComplete="tel"
               inputMode="tel"
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={(e) => {
+                setPhone(e.target.value)
+                setErrors((prev) => ({ ...prev, phone: undefined }))
+              }}
               placeholder="e.g. +1 555 0100"
               required
+              aria-invalid={!!errors.phone}
+              aria-describedby={errors.phone ? 'err-phone phone-hint' : 'phone-hint'}
             />
-          </label>
-
-          {error ? (
-            <p className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-900" role="alert">
-              {error}
+            <p id="phone-hint" className="mt-1 text-[11px] leading-4 text-mi-muted">
+              Stored on this device for your report. Digits only count — spaces and dashes are OK.
             </p>
-          ) : null}
+            {errors.phone ? (
+              <p id="err-phone" className="mt-1 text-xs text-red-700" role="alert">
+                {errors.phone}
+              </p>
+            ) : null}
+          </label>
 
           <button type="submit" className="btn-primary mt-1 w-full !py-3.5 !text-[15px]">
             Continue →
           </button>
           <p className="text-center text-[11px] leading-4 text-mi-muted">
-            Stored on this device only for your reports. See Terms for how we handle contact details.
+            See Terms for how we handle contact details.
           </p>
         </form>
       </div>

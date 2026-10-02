@@ -21,7 +21,7 @@ export function SiteFooter() {
       title: t.footer.colProduct,
       links: [
         { to: '/library', label: 'Free tests' },
-        { to: '/pricing', label: t.nav.pricing },
+        { to: '/pricing', label: 'Plans (sold out)' },
         { to: `/test/${ADHD_SCREENING_SLUG}`, label: freeAdhdLabel },
       ],
     },
