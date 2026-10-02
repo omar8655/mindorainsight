@@ -234,7 +234,7 @@ export const BRIEFS = {
       const secondT = BIG5[second.key]||{};
       const shapeTitle = shape ? shape.title : "mixed trait profile";
       return pack(
-        first(name)+", profile shape «"+shapeTitle+"» — "+top.key+" leads ("+top.score+"/100), "+second.key+" secondary ("+second.score+"/100).",
+        "Clear answer: «"+shapeTitle+"» — "+top.key+" leads at "+top.score+"/100"+(gap<8 ? " (nearly tied with "+second.key+")" : "")+".",
         [(shape ? shape.blurb : ""),
          "Five-factor reading (OCEAN): traits describe a style, not a moral ranking. They tend to be fairly stable across adulthood, and they still move a little with sleep, stress and company.",
          patternLead(name, top, second, gap)+" Quietest on this sitting: "+low.key+" ("+low.score+"/100).",
@@ -255,7 +255,7 @@ export const BRIEFS = {
       const dims = dimsOnly.map(s=>s.key+": "+s.score+"/100").join(". ");
       const weakestPole = low.key.replace(/ \(.*\)/,"");
       return pack(
-        code+" · "+patternLead(name, top, second, gap),
+        "Clear answer: type "+code+" — "+patternLead(name, top, second, gap),
         [essay,
          "Myers–Briggs-style preferences (from Jung via Gifts Differing) are habits of attention, not cages. The letter you did not choose is still available when the situation needs it. Type code "+code+" is shorthand for four preference pairs — not a certified official type.",
          dims,
@@ -890,7 +890,7 @@ export const BRIEFS = {
       ? "You completed the "+testTitle+" assessment (100 items) — next action: practise your lead pattern «"+top.key+"» once this week on purpose (one work block, one conversation, or one clear ask)."
       : "";
     const uniqueSnap = [
-      first+", this "+testTitle+" report is "+image+". Tone: "+tone+".",
+      "Clear answer for "+first+" on "+testTitle+": "+top.key+" leads at "+top.score+"/100"+(gap<8 ? " (nearly tied with "+second.key+")" : "")+".",
       shape+" "+spreadLine,
       refLine,
       "Exact stack: "+scoreLines+".",

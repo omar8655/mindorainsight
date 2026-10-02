@@ -2,11 +2,11 @@
 
 import { doctorClearSentence } from '@/features/reports/clinicalVoice'
 
-export function scoreBand(score: number): 'High' | 'Elevated' | 'Moderate' | 'Lower' {
-  if (score >= 75) return 'High'
-  if (score >= 60) return 'Elevated'
-  if (score >= 40) return 'Moderate'
-  return 'Lower'
+export function scoreBand(score: number): 'Dominant' | 'Strong' | 'Present' | 'Quiet' {
+  if (score >= 75) return 'Dominant'
+  if (score >= 60) return 'Strong'
+  if (score >= 40) return 'Present'
+  return 'Quiet'
 }
 
 export function scoreBandColor(score: number): string {
@@ -17,10 +17,10 @@ export function scoreBandColor(score: number): string {
 }
 
 export function scoreBandHint(score: number): string {
-  if (score >= 75) return 'Strong match in your answers today'
-  if (score >= 60) return 'Clearly present — worth deliberate practice'
-  if (score >= 40) return 'Moderately present — situational'
-  return 'Quieter pattern in this assessment'
+  if (score >= 75) return 'This is a core driver in your answers — treat it as primary.'
+  if (score >= 60) return 'Clearly elevated — this is part of how you operate.'
+  if (score >= 40) return 'Visible, but not the main story.'
+  return 'Low in this sitting — not where your friction lives.'
 }
 
 export type ClearAnswerLine = {
@@ -45,7 +45,7 @@ export function buildClearAnswers(
     }))
 }
 
-/** Doctor-level plain summary for the result hero. */
+/** Strong plain summary for the result hero — type + scores, no soft hedging. */
 export function clearResultSentence(opts: {
   title?: string
   leadName: string

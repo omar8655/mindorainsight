@@ -59,14 +59,15 @@ export function BasicResultView({
     secondScore: second?.score,
     shapeTitle: clearShape,
   })
-  const displayHeadline = clearHeadline || doc.primary.name
-  const displayBlurb = clearShape || lead ? plain : doc.blurb.length > 220
-    ? `${doc.blurb.slice(0, 217).trimEnd()}…`
-    : doc.blurb
+  // Type / shape first — user must see the clear answer immediately
+  const displayHeadline =
+    clearShape || lead?.name || clearHeadline || doc.primary.name
+  const displayBlurb = plain
+  const leadScore = lead?.score ?? doc.primary.score
   const clinicalClose = doctorOnScreenClose({
     title: doc.assessmentTitle,
     topName: lead?.name || doc.primary.name,
-    leadScore: lead?.score ?? doc.primary.score,
+    leadScore,
     clinical: !!testMeta?.clinical,
     crisis: !!testMeta?.crisis,
     brief: { headline: displayHeadline, body: '', watch: clearWatch || '' },
@@ -83,8 +84,8 @@ export function BasicResultView({
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-mi-green">
             Assessment complete
           </p>
-          <p className="mt-1 text-sm text-mi-forest">
-            You finished {doc.assessmentTitle}. Clear scores below.
+          <p className="mt-1 text-sm font-semibold text-mi-forest">
+            Your clear answer for {doc.assessmentTitle} is ready.
           </p>
         </div>
 
@@ -137,14 +138,22 @@ export function BasicResultView({
             gender={doc.gender}
           />
           <p className="mt-6 text-xs font-bold uppercase tracking-[0.18em] text-mi-green">
-            Your results
+            Your clear answer
           </p>
           <h1 className="font-display mt-2 text-2xl font-semibold leading-snug text-mi-text sm:text-3xl">
             {displayHeadline}
           </h1>
-          <p className="mx-auto mt-3 max-w-[42ch] text-[15px] leading-7 text-mi-muted">
+          <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-mi-green-soft px-3 py-1.5 text-sm font-bold text-mi-forest">
+            Lead · {lead?.name || doc.primary.name} · {leadScore}/100
+          </p>
+          <p className="mx-auto mt-4 max-w-[44ch] text-[15px] font-medium leading-7 text-mi-forest">
             {displayBlurb}
           </p>
+          {clearHeadline && clearHeadline !== displayHeadline ? (
+            <p className="mx-auto mt-3 max-w-[42ch] text-[13px] leading-6 text-mi-muted">
+              {clearHeadline}
+            </p>
+          ) : null}
           <p className="mt-4 text-sm font-semibold text-mi-forest">
             Overall {doc.overall}% · completed{' '}
             {new Date(doc.completedAt).toLocaleDateString(undefined, {
@@ -157,10 +166,10 @@ export function BasicResultView({
 
         <section className="mt-5 rounded-2xl border border-mi-border bg-white p-5 shadow-sm sm:p-6">
           <h2 className="font-display text-lg font-semibold text-mi-text">
-            Your scores — plain English
+            Ranked scores — what stands out
           </h2>
           <p className="mt-1 text-sm text-mi-muted">
-            Highest first. Each line says how strongly that pattern showed up in your answers today.
+            Highest first. Dominant and Strong scores are your real answer; Quiet scores are not the story.
           </p>
           <div className="mt-5 space-y-4">
             {answers.map((t, i) => (
@@ -168,7 +177,7 @@ export function BasicResultView({
                 <div className="mb-1.5 flex flex-wrap items-center justify-between gap-2">
                   <div className="min-w-0 text-start">
                     <p className="text-sm font-semibold text-mi-text">
-                      {i === 0 ? '1. Top · ' : `${i + 1}. `}
+                      {i === 0 ? '★ Top answer · ' : `${i + 1}. `}
                       {t.name}
                     </p>
                     <p className="text-[12px] text-mi-muted">{t.hint}</p>

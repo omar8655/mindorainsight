@@ -28,10 +28,10 @@ type PdfOpts = {
 }
 
 function bandLabel(score: number) {
-  if (score >= 75) return 'High'
-  if (score >= 60) return 'Elevated'
-  if (score >= 40) return 'Moderate'
-  return 'Lower'
+  if (score >= 75) return 'Dominant'
+  if (score >= 60) return 'Strong'
+  if (score >= 40) return 'Present'
+  return 'Quiet'
 }
 
 function wrapLines(doc: jsPDF, text: string, maxWidth: number, fontSize: number): string[] {

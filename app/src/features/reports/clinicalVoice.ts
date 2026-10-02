@@ -1,4 +1,4 @@
-/** Clear educational copy for results + PDF — keep legal light so users stay engaged. */
+/** Clear, decisive educational copy for results + PDF — strong answers users can act on. */
 
 import type { RunAssessmentResult } from '@/data/newmindora'
 
@@ -12,19 +12,18 @@ export function doctorClearSentence(opts: {
   band: string
 }): string {
   const you = opts.you || 'You'
-  const shape = opts.shapeTitle ? ` Overall profile: "${opts.shapeTitle}".` : ''
+  const typeLine = opts.shapeTitle
+    ? `${you} land as "${opts.shapeTitle}". `
+    : `${you} clear result: `
+  const lead = `Lead score — ${opts.leadName} at ${opts.leadScore}/100 (${opts.band}).`
   const second =
     opts.secondName && opts.secondScore != null
-      ? ` Next strongest: ${opts.secondName} (${opts.secondScore}/100).`
+      ? ` Backup — ${opts.secondName} at ${opts.secondScore}/100.`
       : ''
-  return (
-    `${you}: your strongest pattern today is ${opts.leadName} at ${opts.leadScore}/100 (${opts.band}).` +
-    second +
-    shape
-  )
+  return typeLine + lead + second
 }
 
-/** Practical close for PDF — scores + next steps, one soft line only. */
+/** Practical close for PDF — decisive next step, one soft legal line only via crisis. */
 export function doctorSessionClose(opts: {
   you?: string
   title: string
@@ -42,8 +41,8 @@ export function doctorSessionClose(opts: {
       ? ` If you feel unsafe, contact emergency services, 988 (US/Canada), or Samaritans 116 123 (UK).`
       : ''
   return (
-    `${you}: you finished ${opts.title}. ` +
-    `Your top score — "${opts.leadName}" at ${opts.leadScore}/100 — is worth practising for seven days: one morning intention, one evening review. ` +
+    `${you}: your answer on ${opts.title} is clear — "${opts.leadName}" leads at ${opts.leadScore}/100. ` +
+    `For the next seven days, run one morning intention and one evening review around that lead. ` +
     `Dossier REF ${opts.serial} · themes from ${opts.bookTitle} (${opts.authors}).` +
     crisis
   )
@@ -51,18 +50,18 @@ export function doctorSessionClose(opts: {
 
 export function doctorFourteenDayPlan(leadName: string, you = 'You'): string {
   return (
-    `${you}, optional 14-day plan:\n` +
+    `${you}, 14-day plan for "${leadName}":\n` +
     `Days 1–3: Each morning, one sentence — “Today "${leadName}" will help me by ___.” Keep it small.\n` +
-    `Days 4–7: One work conversation and one relationship check-in in plain language.\n` +
-    `Days 8–11: Evening review — where the top pattern helped, where it overplayed.\n` +
-    `Days 12–14: Keep one habit small enough to repeat next month.`
+    `Days 4–7: One work conversation and one relationship check-in named in plain language.\n` +
+    `Days 8–11: Evening review — where the lead helped, where it overplayed.\n` +
+    `Days 12–14: Lock one habit small enough to keep next month.`
   )
 }
 
 export function doctorWatchLine(watch: string, you = 'You'): string {
   const w = String(watch || '').trim()
   if (!w) {
-    return `${you}: nothing sharp to flag — protect sleep, and retake in two weeks if this week was unusual.`
+    return `${you}: no sharp watch-out — keep sleep steady and re-check in two weeks if this week was unusual.`
   }
   return `${you}: ${w}`
 }
@@ -71,7 +70,7 @@ export function doctorWatchLine(watch: string, you = 'You'): string {
 export function doctorWatchBody(watch: string): string {
   const w = String(watch || '').trim()
   if (!w) {
-    return 'Nothing sharp to flag — protect sleep, and retake in two weeks if this week was unusual.'
+    return 'No sharp watch-out — keep sleep steady and re-check in two weeks if this week was unusual.'
   }
   return w
 }
@@ -99,13 +98,13 @@ export function doctorOnScreenClose(
     leadScore?: number
   },
 ): string {
-  const lead = result.topName || 'your top pattern'
-  const score = result.leadScore != null ? ` (${result.leadScore}/100)` : ''
+  const lead = result.topName || 'your top score'
+  const score = result.leadScore != null ? ` at ${result.leadScore}/100` : ''
   const crisis = result.crisis
     ? ' If you feel unsafe, contact emergency services, 988, or Samaritans 116 123.'
     : ''
   return (
-    `You completed ${result.title}. Carry "${lead}"${score} into the next seven days as one deliberate experiment.` +
+    `Your answer is clear: lead with "${lead}"${score}. For seven days, give it one deliberate morning intention and one evening review — that is how this result becomes useful.` +
     crisis
   )
 }

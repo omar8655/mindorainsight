@@ -61,61 +61,61 @@
     if (hi("inattention") && hi("hyperactivity") && hi("impulsivity")) {
       return {
         id: "combined-broad",
-        title: "Broader mixed elevation",
+        title: "Combined elevation — focus + restlessness + impulse",
         blurb:
-          "Several areas are higher together. Your story is still personal — which score is highest below is what to discuss first with a professional.",
+          "Your clear answer: several ADHD-pattern domains are elevated together. Lead with your highest score below when you talk to a clinician.",
       };
     }
     if (hi("inattention") && hi("executive") && lo("hyperactivity")) {
       return {
         id: "quiet-inattentive",
-        title: "Quiet focus & planning pattern",
+        title: "Inattentive / planning type",
         blurb:
-          "Your higher scores lean toward focus and getting organised more than toward looking restless. People with this pattern are sometimes overlooked because they seem calm, while starting and finishing still feel hard inside.",
+          "Your clear answer: focus and getting organised are the problem — not looking restless. People with this type are often missed because they seem calm while starting and finishing feel hard.",
       };
     }
     if (hi("hyperactivity") && hi("impulsivity") && !hi("inattention")) {
       return {
         id: "restless-impulsive",
-        title: "Restless & quick-action pattern",
+        title: "Restless / impulsive type",
         blurb:
-          "Energy and fast action stand out more than zoning out. The hard part may be interrupting, impatience, or deciding too soon — even when focus is fine for work you like.",
+          "Your clear answer: energy and fast action lead. The hard part is interrupting, impatience, or deciding too soon — even when focus is fine for work you like.",
       };
     }
     if (hi("emotion") && (hi("impulsivity") || hi("executive"))) {
       return {
         id: "emotion-regulation",
-        title: "Strong-feelings pattern",
+        title: "Emotion-regulation type",
         blurb:
-          "Big feelings sit near the centre of your results, often with impulse or planning strain. That can look like a mood issue when the deeper theme is how hard it is to settle under stress.",
+          "Your clear answer: big feelings sit at the centre, often with impulse or planning strain. This can look like a mood issue when the deeper theme is settling under stress.",
       };
     }
     if (hi("time_motivation") && hi("executive")) {
       return {
         id: "time-blind-executive",
-        title: "Time & follow-through pattern",
+        title: "Time-blind / follow-through type",
         blurb:
-          "Deadlines, last-minute urgency, and I'll start later mix with planning friction. You may do well in a crisis and struggle in quiet weeks. That is a rhythm — not laziness.",
+          "Your clear answer: deadlines, last-minute urgency, and I'll start later mix with planning friction. You may thrive in a crisis and stall in quiet weeks.",
       };
     }
     if (traits.every((t) => t.score < 45)) {
       return {
         id: "lower-overall",
-        title: "Lower overall on this screen",
+        title: "Lower overall — no strong ADHD elevation",
         blurb:
-          "Most areas sit lower. That does not erase hard days. If life still feels impaired, bring real examples to a clinician anyway. Screens miss context.",
+          "Your clear answer: most domains sit lower on this screen. If daily life still feels impaired, bring concrete examples to a clinician — screens miss context.",
       };
     }
     const top = [...traits].sort((a, b) => b.score - a.score)[0];
     return {
       id: "mixed-individual",
-      title: "Mixed pattern — strongest: " + top.name,
+      title: "Lead type: " + top.name,
       blurb:
-        "Your pattern is mixed, not one simple type. Lead with your highest area (" +
+        "Your clear answer: mixed profile with " +
         top.name +
-        " at " +
+        " leading at " +
         top.score +
-        "%) when you talk to a professional, then mention the next two so they see the whole picture.",
+        "/100. Name that lead first, then the next two scores, so anyone helping you sees the full stack.",
     };
   }
 
@@ -168,19 +168,17 @@
       .filter(Boolean)
       .slice(0, 2);
 
-    const first = (n) => (n || "You").split(" ")[0];
     const headline =
-      first(name) +
-      ", your pattern reads as " +
-      shape.title.toLowerCase() +
-      " — lead area " +
+      "Clear answer: " +
+      shape.title +
+      " — lead " +
       top3[0].name +
       " (" +
       top3[0].score +
-      "%).";
+      "/100)";
 
     const bodyParts = [
-      "This is an educational pattern screen using Barkley-informed themes for adult attention and self-regulation (inattention, restlessness, impulse control, executive functioning, emotional regulation, and time/motivation). It is not a medical diagnosis, does not paste copyrighted clinical scales, and is not a substitute for clinical interview or assessment.",
+      "This educational screen maps Barkley-informed attention and self-regulation themes: focus, restlessness, impulse control, executive follow-through, emotional regulation, and time/motivation.",
       "Overall on this sitting: about " + overallPct + "% averaged across your answers. " + shape.blurb,
       "Your top domains: " + domainLines.join(" "),
       strengths.length
