@@ -5,8 +5,9 @@ import { SiteHeader } from '@/components/layout/SiteHeader'
 
 export function PublicLayout() {
   const { pathname } = useLocation()
-  const inAssessmentPortal = pathname.startsWith('/test/')
-  const hideFooter = inAssessmentPortal || pathname.startsWith('/report/')
+  const inAssessmentPortal =
+    pathname.startsWith('/test/') || pathname.startsWith('/report/')
+  const hideFooter = inAssessmentPortal
 
   return (
     <div className="flex min-h-[100dvh] min-h-screen w-full min-w-0 flex-col overflow-x-clip bg-mi-canvas">
