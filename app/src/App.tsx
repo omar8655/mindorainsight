@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes, useParams } from 'react-router-dom'
 import { ScrollToTop } from '@/components/layout/ScrollToTop'
 import {
   AdminContactsPage,
@@ -7,6 +7,7 @@ import {
   AdminOverviewPage,
   AdminTablePage,
 } from '@/features/crm/AdminPages'
+import { ReportErrorBoundary } from '@/features/reports/ReportErrorBoundary'
 import { AdminLayout } from '@/layouts/AdminLayout'
 import { PublicLayout } from '@/layouts/PublicLayout'
 import { AboutPage } from '@/pages/AboutPage'
@@ -23,6 +24,24 @@ import { PortalPage } from '@/pages/PortalPage'
 import { PricingPage } from '@/pages/PricingPage'
 import { ReportPage } from '@/pages/ReportPage'
 import { TestPage } from '@/pages/TestPage'
+
+function ReportRoute() {
+  const { slug } = useParams()
+  return (
+    <ReportErrorBoundary fallbackSlug={slug}>
+      <ReportPage />
+    </ReportErrorBoundary>
+  )
+}
+
+function TestRoute() {
+  const { slug } = useParams()
+  return (
+    <ReportErrorBoundary fallbackSlug={slug}>
+      <TestPage />
+    </ReportErrorBoundary>
+  )
+}
 
 export default function App() {
   return (
@@ -42,8 +61,8 @@ export default function App() {
           <Route path="portal" element={<PortalPage />} />
           <Route path="checkout" element={<CheckoutPage />} />
           <Route path="cancel" element={<CancelPage />} />
-          <Route path="test/:slug" element={<TestPage />} />
-          <Route path="report/:slug" element={<ReportPage />} />
+          <Route path="test/:slug" element={<TestRoute />} />
+          <Route path="report/:slug" element={<ReportRoute />} />
           <Route path="docs/terms" element={<TermsPage />} />
           <Route path="docs/privacy" element={<PrivacyPage />} />
           <Route path="docs/subscription" element={<SubscriptionDocPage />} />

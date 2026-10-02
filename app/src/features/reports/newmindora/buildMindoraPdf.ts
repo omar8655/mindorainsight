@@ -419,8 +419,8 @@ export function buildMindoraPdfBytes(result: RunAssessmentResult, opts: PdfOpts)
 
 export async function downloadMindoraPdf(result: RunAssessmentResult, opts: PdfOpts) {
   const bytes = buildMindoraPdfBytes(result, opts)
-  const copy = new Uint8Array(bytes.byteLength)
-  copy.set(bytes)
+  // Copy into a standalone buffer so Blob always receives real PDF bytes
+  const copy = new Uint8Array(bytes)
   const blob = new Blob([copy], { type: 'application/pdf' })
   return triggerPdfDownload(blob, dossierFileName(result, opts.tier))
 }

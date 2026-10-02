@@ -51,12 +51,12 @@ export function ReportPage() {
           ...doc,
           primary: {
             ...doc.primary,
-            name: nmBrief.topName || nmBrief.shape.title || session.primaryName,
-            score: nmBrief.overall,
+            name: nmBrief.topName || nmBrief.shape?.title || session.primaryName,
+            score: nmBrief.overall ?? doc.primary.score,
           },
-          blurb: nmBrief.shape.blurb || nmBrief.brief.headline || doc.blurb,
-          summary: nmBrief.brief.headline || doc.summary,
-          traits: nmBrief.traits.length ? nmBrief.traits : doc.traits,
+          blurb: nmBrief.shape?.blurb || nmBrief.brief?.headline || doc.blurb,
+          summary: nmBrief.brief?.headline || doc.summary,
+          traits: nmBrief.traits?.length ? nmBrief.traits : doc.traits,
           overall: nmBrief.overall || doc.overall,
         }
       }

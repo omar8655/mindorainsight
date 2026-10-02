@@ -133,7 +133,16 @@
 }
 
 .report-emblem {
+  opacity: 1;
   animation: mi-emblem-in 0.7s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .report-emblem {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
 }
 
 @keyframes mi-emblem-in {

@@ -245,4 +245,19 @@ if (errors.length) {
   console.error('FAIL\n' + errors.join('\n'))
   process.exit(1)
 }
+
+// Guard the production browser path: jsPDF arraybuffer must be wrapped in Uint8Array
+// (casting ArrayBuffer as Uint8Array produces blank/corrupt downloads).
+{
+  const probe = new jsPDF({ unit: 'mm', format: 'a4' })
+  probe.text('MindoraInsight PDF probe', 14, 20)
+  const wrapped = new Uint8Array(probe.output('arraybuffer'))
+  const header = String.fromCharCode(wrapped[0], wrapped[1], wrapped[2], wrapped[3])
+  if (header !== '%PDF') {
+    console.error(`FAIL production-shaped PDF header was ${JSON.stringify(header)}`)
+    process.exit(1)
+  }
+  console.log('OK · production-shaped Uint8Array(arraybuffer) yields %PDF')
+}
+
 console.log(`OK · PDF uniqueness + jsPDF + clear answers for all ${TEST_META.length} topics`)

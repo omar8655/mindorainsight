@@ -25,6 +25,10 @@ export function parseNmResult(meta?: Record<string, string> | null): RunAssessme
   try {
     const parsed = JSON.parse(raw) as RunAssessmentResult
     if (!parsed?.testId || !parsed?.brief || !Array.isArray(parsed.scores)) return null
+    // Incomplete payloads used to crash ReportPage when reading shape/traits
+    if (!parsed.shape || typeof parsed.shape !== 'object') return null
+    if (!Array.isArray(parsed.traits)) parsed.traits = []
+    if (!parsed.brief.headline) parsed.brief.headline = ''
     return parsed
   } catch {
     return null
