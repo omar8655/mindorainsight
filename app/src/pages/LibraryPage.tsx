@@ -145,7 +145,7 @@ export function LibraryPage() {
 
       <section className="bg-mi-canvas py-5 md:py-10">
         <div className="container min-w-0">
-          <div className="mb-5 rounded-2xl border border-[#005EB8]/20 bg-gradient-to-br from-[#E8F1FA] via-white to-mi-green-soft/40 px-4 py-4 sm:px-5 sm:py-5">
+          <div className="mb-5 rounded-2xl border border-mi-green/25 bg-gradient-to-br from-mi-green-soft/50 via-white to-white px-4 py-4 sm:px-5 sm:py-5">
             <h1 className="font-display text-xl font-semibold text-mi-forest sm:text-2xl">
               Free tests — 20 assessments
             </h1>

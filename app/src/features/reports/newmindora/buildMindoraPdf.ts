@@ -7,8 +7,9 @@ import {
 } from '@/features/reports/newmindora/dossierId'
 import {
   doctorFourteenDayPlan,
+  doctorOnScreenClose,
   doctorSessionClose,
-  doctorWatchBody,
+  doctorWatchLine,
   isActionableWatch,
 } from '@/features/reports/clinicalVoice'
 import { ASSESSMENT_LEGAL } from '@/data/legal/assessmentProtection'
@@ -237,7 +238,11 @@ export function buildMindoraPdfBytes(result: RunAssessmentResult, opts: PdfOpts)
   doc.text(`Prepared for ${name} · Completed ${date} · Document ${serial}`, 14, y)
   y += 6
   doc.setFontSize(9)
-  doc.text(`Profile fingerprint: ${fingerprint}`, 14, y)
+  const topThree = scores
+    .slice(0, 3)
+    .map((s) => `${s.key} ${s.score}`)
+    .join(' · ')
+  doc.text(`Sitting marker: ${topThree || fingerprint} · REF ${serial}`, 14, y)
   y += 9
 
   // One short note (avoid stacking legal warnings in the dossier)
@@ -302,7 +307,7 @@ export function buildMindoraPdfBytes(result: RunAssessmentResult, opts: PdfOpts)
     doc.setTextColor('#c0392b')
     doc.text('Watch-out', 14, y)
     y += 5
-    y = writeWrapped(doc, doctorWatchBody(result.brief.watch), y, meta, 9.5, 4.8)
+    y = writeWrapped(doc, doctorWatchLine(result.brief.watch, you), y, meta, 10.5, 5.8)
     y += 3
   }
 
@@ -311,11 +316,11 @@ export function buildMindoraPdfBytes(result: RunAssessmentResult, opts: PdfOpts)
   if (framework) {
     y = ensurePage(doc, y, 20, meta)
     doc.setFont('helvetica', 'bold')
-    doc.setFontSize(9)
+    doc.setFontSize(10)
     doc.setTextColor(FOREST)
     doc.text(ref?.clinical ? 'Educational screen themes' : 'Educational framework', 14, y)
-    y += 4
-    y = writeWrapped(doc, framework, y, meta, 9, 4.5)
+    y += 5
+    y = writeWrapped(doc, framework, y, meta, 10.5, 5.8)
   }
 
   // Page 2+ growth / extended
@@ -336,7 +341,21 @@ export function buildMindoraPdfBytes(result: RunAssessmentResult, opts: PdfOpts)
 
   if (opts.tier === 'basic') {
     const deep = result.brief.longform || result.brief.body || ''
-    y = writeWrapped(doc, deep, y, meta, 11, 6)
+    const chunks = String(deep)
+      .split(/\n\n+/)
+      .map((p) => p.trim())
+      .filter(Boolean)
+    const titles = ['What this sitting adds', 'Work & relationships', 'Your experiment', 'Keep this in mind']
+    chunks.forEach((chunk, i) => {
+      y = ensurePage(doc, y, 18, meta)
+      doc.setFont('helvetica', 'bold')
+      doc.setFontSize(12)
+      doc.setTextColor(FOREST)
+      doc.text(titles[Math.min(i, titles.length - 1)] || `Section ${i + 1}`, 14, y)
+      y += 6
+      y = writeWrapped(doc, chunk, y, meta, 11, 6)
+      y += 3
+    })
   } else {
     const sections = opts.sections || []
     for (const sec of sections) {
@@ -362,10 +381,27 @@ export function buildMindoraPdfBytes(result: RunAssessmentResult, opts: PdfOpts)
   // Closing + plan (practical; legal stays in the short note above)
   y = ensurePage(doc, y, 20, meta)
   doc.setFont('helvetica', 'bold')
-  doc.setFontSize(10)
+  doc.setFontSize(12)
   doc.setTextColor(FOREST)
   doc.text('Closing', 14, y)
   y += 6
+  y = writeWrapped(
+    doc,
+    doctorOnScreenClose({
+      title: result.title,
+      topName: String(leadName),
+      leadScore: top.score,
+      clinical: result.clinical || !!ref?.clinical,
+      crisis: result.crisis,
+      brief: result.brief,
+      you,
+    }),
+    y,
+    meta,
+    11,
+    6,
+  )
+  y += 2
   y = writeWrapped(
     doc,
     doctorSessionClose({
@@ -381,19 +417,19 @@ export function buildMindoraPdfBytes(result: RunAssessmentResult, opts: PdfOpts)
     }),
     y,
     meta,
-    9.5,
-    4.8,
+    10.5,
+    5.8,
   )
   y += 4
 
   // 14-day plan
   y = ensurePage(doc, y, 36, meta)
   doc.setFont('helvetica', 'bold')
-  doc.setFontSize(11)
+  doc.setFontSize(12)
   doc.setTextColor(TEXT)
   doc.text('14-day self-reflection plan', 14, y)
-  y += 5
-  y = writeWrapped(doc, doctorFourteenDayPlan(String(leadName), you), y, meta, 9.5, 4.8)
+  y += 6
+  y = writeWrapped(doc, doctorFourteenDayPlan(String(leadName), you), y, meta, 11, 6)
 
   // Crisis-only end box (skip repeating diagnosis disclaimers)
   if (result.crisis) {

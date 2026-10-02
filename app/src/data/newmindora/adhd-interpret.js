@@ -168,8 +168,10 @@
       .filter(Boolean)
       .slice(0, 2);
 
+    const first = String(name || "You").split(" ")[0] || "You";
     const headline =
-      "" +
+      first +
+      ", " +
       shape.title +
       " — lead " +
       top3[0].name +
@@ -178,18 +180,30 @@
       "/100)";
 
     const bodyParts = [
-      "This educational screen maps Barkley-informed attention and self-regulation themes: focus, restlessness, impulse control, executive follow-through, emotional regulation, and time/motivation.",
-      "Overall on this sitting: about " + overallPct + "% averaged across your answers. " + shape.blurb,
-      "Your top domains: " + domainLines.join(" "),
+      first +
+        ", this educational screen maps Barkley-informed attention and self-regulation themes: focus, restlessness, impulse control, executive follow-through, emotional regulation, and time/motivation.",
+      first +
+        ", overall on this sitting: about " +
+        overallPct +
+        "% averaged across your answers. " +
+        shape.blurb,
+      first + ", your top domains: " + domainLines.join(" "),
       strengths.length
-        ? "Steadier areas on this screen: " + strengths.map((t) => t.name + " (" + t.score + "%)").join(" and ") + ". Protect what already works."
-        : "No area is clearly low here — support may need to cover more than one thing, still starting with your highest scores.",
-      elevatedTips.length ? "Practical starting points: " + elevatedTips.join(" ") : "",
-      workRel.length ? "Work & relationships (pattern-based, not a label): " + workRel.join(" ") : "",
+        ? first +
+          ", steadier areas on this screen: " +
+          strengths.map((t) => t.name + " (" + t.score + "%)").join(" and ") +
+          ". Protect what already works."
+        : first +
+          ", no area is clearly low here — support may need to cover more than one thing, still starting with your highest scores.",
+      elevatedTips.length ? first + ", practical starting points: " + elevatedTips.join(" ") : "",
+      workRel.length
+        ? first + ", work & relationships (pattern-based, not a label): " + workRel.join(" ")
+        : "",
     ].filter(Boolean);
 
     const watch =
-      "If several domains sit at 60% or above and daily work, relationships, or self-care feel impaired, a licensed clinician can interpret this profile with your history — this site cannot confirm ADHD or any other condition.";
+      first +
+      ", if several domains sit at 60% or above and daily work, relationships, or self-care feel impaired, a licensed clinician can interpret this profile with your history — this site cannot confirm ADHD or any other condition.";
 
     const clinician =
       "For a licensed professional (handoff only): Highest areas — " +
@@ -198,7 +212,14 @@
       shape.id +
       ". Self-report educational screen only; interpret with full clinical context.";
 
-    const longform = bodyParts.join("\n\n") + "\n\n" + watch + "\n\n" + clinician;
+    const longform =
+      first +
+      ", here is the longer write-up for this sitting.\n\n" +
+      bodyParts.join("\n\n") +
+      "\n\n" +
+      watch +
+      "\n\n" +
+      clinician;
 
     return { headline, body: bodyParts.join(" "), watch, longform, shape, top3, overall: overallPct };
   }

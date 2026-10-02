@@ -156,20 +156,21 @@ import { TEST_META } from './tests-core.js';
   };
 
   function words(s){ return (s||"").trim().split(/\s+/).filter(Boolean).length; }
-  export const padTo = function padTo(text, min, max){
-    const extra = [
-      "Read the numbers as a weather report for how you answered today, not as a verdict carved into stone. A high score is a muscle you already use. A low score is a muscle you under-use when you are tired, not a moral failure.",
-      "People around you often meet the public version of the high score first. The quieter score tends to show up at home, late in the week, or when a plan slips. That is why a partner or colleague may describe you differently from how you describe yourself.",
-      "The useful question is not “is this me forever?” It is “where did this pattern help me this month, and where did it cost someone else time, warmth or clarity?” Write one sentence for each. Keep both sentences.",
-      "Change happens in small repetitions: one conversation held thirty seconds longer, one task finished before a new one starts, one evening without scanning for threat. Personality language is only useful if it becomes a next action.",
-      "If two scores sit within a few points, treat them as a pair rather than forcing a winner. Mixed profiles are common. The work is naming the conditions that tip you from one into the other.",
-      "Sleep, deadline pressure and who is in the room all move scores a little. Retake after a calmer fortnight if this week was unusual. Treat a single sitting as a snapshot.",
-      "This library is educational. It does not diagnose ADHD, autism, depression, bipolar patterns, trauma, personality disorders or any other condition. If life is impaired, take the pattern to a licensed professional.",
-      "Keep the report private unless you choose to share it. Scores are not a job reference, a court document or a medical record."
+  export const padTo = function padTo(text, min, max, seedExtras){
+    // Prefer sitting-specific extras when provided so dossiers don't share the same filler.
+    const extra = (seedExtras && seedExtras.length) ? seedExtras : [
+      "Read the numbers as a weather report for how you answered today, not as a verdict carved into stone.",
+      "People around you often meet the public version of the high score first. The quieter score tends to show up at home.",
+      "The useful question is where this pattern helped you this month, and where it cost someone else time or clarity.",
+      "Change happens in small repetitions — one conversation held longer, one task finished before a new one starts.",
+      "If two scores sit within a few points, treat them as a pair rather than forcing a winner.",
+      "Sleep, deadline pressure and who is in the room all move scores a little. Retake after a calmer fortnight if this week was unusual.",
+      "This library is educational. It does not diagnose any clinical condition. If life is impaired, take the pattern to a licensed professional.",
+      "Keep the report private unless you choose to share it."
     ];
-    let out=text.trim();
+    let out=String(text||"").trim();
     let i=0;
-    while(words(out)<min && i<extra.length*3){ out += "\n\n"+extra[i%extra.length]; i++; }
+    while(words(out)<min && i<extra.length*2){ out += "\n\n"+extra[i%extra.length]; i++; }
     const arr=out.split(/\s+/);
     if(arr.length>max) out=arr.slice(0,max).join(" ");
     return out;
@@ -918,18 +919,27 @@ export const BRIEFS = {
       first+", try this in relationships: "+relMove+".",
       brief.watch
     ].filter(Boolean).join("\n\n");
+    // Page-2 / longform is delta-only — do not repeat the page-1 snap.
     const uniqueFull = [
-      uniqueSnap,
-      first+", this dossier is unique to how you answered. Your fingerprint is the order "+numeric.map(s=>s.key).join(" → ")+".",
+      first+", this second page is new material for how you answered — not a reprint of the summary.",
+      first+", this dossier is unique to how you answered. Your fingerprint order is "+numeric.map(s=>s.key).join(" → ")+".",
       "When "+top.key+" runs the day, "+second.key+" is backup. When the day goes badly, "+low.key+" drops first.",
+      "Work focus for "+first+": "+workMove+".",
+      "Relationship focus for "+first+": "+relMove+".",
       "Fourteen-day experiment for "+first+": morning line on "+top.key+"; evening line on "+low.key+".",
       completedClose,
       ref && ref.clinical
         ? "If daily life feels impaired, talk with a licensed clinician. Crisis: emergency services, 988 (US), Samaritans 116 123 (UK)."
         : "Scores can shift with sleep and stress. Crisis: emergency services, 988 (US), Samaritans 116 123 (UK)."
     ].filter(Boolean).join("\n\n");
-    brief.body = padTo(uniqueSnap, 400, 480);
-    brief.longform = padTo(uniqueFull, 900, 1400);
+    const seedExtras = [
+      first+", protect one ninety-minute block this week for "+top.key+" before reactive work starts.",
+      first+", when "+low.key+" drops, name it out loud once before you compensate with "+top.key+".",
+      "Sitting average "+mean+"/100 with a "+spread+"-point spread — design the week for the lead, not the average.",
+      "Your seeded moves this sitting: work — "+workMove+"; relationships — "+relMove+"."
+    ];
+    brief.body = padTo(uniqueSnap, 320, 480, seedExtras);
+    brief.longform = padTo(uniqueFull, 520, 900, seedExtras);
     brief.fingerprint = seed.toString(16);
     return brief;
   };
