@@ -16,7 +16,7 @@
     <loc>https://www.mindorainsight.com/free-tests</loc>
     <lastmod>2026-10-02</lastmod>
     <changefreq>daily</changefreq>
-    <priority>0.95</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.mindorainsight.com/pricing</loc>
@@ -40,7 +40,7 @@
     <loc>https://www.mindorainsight.com/faq</loc>
     <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.mindorainsight.com/docs/terms</loc>
@@ -69,134 +69,134 @@
   <url>
     <loc>https://www.mindorainsight.com/llms.txt</loc>
     <lastmod>2026-10-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.mindorainsight.com/ai.txt</loc>
     <lastmod>2026-10-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.mindorainsight.com/test/personality</loc>
     <lastmod>2026-10-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.mindorainsight.com/test/big5</loc>
     <lastmod>2026-10-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.mindorainsight.com/test/sixteen</loc>
     <lastmod>2026-10-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
   </url>
   <url>
     <loc>https://www.mindorainsight.com/test/enneagram</loc>
     <lastmod>2026-10-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
   </url>
   <url>
     <loc>https://www.mindorainsight.com/test/autism</loc>
     <lastmod>2026-10-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
   </url>
   <url>
     <loc>https://www.mindorainsight.com/test/adhd</loc>
     <lastmod>2026-10-02</lastmod>
-    <changefreq>weekly</changefreq>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.mindorainsight.com/test/depression</loc>
     <lastmod>2026-10-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
   </url>
   <url>
     <loc>https://www.mindorainsight.com/test/love</loc>
     <lastmod>2026-10-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
   </url>
   <url>
     <loc>https://www.mindorainsight.com/test/attachment</loc>
     <lastmod>2026-10-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
   </url>
   <url>
     <loc>https://www.mindorainsight.com/test/strengths</loc>
     <lastmod>2026-10-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
   </url>
   <url>
     <loc>https://www.mindorainsight.com/test/career</loc>
     <lastmod>2026-10-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
   </url>
   <url>
     <loc>https://www.mindorainsight.com/test/archetype</loc>
     <lastmod>2026-10-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
   </url>
   <url>
     <loc>https://www.mindorainsight.com/test/political</loc>
     <lastmod>2026-10-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
   </url>
   <url>
     <loc>https://www.mindorainsight.com/test/disc</loc>
     <lastmod>2026-10-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
   </url>
   <url>
     <loc>https://www.mindorainsight.com/test/eq</loc>
     <lastmod>2026-10-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
   </url>
   <url>
     <loc>https://www.mindorainsight.com/test/character</loc>
     <lastmod>2026-10-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
   </url>
   <url>
     <loc>https://www.mindorainsight.com/test/bpd</loc>
     <lastmod>2026-10-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
   </url>
   <url>
     <loc>https://www.mindorainsight.com/test/bipolar</loc>
     <lastmod>2026-10-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
   </url>
   <url>
     <loc>https://www.mindorainsight.com/test/narcissism</loc>
     <lastmod>2026-10-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
   </url>
   <url>
     <loc>https://www.mindorainsight.com/test/trauma</loc>
     <lastmod>2026-10-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
   </url>
   <url>
     <loc>https://www.mindorainsight.com/test/adhd-adult-screening</loc>

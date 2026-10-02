@@ -1,36 +1,92 @@
 # MindoraInsight — https://www.mindorainsight.com
+# Allow Google, Bing, and major AI crawlers to index public educational pages.
+
 User-agent: *
 Allow: /
+Allow: /llms.txt
+Allow: /ai.txt
+Allow: /sitemap.xml
+Allow: /free-tests
+Allow: /library
+Allow: /test/
 Disallow: /admin
 Disallow: /checkout
 Disallow: /portal
 Disallow: /login
 Disallow: /report/
 
-# AI / research crawlers — welcome public educational pages
-User-agent: GPTBot
-Allow: /
-Disallow: /admin
-Disallow: /checkout
-Disallow: /portal
-Disallow: /login
-
-User-agent: ChatGPT-User
+# Google
+User-agent: Googlebot
 Allow: /
 
 User-agent: Google-Extended
 Allow: /
 
+User-agent: GoogleOther
+Allow: /
+
+# OpenAI / ChatGPT
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# Anthropic / Claude
 User-agent: anthropic-ai
 Allow: /
 
 User-agent: ClaudeBot
 Allow: /
 
+User-agent: Claude-Web
+Allow: /
+
+# Perplexity
 User-agent: PerplexityBot
 Allow: /
 
+# xAI / Grok
+User-agent: Grok
+Allow: /
+
+User-agent: xAI
+Allow: /
+
+# Meta AI
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+# Apple Intelligence / Applebot
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Common Crawl (often used for training / retrieval)
+User-agent: CCBot
+Allow: /
+
+# ByteDance / TikTok search
 User-agent: Bytespider
 Allow: /
 
+# Cohere
+User-agent: cohere-ai
+Allow: /
+
+# You.com
+User-agent: YouBot
+Allow: /
+
 Sitemap: https://www.mindorainsight.com/sitemap.xml
+# Preferred machine-readable product summary for LLMs:
+# https://www.mindorainsight.com/llms.txt
+# https://www.mindorainsight.com/ai.txt

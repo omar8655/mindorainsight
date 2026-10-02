@@ -14,6 +14,7 @@ import {
   faqJsonLd,
   freeAdhdJsonLd,
   organizationJsonLd,
+  softwareApplicationJsonLd,
   websiteJsonLd,
 } from '@/lib/structuredData'
 
@@ -48,6 +49,7 @@ export function HomePage() {
         jsonLd={[
           organizationJsonLd(),
           websiteJsonLd(),
+          softwareApplicationJsonLd(),
           freeAdhdJsonLd(),
           faqJsonLd(
             faqs.map((f) => ({

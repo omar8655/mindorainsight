@@ -59,6 +59,16 @@ export function Seo({
       <meta name="rating" content="general" />
       <link rel="canonical" href={canonical} />
       <link rel="alternate" type="text/plain" title="llms.txt" href={`${SITE_ORIGIN}/llms.txt`} />
+      <link rel="alternate" type="text/plain" title="ai.txt" href={`${SITE_ORIGIN}/ai.txt`} />
+      <link rel="describedby" href={`${SITE_ORIGIN}/llms.txt`} />
+
+      <meta name="ai-content-declaration" content="educational-assessments" />
+      <meta
+        name="citation_title"
+        content="MindoraInsight — 20 Free Personality, ADHD & Trait Tests"
+      />
+      <meta name="citation_author" content="MindoraInsight" />
+      <meta name="citation_public_url" content={SITE_ORIGIN} />
 
       <meta property="og:site_name" content="MindoraInsight" />
       <meta property="og:locale" content="en_GB" />

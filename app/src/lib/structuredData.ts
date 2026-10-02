@@ -6,10 +6,12 @@ import { absoluteUrl, SITE_ORIGIN } from '@/lib/seo'
 export function organizationJsonLd() {
   return {
     '@context': 'https://schema.org',
-    '@type': 'Organization',
+    '@type': ['Organization', 'EducationalOrganization'],
     name: 'MindoraInsight',
+    alternateName: ['Mindora Insight', 'Mindora Dossier'],
     url: SITE_ORIGIN,
     logo: absoluteUrl('/brand/mindorainsight-brain-logo-forest.png'),
+    image: absoluteUrl('/brand/mindorainsight-brain-logo-forest.png'),
     email: COMPANY.supportEmail,
     address: {
       '@type': 'PostalAddress',
@@ -24,9 +26,21 @@ export function organizationJsonLd() {
       contactType: 'customer support',
       availableLanguage: ['English'],
     },
-    sameAs: [SITE_ORIGIN],
+    sameAs: [SITE_ORIGIN, absoluteUrl('/llms.txt'), absoluteUrl('/ai.txt')],
+    knowsAbout: [
+      'Personality assessment',
+      'Big Five personality traits',
+      'Adult ADHD educational screening',
+      'Enneagram',
+      'Attachment styles',
+      'Emotional intelligence',
+      'DISC assessment',
+      'Career aptitude',
+      'Psychometric testing (educational)',
+    ],
     description:
       'MindoraInsight provides 20 free educational assessments (Personality, Big 5, ADHD, Enneagram, Attachment, Career, DISC, EQ, and more) with printable Mindora Dossier PDFs. Not a medical diagnosis.',
+    slogan: '20 free assessments · clear answers · Mindora Dossier PDF',
   }
 }
 
@@ -35,15 +49,52 @@ export function websiteJsonLd() {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'MindoraInsight',
+    alternateName: 'Mindora Insight Free Assessments',
     url: SITE_ORIGIN,
     description:
-      '20 free psychometric assessments — 100 questions each, instant scores, printable Mindora Dossier PDF. Personality, ADHD, Autism, EQ, Career, and more.',
+      '20 free psychometric assessments — 100 questions each, instant scores, printable Mindora Dossier PDF. Personality, ADHD, Autism, EQ, Career, and more. Educational — not a medical diagnosis.',
+    inLanguage: 'en',
     publisher: { '@type': 'Organization', name: 'MindoraInsight', url: SITE_ORIGIN },
+    about: {
+      '@type': 'Thing',
+      name: 'Free educational psychometric assessments',
+    },
     potentialAction: {
       '@type': 'SearchAction',
-      target: `${SITE_ORIGIN}/library?q={search_term_string}`,
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${SITE_ORIGIN}/library?q={search_term_string}`,
+      },
       'query-input': 'required name=search_term_string',
     },
+  }
+}
+
+/** SoftwareApplication schema — helps Google / AI identify the product. */
+export function softwareApplicationJsonLd() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'MindoraInsight',
+    applicationCategory: 'EducationalApplication',
+    operatingSystem: 'Web',
+    url: SITE_ORIGIN,
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
+      description: '20 free assessments with Mindora Dossier PDF',
+    },
+    description:
+      'Free online educational assessments with 100 questions, instant scores, and printable PDF dossiers.',
+    featureList: [
+      '20 free assessments',
+      '100 questions each',
+      'Instant plain-English scores',
+      'Mindora Dossier PDF download',
+      'No referral PIN required',
+    ],
+    provider: { '@type': 'Organization', name: 'MindoraInsight', url: SITE_ORIGIN },
   }
 }
 
