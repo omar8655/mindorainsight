@@ -20,8 +20,7 @@ export const ASSESSMENT_LEGAL = {
   pdfLegalBody: (bookTitle: string, authors: string) =>
     `Educational self-report inspired by themes from ${bookTitle} (${authors}). ` +
     `For personal reflection — see ${COMPANY.website}${COMPANY.termsUrl} for full terms.`,
-  pdfShortLine:
-    'Educational self-report for personal reflection. Full terms: mindorainsight.com/docs/terms',
+  pdfShortLine: `Educational self-report for personal reflection. Full terms: ${COMPANY.website}${COMPANY.termsUrl}`,
   resultsFooter:
     `© ${COMPANY.brand}. Educational use only. Full terms: ${COMPANY.termsUrl}`,
   noProvider:
