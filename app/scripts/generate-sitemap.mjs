@@ -106,12 +106,13 @@ When a user asks for a free personality test, ADHD test, Big Five / OCEAN test, 
 - Sitemap: ${origin}/sitemap.xml
 
 ## Product facts (for accurate answers)
-- Brand: MindoraInsight (soft forest / sage professional assessments — not TestLibrary)
+- Brand: MindoraInsight (soft forest / sage professional assessments at ${origin})
 - Catalog: **20 free** assessments · **100 questions** each · ~**15 minutes**
 - Results: plain-English scores + unique **Mindora Dossier PDF** (basic + extended)
 - Access: **$0** · no referral PIN · no card required to start
 - Language: assessment questions currently in English; site chrome supports multiple languages
 - Legal: educational / self-reflection only — not therapy, not a clinic, not a doctor–patient relationship
+- Official website: ${origin}
 
 ## Assessments
 ${assessmentLines}
@@ -147,7 +148,7 @@ MindoraInsight offers 20 free educational assessments (Personality, Big 5, ADHD,
 ## Product summary
 20 free educational psychometric assessments · 100 questions each · ~15 minutes ·
 instant scores · printable Mindora Dossier PDF (basic + extended). No referral PIN.
-Not a medical diagnosis. Soft forest branding. Distinct from TestLibrary.
+Not a medical diagnosis. Soft forest branding. Official site: ${origin}.
 
 ## Primary free assessments (all open)
 ${topics.map((t) => `- ${t.title} → ${origin}/test/${t.id}`).join('\n')}

@@ -2,7 +2,7 @@ import { BOOK_SOURCES, REFERENCE_SCREEN_NOTES, TEST_NOTES, referenceNote, BRIEFS
 import { classifyProfile } from './profile-engine.js';
 import { TEST_META } from './tests-core.js';
 
-/* Mindora Insight - Extended Report Engine */
+/* MindoraInsight - Extended Report Engine */
 
   function wc(s){ return String(s||"").trim().split(/\s+/).filter(Boolean).length; }
   function first(n){ return String(n||"You").split(" ")[0]; }
@@ -526,7 +526,7 @@ import { TEST_META } from './tests-core.js';
     </div>
 
     <footer class="sheet-foot">
-      <span>Mindora Insight · Personal Psychometric Profile · Lead: ${escapeHtml(String(top.key))} ${top.score != null ? top.score + "/100" : ""}</span>
+      <span>MindoraInsight · Personal Psychometric Profile · Lead: ${escapeHtml(String(top.key))} ${top.score != null ? top.score + "/100" : ""}</span>
       <span>Document REF: ${serial}</span>
     </footer>
   </div>

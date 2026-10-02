@@ -1,4 +1,4 @@
-/* Mindora Insight - Interpretive copy, brief generators, and bundled test notes */
+/* MindoraInsight - Interpretive copy, brief generators, and bundled test notes */
 
 import { ADHD_INTERPRET } from './adhd-interpret.js';
 import { classifyProfile } from './profile-engine.js';

@@ -75,7 +75,7 @@ function runOne(id) {
   const doc = new jsPDF({ unit: 'mm', format: 'a4' })
   doc.setFont('helvetica', 'bold')
   doc.setFontSize(14)
-  doc.text(`Mindora Insight · ${meta.title}`, 14, 20)
+  doc.text(`MindoraInsight · ${meta.title}`, 14, 20)
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(10)
   doc.text(`REF ${idA}`, 14, 28)

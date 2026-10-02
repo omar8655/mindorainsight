@@ -8,7 +8,7 @@ export function organizationJsonLd() {
     '@context': 'https://schema.org',
     '@type': ['Organization', 'EducationalOrganization'],
     name: 'MindoraInsight',
-    alternateName: ['Mindora Insight', 'Mindora Dossier'],
+    alternateName: ['MindoraInsight Assessments', 'Mindora Dossier'],
     url: SITE_ORIGIN,
     logo: absoluteUrl('/brand/mindorainsight-brain-logo-forest.png'),
     image: absoluteUrl('/brand/mindorainsight-brain-logo-forest.png'),
@@ -49,7 +49,7 @@ export function websiteJsonLd() {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'MindoraInsight',
-    alternateName: 'Mindora Insight Free Assessments',
+    alternateName: 'MindoraInsight Free Assessments',
     url: SITE_ORIGIN,
     description:
       '20 free psychometric assessments — 100 questions each, instant scores, printable Mindora Dossier PDF. Personality, ADHD, Autism, EQ, Career, and more. Educational — not a medical diagnosis.',

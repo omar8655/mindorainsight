@@ -56,7 +56,7 @@ function drawHeader(doc: jsPDF, title: string, serial: string, date: string, y =
   doc.setTextColor(255, 255, 255)
   doc.setFont('helvetica', 'bold')
   doc.setFontSize(13)
-  doc.text('Mindora Insight', 14, y)
+  doc.text('MindoraInsight', 14, y)
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(9)
   doc.setTextColor(154, 230, 180)
@@ -73,7 +73,7 @@ function drawFooter(doc: jsPDF, page: number, ofPages: number, serial: string) {
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(8)
   doc.setTextColor(MUTED)
-  doc.text('Mindora Insight · Educational psychometric profile · Not a diagnosis', 14, 292)
+  doc.text('MindoraInsight · Educational psychometric profile · Not a diagnosis', 14, 292)
   doc.text(`Page ${page}/${ofPages} · ${serial}`, 196, 292, { align: 'right' })
 }
 

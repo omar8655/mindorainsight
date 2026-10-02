@@ -1,5 +1,5 @@
 /* Ported from newmindora */
-/* Mindora Insight - Tests metadata, scoring rules and fallback helpers */
+/* MindoraInsight - Tests metadata, scoring rules and fallback helpers */
 export const TEST_META = [
   { id:"personality", title:"Personality", blurb:"Five-factor snapshot (OCEAN-style): how you explore, organize, energize, connect, and react.", mins:15, clinical:false },
   { id:"big5", title:"Big 5", blurb:"Openness, Conscientiousness, Extraversion, Agreeableness, and emotional sensitivity — educational trait domains.", mins:15, clinical:false },

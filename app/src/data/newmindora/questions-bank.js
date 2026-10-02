@@ -1,7 +1,7 @@
 /* Ported from newmindora — 20×100 educational items */
 export const QUESTIONS = {};
 
-// All 20 tests with their full 100 questions from Mindora Insight Master Document
+// All 20 tests with their full 100 questions from MindoraInsight Master Document
 // 100 items · Barkley-informed educational domains (not diagnostic; not copyrighted scales)
 QUESTIONS.adhd = [
   "I often miss details even when I am trying to be careful.",
