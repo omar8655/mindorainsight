@@ -213,7 +213,7 @@ const en: Dictionary = {
   hero: {
     eyebrow: '20 free assessments',
     title: 'Start free.',
-    titleAccent: 'Clear answers about you.',
+    titleAccent: 'Results about you.',
     subtitle:
       'Take any of 20 free educational assessments — Personality, Big 5, ADHD, EQ, Career, and more. 100 questions · instant clear scores · unique Mindora Dossier PDF. Not a medical diagnosis.',
     priceLine: 'All 20 assessments free · $0 · No PIN · No card',

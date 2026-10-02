@@ -1,6 +1,5 @@
 import { useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { NhsMark } from '@/components/brand/NhsMark'
 import { SalePriceBadge } from '@/components/marketing/SalePriceBadge'
 import { ADHD_SCREENING_SLUG } from '@/data/adhdScreening'
 import { UI_PREVIEW_SLUG, tests, type TestItem } from '@/data/tests'
@@ -56,7 +55,6 @@ function TrySlideCard({ test }: { test: TestItem }) {
             {test.questions} {t.common.questions}
           </span>
         </span>
-        <NhsMark size="xs" className="shrink-0" />
       </div>
       <Link
         to={`/test/${test.slug}`}

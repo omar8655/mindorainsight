@@ -1,6 +1,5 @@
 import { useRef, useState } from 'react'
 import type { FormEvent } from 'react'
-import { NhsMark } from '@/components/brand/NhsMark'
 import {
   isValidHealthcareEmail,
   unlockReferral,
@@ -62,9 +61,9 @@ export function HealthcareReferralGate({ courseTitle, slug, onUnlocked }: Props)
     <div className="mx-auto w-full max-w-md space-y-4 sm:max-w-lg">
       <div className="overflow-hidden rounded-2xl border border-mi-border bg-white shadow-[var(--mi-card-shadow)]">
         <div className="border-b border-mi-border/70 px-4 py-5 text-center sm:px-6">
-          <div className="mb-3 flex justify-center">
-            <NhsMark size="lg" />
-          </div>
+          <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-mi-green">
+            MindoraInsight
+          </p>
           <h1 className="font-display mt-1.5 text-[1.35rem] font-semibold leading-snug text-mi-forest sm:text-2xl">
             {access.gateTitle}
           </h1>

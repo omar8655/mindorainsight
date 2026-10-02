@@ -30,7 +30,7 @@
   function leadShape(prefix, scores, copyMap, mixedId, mixedTitle, mixedBlurb) {
     const ranked = numericScores(scores);
     if (!ranked.length) {
-      return shape(mixedId || prefix + "-mixed", mixedTitle || "Mixed individual pattern", mixedBlurb || "Lead with your highest score — that is your clear answer on this sitting.");
+      return shape(mixedId || prefix + "-mixed", mixedTitle || "Mixed individual pattern", mixedBlurb || "Lead with your highest score — that is the lead pattern on this sitting.");
     }
     const top = ranked[0];
     const second = ranked[1];

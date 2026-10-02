@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { NhsMark } from '@/components/brand/NhsMark'
 import { SalePriceBadge } from '@/components/marketing/SalePriceBadge'
 import { ADHD_SCREENING_SLUG } from '@/data/adhdScreening'
 import { testsForLibrary } from '@/data/tests'
@@ -51,7 +50,6 @@ function SlideBody({
           {test.minutes} {t.common.minutes}
         </span>
         <SalePriceBadge priceUsd={test.priceUsd ?? 0} />
-        <NhsMark size="sm" />
       </div>
       {free ? (
         <SaleCtaLink to={`/test/${test.slug}`} className="w-full !text-sm md:w-auto md:!text-base">

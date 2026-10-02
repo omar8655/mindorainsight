@@ -70,7 +70,7 @@ export function BasicResultView({
     secondScore: second?.score,
     shapeTitle: clearShape,
   })
-  // Type / shape first — user must see the clear answer immediately
+  // Type / shape first — user must see their result immediately
   const displayHeadline =
     clearShape || lead?.name || clearHeadline || doc.primary.name
   const displayBlurb = plain
@@ -93,7 +93,7 @@ export function BasicResultView({
             Assessment complete
           </p>
           <p className="mt-1 text-sm font-semibold text-mi-forest">
-            {you !== 'You' ? `${you}, your clear answer is ready.` : `Your clear answer for ${doc.assessmentTitle} is ready.`}
+            {you !== 'You' ? `${you}, your results are ready.` : `Your results for ${doc.assessmentTitle} are ready.`}
           </p>
         </div>
 
@@ -108,8 +108,8 @@ export function BasicResultView({
           />
           <p className="mt-6 text-xs font-bold uppercase tracking-[0.18em] text-mi-green">
             {participantName && participantName !== 'You'
-              ? `Clear answer for ${participantName}`
-              : 'Your clear answer'}
+              ? `Result for ${participantName}`
+              : 'Your result'}
           </p>
           <h1 className="font-display mt-2 text-2xl font-semibold leading-snug text-mi-text sm:text-3xl">
             {displayHeadline}

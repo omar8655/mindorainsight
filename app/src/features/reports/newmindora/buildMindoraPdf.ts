@@ -85,25 +85,25 @@ function drawScoreBars(
 ): number {
   let y = startY
   for (const s of scores) {
-    if (y > 268) break
+    if (y > 265) break
     doc.setFont('helvetica', 'bold')
-    doc.setFontSize(10)
+    doc.setFontSize(11)
     doc.setTextColor(TEXT)
     doc.text(s.key, 14, y)
     doc.setFont('helvetica', 'normal')
-    doc.setFontSize(9)
+    doc.setFontSize(10)
     doc.setTextColor(FOREST)
     doc.text(`${s.score}/100 · ${bandLabel(s.score)}`, 196, y, { align: 'right' })
-    y += 3
+    y += 3.5
     doc.setFillColor(238, 242, 244)
-    doc.roundedRect(14, y, maxWidth, 3.2, 1.2, 1.2, 'F')
+    doc.roundedRect(14, y, maxWidth, 4, 1.4, 1.4, 'F')
     const w = Math.max(2, Math.min(maxWidth, (s.score / 100) * maxWidth))
     const fill =
       s.score >= 75 ? '#0f4a36' : s.score >= 60 ? SAGE : s.score >= 40 ? BLUE : '#6b7280'
     const [r, g, b] = hexToRgb(fill)
     doc.setFillColor(r, g, b)
-    doc.roundedRect(14, y, w, 3.2, 1.2, 1.2, 'F')
-    y += 8
+    doc.roundedRect(14, y, w, 4, 1.4, 1.4, 'F')
+    y += 9
   }
   return y
 }
@@ -197,45 +197,56 @@ export function buildMindoraPdfBytes(result: RunAssessmentResult, opts: PdfOpts)
 
   let y = drawHeader(doc, meta.title, serial, date)
 
-  // Hero — clear answer for every topic
+  // Hero — personal result for this sitting
   const shapeTitle = result.shape?.title || ''
-  const clearHero =
-    shapeTitle
-      ? `Clear answer: «${shapeTitle}» — ${top.key} leads at ${top.score}/100`
-      : String(result.brief.headline || result.topName || `${top.key} at ${top.score}/100`)
+  const clearHero = shapeTitle
+    ? `${you}, you land as «${shapeTitle}» — ${top.key} leads at ${top.score}/100`
+    : String(
+        result.brief.headline ||
+          `${you}, ${top.key} leads at ${top.score}/100 on this sitting`,
+      ).replace(/^Clear answer:\s*/i, '')
   const heroLines = doc.splitTextToSize(clearHero, 174) as string[]
-  const heroH = Math.max(32, 12 + heroLines.length * 6 + 10)
+  const heroH = Math.max(36, 14 + heroLines.length * 6.5 + 12)
   doc.setFillColor(247, 251, 248)
   doc.setDrawColor(SAGE)
   doc.roundedRect(14, y, 182, heroH, 3, 3, 'FD')
   doc.setFont('helvetica', 'bold')
-  doc.setFontSize(8)
-  doc.setTextColor(SAGE)
-  doc.text(`${String(result.title || 'ASSESSMENT').toUpperCase()} · CLEAR ANSWER · UNIQUE TO THIS SITTING`, 18, y + 7)
-  doc.setFontSize(12)
-  doc.setTextColor(FOREST)
-  doc.text(heroLines, 18, y + 14)
-  doc.setFont('helvetica', 'bold')
   doc.setFontSize(9)
+  doc.setTextColor(SAGE)
+  doc.text(
+    `${String(result.title || 'ASSESSMENT').toUpperCase()} · WRITTEN FOR ${you.toUpperCase()} · THIS SITTING ONLY`,
+    18,
+    y + 8,
+  )
+  doc.setFontSize(13)
+  doc.setTextColor(FOREST)
+  doc.text(heroLines, 18, y + 16)
+  doc.setFont('helvetica', 'bold')
+  doc.setFontSize(10)
   doc.setTextColor(BLUE)
-  doc.text(`Lead ${top.score}/100 · ${bandLabel(top.score)} · Next ${second.key} ${second.score}/100`, 18, y + heroH - 5)
-  y += heroH + 6
+  doc.text(
+    `Lead ${top.score}/100 · ${bandLabel(top.score)} · Next ${second.key} ${second.score}/100`,
+    18,
+    y + heroH - 6,
+  )
+  y += heroH + 7
 
   doc.setFont('helvetica', 'normal')
-  doc.setFontSize(9)
+  doc.setFontSize(10)
   doc.setTextColor(MUTED)
   doc.text(`Prepared for ${name} · Completed ${date} · Document ${serial}`, 14, y)
   y += 6
+  doc.setFontSize(9)
   doc.text(`Profile fingerprint: ${fingerprint}`, 14, y)
-  y += 8
+  y += 9
 
   // One short note (avoid stacking legal warnings in the dossier)
   y = ensurePage(doc, y, 10, meta)
   doc.setFont('helvetica', 'italic')
-  doc.setFontSize(8)
+  doc.setFontSize(9)
   doc.setTextColor(MUTED)
   doc.text(ASSESSMENT_LEGAL.pdfShortLine, 14, y)
-  y += 8
+  y += 9
 
   // Reference card
   doc.setFillColor(240, 253, 244)
@@ -272,17 +283,17 @@ export function buildMindoraPdfBytes(result: RunAssessmentResult, opts: PdfOpts)
   y += 2
 
   doc.setFont('helvetica', 'bold')
-  doc.setFontSize(11)
+  doc.setFontSize(12)
   doc.setTextColor(TEXT)
   y = ensurePage(doc, y, 16, meta)
   doc.text('What your results say', 14, y)
-  y += 5
+  y += 6
   const lead =
     Math.abs(top.score - second.score) < 8
-      ? `Clear answer: ${top.key} and ${second.key} are nearly tied (${top.score} and ${second.score}/100).`
-      : `Clear answer: ${top.key} leads at ${top.score}/100 (${top.score - second.score} points over ${second.key}).`
-  y = writeWrapped(doc, lead, y, meta, 10, 5)
-  y = writeWrapped(doc, result.brief.body || '', y, meta, 10, 5)
+      ? `${you}, ${top.key} and ${second.key} sit close (${top.score} and ${second.score}/100) — read them as a pair.`
+      : `${you}, ${top.key} leads at ${top.score}/100 (${top.score - second.score} points over ${second.key}).`
+  y = writeWrapped(doc, lead, y, meta, 11, 6)
+  y = writeWrapped(doc, result.brief.body || '', y, meta, 11, 6)
 
   if (isActionableWatch(result.brief.watch)) {
     y = ensurePage(doc, y, 22, meta)
@@ -325,23 +336,23 @@ export function buildMindoraPdfBytes(result: RunAssessmentResult, opts: PdfOpts)
 
   if (opts.tier === 'basic') {
     const deep = result.brief.longform || result.brief.body || ''
-    y = writeWrapped(doc, deep, y, meta, 10, 5)
+    y = writeWrapped(doc, deep, y, meta, 11, 6)
   } else {
     const sections = opts.sections || []
     for (const sec of sections) {
       y = ensurePage(doc, y, 18, meta)
       doc.setFont('helvetica', 'bold')
-      doc.setFontSize(11)
+      doc.setFontSize(12)
       doc.setTextColor(FOREST)
       doc.text(sec.title, 14, y)
-      y += 5
-      y = writeWrapped(doc, sec.body, y, meta, 9.5, 4.8)
-      y += 3
+      y += 6
+      y = writeWrapped(doc, sec.body, y, meta, 11, 6)
+      y += 4
     }
     if (opts.wordCount) {
       y = ensurePage(doc, y, 10, meta)
       doc.setFont('helvetica', 'italic')
-      doc.setFontSize(8)
+      doc.setFontSize(9)
       doc.setTextColor(MUTED)
       doc.text(`Extended narrative · ~${opts.wordCount} words · unique document ${serial}`, 14, y)
       y += 6

@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import { BrandLogo } from '@/components/brand/BrandLogo'
-import { NhsMark } from '@/components/brand/NhsMark'
 import { resetCookieConsent } from '@/components/layout/CookieConsent'
 import { ADHD_SCREENING_SLUG } from '@/data/adhdScreening'
 import { FOOTER_SEO_TESTS } from '@/data/footerSeoTests'
@@ -53,12 +52,9 @@ export function SiteFooter() {
             <p className="mt-4 max-w-sm text-sm leading-6 text-white/65">{t.footer.blurb}</p>
 
             <div className="mt-5 rounded-xl border border-white/15 bg-white/5 p-3.5 sm:p-4">
-              <div className="flex flex-wrap items-center gap-2.5">
-                <NhsMark size="sm" className="!border-white/20 !bg-white" />
-                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-white/55">
-                  {access.nhsLabel}
-                </p>
-              </div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-white/55">
+                {access.nhsLabel}
+              </p>
               <p className="mt-2 text-sm leading-5 text-white/75">{access.nhsBody}</p>
               <div className="mt-2.5 flex flex-wrap gap-x-2 gap-y-0">
                 <Link

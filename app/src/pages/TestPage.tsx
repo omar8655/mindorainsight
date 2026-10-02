@@ -1,6 +1,5 @@
 import { useState, useCallback, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { NhsMark } from '@/components/brand/NhsMark'
 import { Seo } from '@/components/layout/Seo'
 import { SalePriceBadge } from '@/components/marketing/SalePriceBadge'
 import { GenderSelect } from '@/features/assessments/GenderSelect'
@@ -185,7 +184,6 @@ function TestPageReady({ test }: { test: NonNullable<ReturnType<typeof getTestBy
                     {test.minutes} {t.common.minutes}
                   </span>
                   <SalePriceBadge priceUsd={price} />
-                  <NhsMark size="sm" />
                 </div>
               </header>
               <ParticipantDetailsScreen

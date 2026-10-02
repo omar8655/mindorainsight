@@ -1,4 +1,4 @@
-/** Clear, decisive educational copy for results + PDF — strong answers users can act on. */
+/** Clinician-style educational copy for results + PDF — talks to the person by name. */
 
 import type { RunAssessmentResult } from '@/data/newmindora'
 
@@ -13,12 +13,12 @@ export function doctorClearSentence(opts: {
 }): string {
   const you = opts.you || 'You'
   const typeLine = opts.shapeTitle
-    ? `${you} land as "${opts.shapeTitle}". `
-    : `${you} clear result: `
-  const lead = `Lead score — ${opts.leadName} at ${opts.leadScore}/100 (${opts.band}).`
+    ? `${you}, on this sitting you land as "${opts.shapeTitle}". `
+    : `${you}, here is what your answers show. `
+  const lead = `Your lead is ${opts.leadName} at ${opts.leadScore}/100 (${opts.band}).`
   const second =
     opts.secondName && opts.secondScore != null
-      ? ` Backup — ${opts.secondName} at ${opts.secondScore}/100.`
+      ? ` Close behind: ${opts.secondName} at ${opts.secondScore}/100.`
       : ''
   return typeLine + lead + second
 }
@@ -41,16 +41,16 @@ export function doctorSessionClose(opts: {
       ? ` If you feel unsafe, contact emergency services, 988 (US/Canada), or Samaritans 116 123 (UK).`
       : ''
   return (
-    `${you}: your answer on ${opts.title} is clear — "${opts.leadName}" leads at ${opts.leadScore}/100. ` +
-    `For the next seven days, run one morning intention and one evening review around that lead. ` +
-    `Dossier REF ${opts.serial} · themes from ${opts.bookTitle} (${opts.authors}).` +
+    `${you}, I am speaking to you directly: on ${opts.title}, "${opts.leadName}" leads at ${opts.leadScore}/100. ` +
+    `For the next seven days, run one morning intention and one evening review around that lead — that is how this sitting becomes useful. ` +
+    `This dossier is REF ${opts.serial}, written from your scores for this sitting · themes from ${opts.bookTitle} (${opts.authors}).` +
     crisis
   )
 }
 
 export function doctorFourteenDayPlan(leadName: string, you = 'You'): string {
   return (
-    `${you}, 14-day plan for "${leadName}":\n` +
+    `${you}, here is a 14-day plan built around "${leadName}":\n` +
     `Days 1–3: Each morning, one sentence — “Today "${leadName}" will help me by ___.” Keep it small.\n` +
     `Days 4–7: One work conversation and one relationship check-in named in plain language.\n` +
     `Days 8–11: Evening review — where the lead helped, where it overplayed.\n` +
@@ -106,7 +106,7 @@ export function doctorOnScreenClose(
     ? ' If you feel unsafe, contact emergency services, 988, or Samaritans 116 123.'
     : ''
   return (
-    `${you}, I want to be direct with you the way a careful clinician would: your answer on ${result.title} is clear. ` +
+    `${you}, I want to speak with you the way a careful clinician would after reviewing your answers on ${result.title}. ` +
     `Lead with "${lead}"${score}. For the next seven days, give it one morning intention and one evening review — that is how this sitting becomes useful.` +
     crisis
   )

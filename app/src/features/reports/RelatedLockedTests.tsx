@@ -1,6 +1,5 @@
 import { useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { NhsMark } from '@/components/brand/NhsMark'
 import { SalePriceBadge } from '@/components/marketing/SalePriceBadge'
 import { tests, type TestItem } from '@/data/tests'
 import { useLocalizedTest } from '@/hooks/useLocalizedCatalog'
@@ -48,7 +47,6 @@ function RelatedSlideCard({ test }: { test: TestItem }) {
         <span className="rounded-md bg-slate-100 px-1.5 py-0.5 text-[9px] font-semibold text-mi-muted">
           {test.minutes} {t.common.minutes}
         </span>
-        <NhsMark size="xs" />
       </div>
       <span className="mt-auto inline-flex w-full items-center justify-center rounded-lg bg-mi-green px-2 py-2 text-[11px] font-semibold text-white">
         {t.common.tryNow} →

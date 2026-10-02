@@ -53,7 +53,7 @@ function buildSmokePdf(result, tier, sections, wordCount) {
   const doc = new jsPDF({ unit: 'mm', format: 'a4', compress: true })
   const shapeTitle = result.shape?.title || ''
   const clearHero = shapeTitle
-    ? `Clear answer: «${shapeTitle}» — ${top.key} leads at ${top.score}/100`
+    ? `Alex, you land as «${shapeTitle}» — ${top.key} leads at ${top.score}/100`
     : String(result.brief.headline || `${top.key} at ${top.score}/100`)
 
   doc.setFillColor('#032514')
@@ -76,7 +76,7 @@ function buildSmokePdf(result, tier, sections, wordCount) {
   doc.setFont('helvetica', 'bold')
   doc.setFontSize(8)
   doc.setTextColor('#31B070')
-  doc.text(`${String(result.title).toUpperCase()} · CLEAR ANSWER`, 18, y + 7)
+  doc.text(`${String(result.title).toUpperCase()} · WRITTEN FOR YOU`, 18, y + 7)
   doc.setFontSize(11)
   doc.setTextColor('#032514')
   const lines = doc.splitTextToSize(clearHero, 174)
@@ -174,8 +174,19 @@ function runOne(id) {
   const shape = classifyProfile(id, scores)
   let brief = briefFn(scores, 'Alex', id === 'personality' ? 'personality' : undefined)
   brief = personaliseReport(brief, scores, 'Alex', meta.title, answers)
-  if (!/clear answer/i.test(String(brief.headline || ''))) {
-    throw new Error(`${id}: headline missing Clear answer → ${brief.headline}`)
+  if (!String(brief.headline || '').trim()) {
+    throw new Error(`${id}: headline missing → ${brief.headline}`)
+  }
+  // Different answer stacks must produce different fingerprints / dossier copy
+  const answersB = Array.from({ length: 100 }, (_, i) => 5 - (i % 5))
+  const scoresB = scorer(answersB)
+  let briefB = briefFn(scoresB, 'Sam', id === 'personality' ? 'personality' : undefined)
+  briefB = personaliseReport(briefB, scoresB, 'Sam', meta.title, answersB)
+  if (brief.fingerprint && briefB.fingerprint && brief.fingerprint === briefB.fingerprint) {
+    throw new Error(`${id}: fingerprints collided across different answer stacks`)
+  }
+  if (String(brief.body) === String(briefB.body)) {
+    throw new Error(`${id}: body identical across different people/answers`)
   }
 
   const result = {
@@ -260,4 +271,4 @@ if (errors.length) {
   console.log('OK · production-shaped Uint8Array(arraybuffer) yields %PDF')
 }
 
-console.log(`OK · PDF uniqueness + jsPDF + clear answers for all ${TEST_META.length} topics`)
+console.log(`OK · PDF uniqueness + personalised dossiers for all ${TEST_META.length} topics`)

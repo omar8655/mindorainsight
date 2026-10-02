@@ -40,7 +40,7 @@ export function organizationJsonLd() {
     ],
     description:
       'MindoraInsight provides 20 free educational assessments (Personality, Big 5, ADHD, Enneagram, Attachment, Career, DISC, EQ, and more) with printable Mindora Dossier PDFs. Not a medical diagnosis.',
-    slogan: '20 free assessments · clear answers · Mindora Dossier PDF',
+    slogan: '20 free assessments · personal results · Mindora Dossier PDF',
   }
 }
 

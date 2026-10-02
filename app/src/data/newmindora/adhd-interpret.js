@@ -63,7 +63,7 @@
         id: "combined-broad",
         title: "Combined elevation — focus + restlessness + impulse",
         blurb:
-          "Your clear answer: several ADHD-pattern domains are elevated together. Lead with your highest score below when you talk to a clinician.",
+          "several ADHD-pattern domains are elevated together. Lead with your highest score below when you talk to a clinician.",
       };
     }
     if (hi("inattention") && hi("executive") && lo("hyperactivity")) {
@@ -71,7 +71,7 @@
         id: "quiet-inattentive",
         title: "Inattentive / planning type",
         blurb:
-          "Your clear answer: focus and getting organised are the problem — not looking restless. People with this type are often missed because they seem calm while starting and finishing feel hard.",
+          "focus and getting organised are the problem — not looking restless. People with this type are often missed because they seem calm while starting and finishing feel hard.",
       };
     }
     if (hi("hyperactivity") && hi("impulsivity") && !hi("inattention")) {
@@ -79,7 +79,7 @@
         id: "restless-impulsive",
         title: "Restless / impulsive type",
         blurb:
-          "Your clear answer: energy and fast action lead. The hard part is interrupting, impatience, or deciding too soon — even when focus is fine for work you like.",
+          "energy and fast action lead. The hard part is interrupting, impatience, or deciding too soon — even when focus is fine for work you like.",
       };
     }
     if (hi("emotion") && (hi("impulsivity") || hi("executive"))) {
@@ -87,7 +87,7 @@
         id: "emotion-regulation",
         title: "Emotion-regulation type",
         blurb:
-          "Your clear answer: big feelings sit at the centre, often with impulse or planning strain. This can look like a mood issue when the deeper theme is settling under stress.",
+          "big feelings sit at the centre, often with impulse or planning strain. This can look like a mood issue when the deeper theme is settling under stress.",
       };
     }
     if (hi("time_motivation") && hi("executive")) {
@@ -95,7 +95,7 @@
         id: "time-blind-executive",
         title: "Time-blind / follow-through type",
         blurb:
-          "Your clear answer: deadlines, last-minute urgency, and I'll start later mix with planning friction. You may thrive in a crisis and stall in quiet weeks.",
+          "deadlines, last-minute urgency, and I'll start later mix with planning friction. You may thrive in a crisis and stall in quiet weeks.",
       };
     }
     if (traits.every((t) => t.score < 45)) {
@@ -103,7 +103,7 @@
         id: "lower-overall",
         title: "Lower overall — no strong ADHD elevation",
         blurb:
-          "Your clear answer: most domains sit lower on this screen. If daily life still feels impaired, bring concrete examples to a clinician — screens miss context.",
+          "most domains sit lower on this screen. If daily life still feels impaired, bring concrete examples to a clinician — screens miss context.",
       };
     }
     const top = [...traits].sort((a, b) => b.score - a.score)[0];
@@ -111,7 +111,7 @@
       id: "mixed-individual",
       title: "Lead type: " + top.name,
       blurb:
-        "Your clear answer: mixed profile with " +
+        "mixed profile with " +
         top.name +
         " leading at " +
         top.score +
@@ -169,7 +169,7 @@
       .slice(0, 2);
 
     const headline =
-      "Clear answer: " +
+      "" +
       shape.title +
       " — lead " +
       top3[0].name +

@@ -70,7 +70,7 @@ export function HomePage() {
               Why we exist
             </p>
             <h2 className="font-display text-[24px] font-semibold leading-snug text-mi-forest md:text-[32px]">
-              Clear answers about you — without medical labels.
+              Results about you — without medical labels.
             </h2>
             <p className="mt-3 max-w-2xl text-[15px] leading-7 text-mi-muted md:text-base">
               Twenty free educational assessments with plain-English scores and a Mindora Dossier

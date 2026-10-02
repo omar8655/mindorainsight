@@ -17,17 +17,17 @@ import { TEST_META } from './tests-core.js';
   }
   function patternLead(name, top, second, gap){
     const f=first(name);
-    if(gap<8) return "Clear answer: "+f+", "+top.key+" and "+second.key+" are nearly tied ("+top.score+" and "+second.score+"/100) — read them as a pair.";
-    return "Clear answer: "+f+", your strongest pattern is "+top.key+" ("+top.score+"/100). Next is "+second.key+" ("+second.score+"/100).";
+    if(gap<8) return f+", "+top.key+" and "+second.key+" sit close ("+top.score+" and "+second.score+"/100) — read them as a pair.";
+    return f+", your strongest pattern is "+top.key+" ("+top.score+"/100). Next is "+second.key+" ("+second.score+"/100).";
   }
 
   /** Strong one-line verdict for every topic PDF / results hero. */
   function clearAnswerLine(shapeTitle, top, second, gap){
     const shape = shapeTitle ? "«"+shapeTitle+"» — " : "";
     if(gap!=null && gap<8 && second){
-      return "Clear answer: "+shape+top.key+" leads at "+top.score+"/100 (nearly tied with "+second.key+" at "+second.score+"/100).";
+      return shape+top.key+" leads at "+top.score+"/100 (nearly tied with "+second.key+" at "+second.score+"/100).";
     }
-    return "Clear answer: "+shape+top.key+" leads at "+top.score+"/100"+(second ? "; next "+second.key+" at "+second.score+"/100" : "")+".";
+    return shape+top.key+" leads at "+top.score+"/100"+(second ? "; next "+second.key+" at "+second.score+"/100" : "")+".";
   }
 
   const BIG5 = {
@@ -212,7 +212,7 @@ import { TEST_META } from './tests-core.js';
 
   function clinicalLead(top, second, low){
     return [
-      "Clear answer: your strongest cluster is "+top.key+" ("+top.score+"/100 — "+clinicalBandLabel(top.score)+").",
+      "Your strongest cluster is "+top.key+" ("+top.score+"/100 — "+clinicalBandLabel(top.score)+").",
       "Next strongest: "+second.key+" ("+second.score+"/100).",
       "Quietest today: "+low.key+" ("+low.score+"/100) — useful contrast, not a failure grade.",
       top.note ? top.key+": "+top.note : "",
@@ -243,7 +243,7 @@ export const BRIEFS = {
       const secondT = BIG5[second.key]||{};
       const shapeTitle = shape ? shape.title : "mixed trait profile";
       return pack(
-        "Clear answer: «"+shapeTitle+"» — "+top.key+" leads at "+top.score+"/100"+(gap<8 ? " (nearly tied with "+second.key+")" : "")+".",
+        "«"+shapeTitle+"» — "+top.key+" leads at "+top.score+"/100"+(gap<8 ? " (nearly tied with "+second.key+")" : "")+".",
         [(shape ? shape.blurb : ""),
          "Five-factor reading (OCEAN): traits describe a style, not a moral ranking. They tend to be fairly stable across adulthood, and they still move a little with sleep, stress and company.",
          patternLead(name, top, second, gap)+" Quietest on this sitting: "+low.key+" ("+low.score+"/100).",
@@ -264,7 +264,7 @@ export const BRIEFS = {
       const dims = dimsOnly.map(s=>s.key+": "+s.score+"/100").join(". ");
       const weakestPole = low.key.replace(/ \(.*\)/,"");
       return pack(
-        "Clear answer: type "+code+" — "+(gap<8
+        "Type "+code+" — "+(gap<8
           ? top.key+" and "+second.key+" nearly tied ("+top.score+" / "+second.score+"/100)"
           : top.key+" leads at "+top.score+"/100; next "+second.key+" at "+second.score+"/100"),
         [essay,
@@ -907,19 +907,20 @@ export const BRIEFS = {
       ? "You completed the "+testTitle+" assessment (100 items) — next action: practise your lead pattern «"+top.key+"» once this week on purpose (one work block, one conversation, or one clear ask)."
       : "";
     const uniqueSnap = [
-      "Clear answer for "+first+" on "+testTitle+": "+top.key+" leads at "+top.score+"/100"+(gap<8 ? " (nearly tied with "+second.key+")" : "")+".",
+      first+", here is what this sitting of "+testTitle+" shows: "+top.key+" leads at "+top.score+"/100"+(gap<8 ? " (nearly tied with "+second.key+")" : "")+".",
       shape+" "+spreadLine,
+      "I am writing this for "+first+" — not a generic letter. Tone: "+tone+". Think of this report as "+image+".",
       refLine,
       "Exact stack: "+scoreLines+".",
       brief.body,
       "Contrast: "+top.key+" ("+top.score+") against "+low.key+" ("+low.score+").",
-      "Work move: "+workMove+".",
-      "Relationship move: "+relMove+".",
+      first+", try this at work: "+workMove+".",
+      first+", try this in relationships: "+relMove+".",
       brief.watch
     ].filter(Boolean).join("\n\n");
     const uniqueFull = [
       uniqueSnap,
-      "This is not a generic letter. Your fingerprint is the order "+numeric.map(s=>s.key).join(" → ")+".",
+      first+", this dossier is unique to how you answered. Your fingerprint is the order "+numeric.map(s=>s.key).join(" → ")+".",
       "When "+top.key+" runs the day, "+second.key+" is backup. When the day goes badly, "+low.key+" drops first.",
       "Fourteen-day experiment for "+first+": morning line on "+top.key+"; evening line on "+low.key+".",
       completedClose,
