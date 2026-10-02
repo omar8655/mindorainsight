@@ -91,7 +91,7 @@ export function BasicResultView({
             Assessment complete
           </p>
           <p className="mt-1 text-sm text-mi-forest">
-            You finished {doc.assessmentTitle}. Clear scores below — not a diagnosis.
+            You finished {doc.assessmentTitle}. Clear scores below.
           </p>
         </div>
 
@@ -101,7 +101,7 @@ export function BasicResultView({
               Your printable report (PDF)
             </p>
             <p className="mt-1 text-sm text-mi-muted">
-              Scores, patterns, and legal notice — downloads to this device. Not a medical record.
+              Scores and patterns — downloads as a PDF on this device.
             </p>
             <div className="mt-3 flex flex-col gap-2">
               {onOpenBasicPdf && (
@@ -207,20 +207,20 @@ export function BasicResultView({
 
           {clearWatch ? (
             <p className="mt-5 rounded-xl border border-amber-200/80 bg-amber-50 px-3 py-2.5 text-[13px] leading-5 text-amber-950">
-              <span className="font-semibold">Watch-out (not a clinical finding): </span>
+              <span className="font-semibold">Watch-out: </span>
               {doctorWatchBody(clearWatch)}
             </p>
           ) : null}
 
           <div className="mt-5 rounded-xl border border-[#032514]/20 bg-gradient-to-br from-[#032514] to-[#0f4a36] px-4 py-3.5 text-start text-[13px] leading-6 text-[#e8f5ee]">
             <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#9ae6b4]">
-              Closing · educational only
+              Closing
             </p>
             <p className="mt-2">{clinicalClose}</p>
           </div>
 
-          <p className="mt-4 rounded-xl border border-mi-green/20 bg-mi-green-soft/40 px-3 py-2.5 text-[13px] leading-5 text-mi-forest">
-            {ASSESSMENT_LEGAL.shortBanner}
+          <p className="mt-4 text-center text-[11px] leading-5 text-mi-muted">
+            {ASSESSMENT_LEGAL.resultsFooter}
           </p>
         </section>
 
@@ -237,8 +237,7 @@ export function BasicResultView({
               Comprehensive MindoraInsight report
             </h2>
             <p className="mt-2 text-sm leading-6 text-mi-muted">
-              Deeper PDF with a closing summary, score bars, and a 14-day plan — still educational,
-              not a diagnosis.
+              Deeper PDF with a closing summary, score bars, and a 14-day plan.
             </p>
             {unlocked ? (
               <Link

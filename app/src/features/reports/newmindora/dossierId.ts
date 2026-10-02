@@ -37,36 +37,21 @@ export function dossierFileName(result: RunAssessmentResult, tier: 'basic' | 'ex
 }
 
 /**
- * Trigger a real file download (not print dialog / screenshot).
- * Prefer `<a download>` first (works on modern iOS for blob URLs in many cases);
- * fall back to opening the blob URL if download attribute is ignored.
+ * Download the PDF file in-place — never navigate or open a blank tab.
+ * (Opening blob: URLs in a new window caused blank screens for many users.)
  */
 export function triggerPdfDownload(blob: Blob, fileName: string) {
   const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-  a.download = fileName
-  a.rel = 'noopener'
-  a.style.display = 'none'
-  document.body.appendChild(a)
-  a.click()
-  a.remove()
-
-  const ua = typeof navigator !== 'undefined' ? navigator.userAgent || '' : ''
-  const isIOS =
-    /iPad|iPhone|iPod/.test(ua) ||
-    (typeof navigator !== 'undefined' &&
-      navigator.platform === 'MacIntel' &&
-      navigator.maxTouchPoints > 1)
-
-  if (isIOS) {
-    // If download was ignored, open blob so the user can share/save from Safari
-    window.setTimeout(() => {
-      window.open(url, '_blank', 'noopener,noreferrer')
-    }, 250)
-    window.setTimeout(() => URL.revokeObjectURL(url), 120_000)
-    return
+  try {
+    const a = document.createElement('a')
+    a.href = url
+    a.download = fileName
+    a.rel = 'noopener'
+    a.style.display = 'none'
+    document.body.appendChild(a)
+    a.click()
+    a.remove()
+  } finally {
+    window.setTimeout(() => URL.revokeObjectURL(url), 90_000)
   }
-
-  window.setTimeout(() => URL.revokeObjectURL(url), 60_000)
 }

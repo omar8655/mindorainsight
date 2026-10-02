@@ -9,7 +9,6 @@ import {
   doctorFourteenDayPlan,
   doctorSessionClose,
   doctorWatchBody,
-  doctorWatchLine,
 } from '@/features/reports/clinicalVoice'
 import { ASSESSMENT_LEGAL } from '@/data/legal/assessmentProtection'
 
@@ -73,7 +72,7 @@ function drawFooter(doc: jsPDF, page: number, ofPages: number, serial: string) {
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(8)
   doc.setTextColor(MUTED)
-  doc.text('MindoraInsight · Educational psychometric profile · Not a diagnosis', 14, 292)
+  doc.text('MindoraInsight · Educational summary', 14, 292)
   doc.text(`Page ${page}/${ofPages} · ${serial}`, 196, 292, { align: 'right' })
 }
 
@@ -219,27 +218,13 @@ export function buildMindoraPdfBytes(result: RunAssessmentResult, opts: PdfOpts)
   doc.text(`Profile fingerprint: ${fingerprint}`, 14, y)
   y += 8
 
-  // Legal protection block (visible in the PDF file itself)
-  y = ensurePage(doc, y, 28, meta)
-  doc.setFillColor(255, 251, 235)
-  doc.setDrawColor(251, 191, 36)
-  doc.roundedRect(14, y, 182, 26, 2, 2, 'FD')
-  doc.setFont('helvetica', 'bold')
+  // One short note (avoid stacking legal warnings in the dossier)
+  y = ensurePage(doc, y, 10, meta)
+  doc.setFont('helvetica', 'italic')
   doc.setFontSize(8)
-  doc.setTextColor(146, 64, 14)
-  doc.text(ASSESSMENT_LEGAL.pdfLegalTitle, 18, y + 6)
-  doc.setFont('helvetica', 'normal')
-  doc.setFontSize(7.5)
-  doc.setTextColor(TEXT)
-  doc.text(
-    doc.splitTextToSize(
-      ASSESSMENT_LEGAL.pdfLegalBody(String(book.bookTitle || ''), String(book.authors || '')),
-      172,
-    ) as string[],
-    18,
-    y + 11,
-  )
-  y += 30
+  doc.setTextColor(MUTED)
+  doc.text(ASSESSMENT_LEGAL.pdfShortLine, 14, y)
+  y += 8
 
   // Reference card
   doc.setFillColor(240, 253, 244)
@@ -293,7 +278,7 @@ export function buildMindoraPdfBytes(result: RunAssessmentResult, opts: PdfOpts)
     doc.setFont('helvetica', 'bold')
     doc.setFontSize(9)
     doc.setTextColor('#c0392b')
-    doc.text('Educational watch-out (not a clinical finding)', 14, y)
+    doc.text('Watch-out', 14, y)
     y += 5
     y = writeWrapped(doc, doctorWatchBody(result.brief.watch), y, meta, 9.5, 4.8)
     y += 3
@@ -352,12 +337,12 @@ export function buildMindoraPdfBytes(result: RunAssessmentResult, opts: PdfOpts)
     }
   }
 
-  // Full educational close for basic + extended (never truncate crisis/legal tail)
-  y = ensurePage(doc, y, 24, meta)
+  // Closing + plan (practical; legal stays in the short note above)
+  y = ensurePage(doc, y, 20, meta)
   doc.setFont('helvetica', 'bold')
   doc.setFontSize(10)
   doc.setTextColor(FOREST)
-  doc.text('Closing · educational only · not medical care', 14, y)
+  doc.text('Closing', 14, y)
   y += 6
   y = writeWrapped(
     doc,
@@ -388,27 +373,28 @@ export function buildMindoraPdfBytes(result: RunAssessmentResult, opts: PdfOpts)
   y += 5
   y = writeWrapped(doc, doctorFourteenDayPlan(String(leadName), you), y, meta, 9.5, 4.8)
 
-  if (result.brief.watch) {
-    y = ensurePage(doc, y, 18, meta)
-    y = writeWrapped(doc, doctorWatchLine(result.brief.watch, you), y, meta, 9.5, 4.8)
+  // Crisis-only end box (skip repeating diagnosis disclaimers)
+  if (result.crisis) {
+    y = ensurePage(doc, y, 22, meta)
+    doc.setFillColor(255, 242, 240)
+    doc.setDrawColor('#ffccc7')
+    doc.roundedRect(14, y, 182, 18, 2, 2, 'FD')
+    doc.setFont('helvetica', 'bold')
+    doc.setFontSize(8)
+    doc.setTextColor('#a8071a')
+    doc.text('If you need support now', 18, y + 6)
+    doc.setFont('helvetica', 'normal')
+    doc.setFontSize(8)
+    doc.setTextColor(TEXT)
+    doc.text(
+      doc.splitTextToSize(
+        'Contact emergency services, 988 (US/Canada), or Samaritans 116 123 (UK).',
+        172,
+      ) as string[],
+      18,
+      y + 11,
+    )
   }
-
-  // Disclaimer
-  y = ensurePage(doc, y, 28, meta)
-  doc.setFillColor(result.crisis ? 255 : 249, result.crisis ? 242 : 251, result.crisis ? 240 : 249)
-  doc.setDrawColor(result.crisis ? '#ffccc7' : LINE)
-  doc.roundedRect(14, y, 182, 26, 2, 2, 'FD')
-  doc.setFont('helvetica', 'bold')
-  doc.setFontSize(8)
-  doc.setTextColor(result.crisis ? '#a8071a' : FOREST)
-  doc.text(result.crisis ? 'PLEASE HEAR THIS CAREFULLY' : 'EDUCATIONAL NOTE · NOT A DIAGNOSIS', 18, y + 6)
-  doc.setFont('helvetica', 'normal')
-  doc.setFontSize(8)
-  doc.setTextColor(TEXT)
-  const disclaimer = result.crisis
-    ? `${you}, if self-harm thoughts or despair are present, contact emergency services, 988 (US/Canada), or Samaritans 116 123 (UK). This file cannot replace emergency care — people and crisis lines can.`
-    : `${you}, MindoraInsight is educational self-understanding grounded in ${book.bookTitle} — not a medical diagnosis. Discuss persistent impairment with a licensed clinician.`
-  doc.text(doc.splitTextToSize(disclaimer, 172) as string[], 18, y + 11)
 
   // Fix footers with total page count
   const total = doc.getNumberOfPages()
